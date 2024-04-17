@@ -51,7 +51,7 @@ const Footer = () => {
             </div>
             <hr />
             <div className='flex flex-col sm:flex-row gap-8 sm:items-center justify-between my-8'>
-                <p>Facultad de Ingeniería - <a href="https://github.com/BeniAlexis23" target='_blank'>@BeniAlexis23</a> 2024. All right reserved.</p>
+                <p>Facultad de Ingeniería - {/*<a href="https://github.com/BeniAlexis23" target='_blank'>@BeniAlexis23</a>*/} 2024. All right reserved.</p>
                 <div className='flex items-center space-x-5'>
                     <FaFacebookSquare className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' />
                     <FaInstagramSquare className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' />
