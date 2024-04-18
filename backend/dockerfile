@@ -1,0 +1,18 @@
+# Usa una imagen base de Node.js
+FROM node:20.5.1
+
+# Establece el directorio de trabajo dentro del contenedor
+WORKDIR /src
+
+# Copia el package.json e instala las dependencias
+COPY package*.json ./
+RUN npm install
+
+# Copia el código fuente de la aplicación
+COPY . .
+
+# Expone el puerto en el que la aplicación corre
+EXPOSE 3000
+
+# Comando para ejecutar la aplicación
+CMD ["npm","run", "start"]
