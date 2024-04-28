@@ -1,0 +1,16 @@
+# Dependencias y módulos de Node.js
+/node_modules
+
+# Archivos generados durante la construcción
+/build
+/dist
+
+# Archivos de logs
+/logs
+
+# Archivos de configuración sensibles
+.env
+
+# Dependencias específicas de sistema operativo
+.DS_Store
+Thumbs.db
