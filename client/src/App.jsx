@@ -35,9 +35,11 @@ const App = () => {
               <Route>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/facultad" element={<Facultad />} />
-                <Route path="/resoluciones" element={<Resoluciones />} />
+                <Route path="/facultad/resoluciones" element={<Resoluciones />} />
                 <Route path="/departamento" element={<Departamento />} />
                 <Route path="/escuela" element={<Escuela />} />
+                <Route path="/escuela/tutoria" element={<Escuela />} />
+                <Route path="/escuela/rsu" element={<Escuela />} />
                 <Route path="/investigacion" element={<Investigacion />} />
                 <Route path="/posgrado" element={<Posgrado />} />
               </Route>

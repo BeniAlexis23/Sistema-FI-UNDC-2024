@@ -7,6 +7,11 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../shared/Footer';
 import { Link } from "react-router-dom";
 
+// motion
+import { motion } from 'framer-motion';
+// variants
+import { fadeIn } from '../../variants';
+
 const Resoluciones = () => {
 
     const [resoluciones, setResoluciones] = useState([]);
@@ -52,7 +57,14 @@ const Resoluciones = () => {
                 <div className="bg-white p-8 rounded-md w-full">
                     <div className=" flex items-center justify-between pb-6">
                         <div>
-                            <h1 className="font-semibold text-2xl">Resoluciones de Coordinación de Facultad</h1>
+                            <motion.div
+                                variants={fadeIn("right", 0.2)}
+                                initial="hidden"
+                                whileInView={"show"}
+                                viewport={{ once: true, amount: 0.7 }}
+                            >
+                                <h1 className="font-semibold text-2xl">Resoluciones de Coordinación de Facultad</h1>
+                            </motion.div>
                         </div>
                         <div className="flex items-center justify-between">
                             <div className="flex bg-gray-50 items-center p-2 rounded-md">
@@ -66,68 +78,75 @@ const Resoluciones = () => {
                             </div>
                         </div>
                     </div>
-                    <div>
-                        <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                                <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row">
-                                    <h2>Selecciona el año:</h2>
-                                    <div className="inline-flex mt-2 xs:mt-0">
-                                        <select className="text-sm text-gray-900" onChange={handleYearChange} value={selectedYear}>
-                                            <option value="2024">2024</option>
-                                            <option value="2023">2023</option>
-                                            {/* Agrega más opciones según necesites */}
-                                        </select>
+                    <motion.div
+                        variants={fadeIn("up", 0.2)}
+                        initial="hidden"
+                        whileInView={"show"}
+                        viewport={{ once: true, amount: 0.7 }}
+                    >
+                        <div>
+                            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
+                                <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
+                                    <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row">
+                                        <h2>Selecciona el año:</h2>
+                                        <div className="inline-flex mt-2 xs:mt-0">
+                                            <select className="text-sm text-gray-900" onChange={handleYearChange} value={selectedYear}>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                {/* Agrega más opciones según necesites */}
+                                            </select>
+                                        </div>
                                     </div>
+                                    <table className="min-w-full leading-normal">
+                                        <thead>
+                                            <tr>
+                                                <th
+                                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    N°
+                                                </th>
+                                                <th
+                                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Resolución
+                                                </th>
+                                                <th
+                                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                                    Contenido
+                                                </th>
+                                                <th
+                                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider flex justify-center items-center">
+                                                    Descarga
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                filteredResoluciones.map((rcf, index) => (
+                                                    <>
+                                                        <tr key={rcf._id}>
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                <p class="text-gray-900 whitespace-no-wrap">{index + 1}</p>
+                                                            </td>
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                <p class="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
+                                                            </td>
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                                <p className="text-gray-900 whitespace-no-wrap">
+                                                                    {rcf.description}
+                                                                </p>
+                                                            </td>
+                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
+                                                                <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
+                                                            </td>
+                                                        </tr>
+                                                    </>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <table className="min-w-full leading-normal">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                N°
-                                            </th>
-                                            <th
-                                                className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                Resolución
-                                            </th>
-                                            <th
-                                                className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                Contenido
-                                            </th>
-                                            <th
-                                                className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider flex justify-center items-center">
-                                                Descarga
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            filteredResoluciones.map((rcf, index) => (
-                                                <>
-                                                    <tr key={rcf._id}>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p class="text-gray-900 whitespace-no-wrap">{index + 1}</p>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p class="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                                {rcf.description}
-                                                            </p>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-                                                            <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
-                                                        </td>
-                                                    </tr>
-                                                </>
-                                            ))
-                                        }
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </section>
             <Footer />

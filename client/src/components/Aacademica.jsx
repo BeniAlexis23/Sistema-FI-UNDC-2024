@@ -8,7 +8,7 @@ import { fadeIn } from '../variants';
 
 const Aacademica = () => {
     return (
-        <div className="my-24 md:px-14 px-4 max-w-screen-2xl mx-auto" id='Aacademica'>
+        <div className="mb-24 md:px-14 px-4 max-w-screen-2xl mx-auto" id='Aacademica'>
             <h2 className="md:text-5xl text-3xl font-extrabold mb-20 max-w-2xl mx-auto text-center">Actividades Académicas</h2>
             <div className="flex flex-col lg:flex-row justify-between items-start gap-10">
                 {/*cards*/}

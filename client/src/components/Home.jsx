@@ -4,7 +4,7 @@ import banner2 from '../assets/banner2.jpeg';
 import banner3 from '../assets/banner3.jpg';
 import banner4 from '../assets/banner4.jpeg';
 import banner5 from '../assets/banner5.jpg';
-import Banner from '../shared/Banner';
+
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 import { RxDotFilled } from 'react-icons/rx';
 // motion
@@ -84,12 +84,6 @@ const Home = () => {
                     </div>
                 </div>
             </motion.div>
-            <div className="md:px-14 p-4 -mt-10 max-w-screen-2xl mx-auto" id='home'>
-                <Banner banner={banner1} heading="UNDC - Facultad de Ingeniería" subheading="La Facultad de Ingeniería de la UNDC es un centro de excelencia dedicado a la formación de 
-                profesionales altamente capacitados en diversas disciplinas ingenieriles. Con un enfoque innovador y orientado hacia la investigación, la facultad ofrece programas 
-                académicos actualizados que preparan a los estudiantes para enfrentar los desafíos del mundo moderno. Nuestros docentes expertos y recursos tecnológicos de vanguardia 
-                garantizan una educación de calidad que fomenta el pensamiento crítico, la creatividad y el liderazgo en el ámbito de la ingeniería." />
-            </div>
         </>
     )
 }

@@ -11,9 +11,9 @@ const Footer = () => {
                     <a href="/" className='text-2xl font-semibold flex items-center space-x-3'>
                         <img src={logo} alt="" className='w-10 inline-block items-center' /> <span className='text-white'>UNDC-FI</span>
                     </a>
-                    <p className='md:w-1/2 text-justify'>Los ingenieros resuelven problemas complejos y 
-                    desarrollan soluciones innovadoras para enfrentar desafíos en áreas como la tecnología, la salud, el medio ambiente y 
-                    la infraestructura. Su trabajo impulsa el progreso y mejora la calidad de vida en la sociedad.</p>
+                    <p className='md:w-1/2 text-justify'>Los ingenieros resuelven problemas complejos y
+                        desarrollan soluciones innovadoras para enfrentar desafíos en áreas como la tecnología, la salud, el medio ambiente y
+                        la infraestructura. Su trabajo impulsa el progreso y mejora la calidad de vida en la sociedad.</p>
                     <div>
                         <input type="email" name="email" id="email" placeholder='Email' className='py-2 px-4 rounded-md focus:outline-none' />
                         <input type="submit" value="Subscribirse" className='px-4 py-2 bg-primary rounded-md -ml-2 cursor-pointer hover:bg-white hover:text-secondary duration-300 transition-all' />
@@ -53,7 +53,7 @@ const Footer = () => {
             <div className='flex flex-col sm:flex-row gap-8 sm:items-center justify-between my-8'>
                 <p>Facultad de Ingeniería - {/*<a href="https://github.com/BeniAlexis23" target='_blank'>@BeniAlexis23</a>*/} 2024. All right reserved.</p>
                 <div className='flex items-center space-x-5'>
-                    <FaFacebookSquare className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' />
+                    <a href='https://www.facebook.com/FIUNDC' target="_blank"><FaFacebookSquare className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' /></a>
                     <FaInstagramSquare className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' />
                     <FaLinkedin className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' />
                 </div>
