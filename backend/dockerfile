@@ -8,11 +8,11 @@ WORKDIR /src
 COPY package*.json ./
 RUN npm install
 
-# Copia el código fuente de la aplicación
+# Copia el código fuente del backend
 COPY . .
 
 # Expone el puerto en el que la aplicación corre
 EXPOSE 3000
 
-# Comando para ejecutar la aplicación
-CMD ["npm","run", "start"]
+# Comando para ejecutar el servidor
+CMD ["npm", "run", "start"]

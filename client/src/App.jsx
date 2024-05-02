@@ -1,6 +1,6 @@
-import './App.css'
+import './App.css';
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { NoticeProvider } from './context/NoticesContext';
 import { RcfProvider } from './context/RcfsContext';
@@ -28,24 +28,21 @@ const App = () => {
     <AuthProvider>
       <NoticeProvider>
         <RcfProvider>
-          <BrowserRouter>
+          <HashRouter>
             <ScrollToTop />
-            {/*Rutas Públicas*/}
             <Routes>
-              <Route>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/facultad" element={<Facultad />} />
-                <Route path="/facultad/resoluciones" element={<Resoluciones />} />
-                <Route path="/departamento" element={<Departamento />} />
-                <Route path="/escuela" element={<Escuela />} />
-                <Route path="/escuela/tutoria" element={<Escuela />} />
-                <Route path="/escuela/rsu" element={<Escuela />} />
-                <Route path="/investigacion" element={<Investigacion />} />
-                <Route path="/posgrado" element={<Posgrado />} />
-              </Route>
-            </Routes>
-            {/*Rutas Admin y Protegidas*/}
-            <Routes>
+              {/* Rutas Públicas */}
+              <Route path="/" element={<HomePage />} />
+              <Route path="/facultad" element={<Facultad />} />
+              <Route path="/facultad/resoluciones" element={<Resoluciones />} />
+              <Route path="/departamento" element={<Departamento />} />
+              <Route path="/escuela" element={<Escuela />} />
+              <Route path="/escuela/tutoria" element={<Escuela />} />
+              <Route path="/escuela/rsu" element={<Escuela />} />
+              <Route path="/investigacion" element={<Investigacion />} />
+              <Route path="/posgrado" element={<Posgrado />} />
+
+              {/* Rutas Admin y Protegidas */}
               <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route element={<ProtectedRoute />}>
@@ -57,11 +54,11 @@ const App = () => {
                 <Route path="/rcfs/:id" element={<RcfsFormPage />} />
               </Route>
             </Routes>
-          </BrowserRouter>
+          </HashRouter>
         </RcfProvider>
       </NoticeProvider>
     </AuthProvider>
-  )
-}
+  );
+};
 
-export default App
+export default App;
