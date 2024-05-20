@@ -12,7 +12,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:4000', credentials: true })); //Local: 'http://localhost:5173'
+app.use(cors({ origin: 'http://localhost:5173', credentials: true })); //Produccion: 'https://fi.undc.edu.pe'
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookieParser());

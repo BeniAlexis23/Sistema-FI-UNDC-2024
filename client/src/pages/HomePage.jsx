@@ -1,5 +1,5 @@
 import '../App.css'
-import About from '../components/About'
+import Actualidad from '../components/Actualidad'
 import Aacademica from '../components/Aacademica'
 import Home from '../components/Home'
 import Navbar from '../components/Navbar'
@@ -14,7 +14,7 @@ const HomePage = () => {
       <Home />
       <Newsletter />
       <Aacademica />
-      <About />
+      <Actualidad />
       <SInformacion />
       <Footer />
     </>

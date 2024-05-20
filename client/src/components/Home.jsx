@@ -16,19 +16,19 @@ const Home = () => {
 
     const sliders = [
         {
-            url: `${banner1}`,
+            url: banner1,
         },
         {
-            url: `${banner2}`,
+            url: banner2,
         },
         {
-            url: `${banner3}`,
+            url: banner3,
         },
         {
-            url: `${banner4}`,
+            url: banner4,
         },
         {
-            url: `${banner5}`,
+            url: banner5,
         },
     ];
 
@@ -64,8 +64,8 @@ const Home = () => {
                 whileInView={"show"}
                 viewport={{ once: true, amount: 0.7 }}
             >
-                <div className='max-w-[1400px] h-[790px] w-full m-auto py-28 px-4 relative group'>
-                    <div style={{ backgroundImage: `url(${sliders[currentIndex].url})` }} className='w-full h-full rounded-2xl bg-center bg-cover duration-500'>
+                <div className='max-w-[1400px] h-[800px] w-full m-auto py-28 px-4 relative group'>
+                    <div style={{ backgroundImage: `url(${sliders[currentIndex].url})`, backgroundPosition: 'center top 40%' }} className='w-full h-full rounded-2xl bg-center bg-cover duration-500'>
                     </div>
                     {/*Left Arrow*/}
                     <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full bg-black/20 text-white cursor-pointer'>

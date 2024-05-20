@@ -66,7 +66,6 @@ const Navbar = () => {
             </ul>
           </div>
           <div className='space-x-12 hidden md:flex items-center'>
-            <a href='' className='hidden lg:flex items-center hover:text-secondary'><GrLanguage className='mr-2' /><span>Language - ES</span></a>
             <button className='bg-primary py-2 px-4 transition-all duration-300 rounded text-white hover:text-gray-300 hover:bg-secondary'>Contacto</button>
           </div>
           <div className='md:hidden'>
@@ -91,20 +90,18 @@ const Navbar = () => {
           )}
         </span>
         <Link to={"/departamento"}>Departamento</Link>
-
-          <span className="relative">
-            <button onClick={toggleEscuela} className="focus:outline-none">
-              Escuelas {isEscuelaOpen ? <FaAngleUp className="inline-block" /> : <FaAngleDown className="inline-block" />}
-            </button>
-            {isEscuelaOpen && (
-              <ul className="absolute left-0 pl-4 mt-2 w-40 bg-secondary shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2 z-30">
-                <li className="border-b border-gray-200 py-1"><Link to={"/escuela"}>Ingeniería de Sistemas</Link></li>
-                <li className="border-b border-gray-200 py-1"><Link to={"/escuela/tutoria"}>Tutoria</Link></li>
-                <li className="border-b border-gray-200 py-1"><Link to={"/escuela/rsu"}>RSU</Link></li>
-              </ul>
-            )}
-          </span>
-
+        <span className="relative">
+          <button onClick={toggleEscuela} className="focus:outline-none">
+            Escuelas {isEscuelaOpen ? <FaAngleUp className="inline-block" /> : <FaAngleDown className="inline-block" />}
+          </button>
+          {isEscuelaOpen && (
+            <ul className="absolute left-0 pl-4 mt-2 w-40 bg-secondary shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2 z-30">
+              <li className="border-b border-gray-200 py-1"><Link to={"/escuela"}>Ingeniería de Sistemas</Link></li>
+              <li className="border-b border-gray-200 py-1"><Link to={"/escuela/tutoria"}>Tutoria</Link></li>
+              <li className="border-b border-gray-200 py-1"><Link to={"/escuela/rsu"}>RSU</Link></li>
+            </ul>
+          )}
+        </span>
         <Link to={"/investigacion"}>Investigación</Link>
         <Link to={"/posgrado"}>Posgrado</Link>
       </div>

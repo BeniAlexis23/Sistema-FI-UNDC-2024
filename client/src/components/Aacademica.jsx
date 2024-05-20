@@ -10,7 +10,7 @@ import { fadeIn } from '../variants';
 const Aacademica = () => {
     return (
         <div className="mb-24 md:px-14 px-4 max-w-screen-2xl mx-auto" id='Aacademica'>
-            <h2 className="md:text-5xl text-3xl font-extrabold mb-20 max-w-2xl mx-auto text-center">Actividades Académicas</h2>
+            <h2 className="md:text-5xl text-3xl font-extrabold mb-20">ACTIVIDADES ACADÉMICAS</h2>
             <div className="flex flex-col lg:flex-row justify-between items-start gap-10">
                 {/*cards*/}
                 <div className="w-full">
@@ -21,12 +21,14 @@ const Aacademica = () => {
                             whileInView={"show"}
                             viewport={{ once: true, amount: 0.7 }}
                         >
-                            <div className='bg-[rgba(255, 255, 255, 0.04)] rounded-[35px] h-96 shadow-3xl p-8 items-center flex justify-center hover:-translate-y-4 transition-all duration-300 cursor-pointer md:mt-16'>
-                                <div>
-                                    <img src={academica1} alt="" className='object-center object-cover h-auto w-full' />
-                                    <h5 className='text-2xl font-semibold px-5 text-center mt-5'>Taller de Tesis</h5>
+                            <a href="https://tallerfi.undc.edu.pe/inicio/" target='_blank'>
+                                <div className='bg-[rgba(255, 255, 255, 0.04)] rounded-[35px] h-96 shadow-3xl p-8 items-center flex justify-center hover:-translate-y-4 transition-all duration-300 cursor-pointer md:mt-16'>
+                                    <div>
+                                        <img src={academica1} alt="" className='object-center object-cover h-auto w-full' />
+                                        <h5 className='text-2xl font-semibold px-5 text-center mt-5'>Taller de Tesis</h5>
+                                    </div>
                                 </div>
-                            </div>
+                            </a>
                         </motion.div>
                         <motion.div
                             variants={fadeIn("up", 0.2)}

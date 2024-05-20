@@ -14,10 +14,6 @@ const Footer = () => {
                     <p className='md:w-1/2 text-justify'>Los ingenieros resuelven problemas complejos y
                         desarrollan soluciones innovadoras para enfrentar desafíos en áreas como la tecnología, la salud, el medio ambiente y
                         la infraestructura. Su trabajo impulsa el progreso y mejora la calidad de vida en la sociedad.</p>
-                    <div>
-                        <input type="email" name="email" id="email" placeholder='Email' className='py-2 px-4 rounded-md focus:outline-none' />
-                        <input type="submit" value="Subscribirse" className='px-4 py-2 bg-primary rounded-md -ml-2 cursor-pointer hover:bg-white hover:text-secondary duration-300 transition-all' />
-                    </div>
                 </div>
                 {/*footer navigation*/}
                 <div className='md:w-1/2 flex flex-col md:flex-row flex-wrap justify-between gap-8 items-start'>

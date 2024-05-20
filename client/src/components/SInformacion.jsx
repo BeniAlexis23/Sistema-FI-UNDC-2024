@@ -4,19 +4,15 @@ import { ImBooks } from "react-icons/im";
 import { FaGraduationCap } from "react-icons/fa";
 import { AiOutlineDeliveredProcedure } from "react-icons/ai";
 import { GrLanguage } from "react-icons/gr";
-// motion
-import { motion } from 'framer-motion';
-// variants
-import { fadeIn } from '../variants';
 
 const SInformacion = () => {
 
     return (
-        <section className="py-10 relative bg-white sm:py-12 lg:py-12 lg:pt-12">
+        <section className="relative bg-white sm:py-12 lg:py-12 lg:pt-12">
 
-            <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 text-center">
-                <div className="max-w-2xl mx-auto text-center">
-                    <h2 className="md:text-5xl text-3xl text-center font-extrabold mb-20">Nuestros Servicios y Sistemas de Información</h2>
+            <div className="mb-12 md:px-14 px-4 max-w-screen-2xl mx-auto">
+                <div>
+                    <h2 className="md:text-5xl text-3xl font-extrabold mb-20">SISTEMAS DE INFORMACIÓN</h2>
                 </div>
 
                 <div className="grid items-center max-w-7xl grid-cols-2 gap-4 mx-auto mt-12 md:mt-20 md:grid-cols-3">
