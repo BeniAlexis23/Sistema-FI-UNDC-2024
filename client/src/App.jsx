@@ -14,6 +14,7 @@ import RcfsFormPage from './pages/RcfsFormPage';
 import HomePage from './pages/HomePage';
 import Facultad from './pages/facultad/Facultad';
 import Resoluciones from './pages/facultad/Resoluciones';
+import Noticias from './pages/Noticias';
 import Departamento from './pages/Departamento';
 import Escuela from './pages/Escuela';
 import Investigacion from './pages/Investigacion';
@@ -35,6 +36,7 @@ const App = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/facultad" element={<Facultad />} />
               <Route path="/facultad/resoluciones" element={<Resoluciones />} />
+              <Route path="/noticias" element={<Noticias />} />
               <Route path="/departamento" element={<Departamento />} />
               <Route path="/escuela" element={<Escuela />} />
               <Route path="/escuela/tutoria" element={<Escuela />} />

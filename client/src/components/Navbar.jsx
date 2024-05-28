@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import logo from '../assets/es-undc.png';
-import { GrLanguage } from "react-icons/gr";
+import logo2 from '../assets/logo-fi.jpg'
 import { FaXmark, FaBars } from "react-icons/fa6";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { Link } from 'react-router-dom';
@@ -30,7 +30,8 @@ const Navbar = () => {
         <div className='text-lg container mx-auto flex justify-between items-center font-medium'>
           <div className='flex space-x-14 items-center'>
             <a href="/" className='text-2xl font-semibold flex items-center space-x-3'>
-              <img src={logo} alt="" className='w-10 inline-block items-center' /> <span>UNDC-FI</span>
+              <img src={logo} alt="" className='w-10 inline-block items-center' />
+              <span>FI-UNDC</span>
             </a>
             <ul className='md:flex space-x-12 hidden'>
               <li>

@@ -1,5 +1,18 @@
 import Notice from '../models/notice.model.js'
 
+/*obtener todas las Noticias sin tener cuenta el usuario */
+
+export const getNoticias = async (req, res) => {
+    try {
+        const noticias = await Notice.find();
+        res.json(noticias);
+    } catch (error) {
+        return res.status(500).json({ error: "Something went wrong" })
+    }
+};
+
+/*funciones para usuario autenticado */
+
 export const getNotices = async (req, res) => {
     try {
         const notices = await Notice.find({ user: req.user.id }).populate('user');

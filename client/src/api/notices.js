@@ -1,5 +1,7 @@
 import axios from './axios'
 
+export const getNoticiasRequest = () => axios.get('/noticias')
+
 export const getNoticesRequest = () => axios.get('/notices')
 
 export const getNoticeRequest = (id) => axios.get(`/notices/${id}`)
