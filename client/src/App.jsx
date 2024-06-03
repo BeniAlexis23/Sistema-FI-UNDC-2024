@@ -15,6 +15,7 @@ import HomePage from './pages/HomePage';
 import Facultad from './pages/facultad/Facultad';
 import Resoluciones from './pages/facultad/Resoluciones';
 import Noticias from './pages/Noticias';
+import Noticia_Id from './pages/Noticia_Id';
 import Departamento from './pages/Departamento';
 import Escuela from './pages/Escuela';
 import Investigacion from './pages/Investigacion';
@@ -37,6 +38,7 @@ const App = () => {
               <Route path="/facultad" element={<Facultad />} />
               <Route path="/facultad/resoluciones" element={<Resoluciones />} />
               <Route path="/noticias" element={<Noticias />} />
+              <Route path="/noticias/:id" element={<Noticia_Id />} />
               <Route path="/departamento" element={<Departamento />} />
               <Route path="/escuela" element={<Escuela />} />
               <Route path="/escuela/tutoria" element={<Escuela />} />

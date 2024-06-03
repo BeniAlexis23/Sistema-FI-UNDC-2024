@@ -5,25 +5,33 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc)
 
+// Función para truncar el texto
+const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+}
+
 const NoticeCard = ({ notice }) => {
 
     const { deleteNotice } = useNotices();
+    const maxLengthT = 50; // Longitud máxima del texto del Titulo
+    const maxLength = 100; // Longitud máxima del texto de la descripción
 
     return (
         <div className="relative flex w-full max-w-[48rem] flex-row rounded-xl bg-zinc-800 bg-clip-border text-white shadow-md">
             <div className="relative m-0 w-2/5 shrink-0 overflow-hidden rounded-xl rounded-r-none bg-zinc-800 bg-clip-border">
                 <img
-                    src={notice.imageUrl} 
+                    src={notice.imageUrl}
                     alt="image"
                     className="h-full w-full object-cover"
                 />
             </div>
             <div className="p-6">
                 <h4 className="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                    {notice.title}
+                    {truncateText(notice.title, maxLengthT)}
                 </h4>
                 <p className="mb-8 block font-sans text-base font-normal leading-relaxed text-white antialiased">
-                    {notice.description}
+                    {truncateText(notice.description, maxLength)}
                 </p>
                 <p className="text-white">{dayjs(notice.date).utc().format("DD/MM/YYYY")}</p>
                 <div className="flex gap-x-2 items-center">
@@ -35,4 +43,4 @@ const NoticeCard = ({ notice }) => {
     )
 }
 
-export default NoticeCard
+export default NoticeCard;

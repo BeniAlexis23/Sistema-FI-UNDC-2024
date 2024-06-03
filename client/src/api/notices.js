@@ -1,6 +1,12 @@
 import axios from './axios'
 
+/*APIs sin autenticacion */
+
 export const getNoticiasRequest = () => axios.get('/noticias')
+
+export const getNoticiaRequest = (id) => axios.get(`/noticias/${id}`)
+
+/*APIs con protegidas con autenticacion */
 
 export const getNoticesRequest = () => axios.get('/notices')
 

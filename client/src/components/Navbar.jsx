@@ -9,15 +9,24 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isFacultadOpen, setIsFacultadOpen] = useState(false); // Nueva variable de estado para facultad
   const [isEscuelaOpen, setIsEscuelaOpen] = useState(false); // Nueva variable de estado para escuela
+  const [isEventosOpen, setIsEventosOpen] = useState(false); // Nueva variable de estado para escuela
 
   const toggleFacultad = () => {
     setIsFacultadOpen(!isFacultadOpen);
     setIsEscuelaOpen(false); // Cerrar el menú de escuela si está abierto
+    setIsEventosOpen(false); // Cerrar el menú de eventos si está abierto
   };
 
   const toggleEscuela = () => {
     setIsEscuelaOpen(!isEscuelaOpen);
     setIsFacultadOpen(false); // Cerrar el menú de facultad si está abierto
+    setIsEventosOpen(false); // Cerrar el menú de eventos si está abierto
+  };
+
+  const toggleEventos = () => {
+    setIsEventosOpen(!isEventosOpen);
+    setIsFacultadOpen(false); // Cerrar el menú de facultad si está abierto
+    setIsEscuelaOpen(false);  // Cerrar el menú de escuela si está abierto
   };
 
   const toggleMenu = () => {
@@ -64,6 +73,18 @@ const Navbar = () => {
               </li>
               <li><Link to={"/investigacion"}>Investigación</Link></li>
               <li><Link to={"/posgrado"}>Posgrado</Link></li>
+              <li>
+                <span className="relative">
+                  <button onClick={toggleEventos} className="focus:outline-none">
+                    Eventos {isEventosOpen ? <FaAngleUp className="inline-block" /> : <FaAngleDown className="inline-block" />}
+                  </button>
+                  {isEventosOpen && (
+                    <ul className="absolute left-0 pl-4 mt-2 w-40 bg-white shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2">
+                      <li className="border-b border-gray-200 py-1"><Link to={"/"}>VI CIISIC</Link></li>
+                    </ul>
+                  )}
+                </span>
+              </li>
             </ul>
           </div>
           <div className='space-x-12 hidden md:flex items-center'>
@@ -105,6 +126,16 @@ const Navbar = () => {
         </span>
         <Link to={"/investigacion"}>Investigación</Link>
         <Link to={"/posgrado"}>Posgrado</Link>
+        <span className="relative">
+          <button onClick={toggleEventos} className="focus:outline-none">
+            Eventos {isEventosOpen ? <FaAngleUp className="inline-block" /> : <FaAngleDown className="inline-block" />}
+          </button>
+          {isEventosOpen && (
+            <ul className="absolute left-0 pl-4 mt-2 w-40 bg-secondary shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2 z-30">
+              <li className="border-b border-gray-200 py-1"><Link to={"/"}>VI CIISIC</Link></li>
+            </ul>
+          )}
+        </span>
       </div>
     </>
   );

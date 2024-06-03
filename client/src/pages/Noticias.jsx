@@ -101,7 +101,7 @@ const Noticias = () => {
                                                 </h4>
 
                                                 <div className="flex gap-x-2 items-center mt-4">
-                                                    <Link to={'/noticias'} className="bg-primary px-4 py-1 rounded-sm" >Leer</Link>
+                                                    <Link to={`/noticias/${notice._id}`} className="bg-primary px-4 py-1 rounded-sm" >Leer</Link>
                                                 </div>
                                             </div>
                                         </div>

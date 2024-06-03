@@ -11,6 +11,16 @@ export const getNoticias = async (req, res) => {
     }
 };
 
+export const getNoticia = async (req, res) => {
+    try {
+        const noticia = await Notice.findById(req.params.id);
+        if (!noticia) return res.status(404).json({ message: 'Notice not found' });
+        res.json(noticia);
+    } catch (error) {
+        return res.status(404).json({ message: 'Notice not found' });
+    }
+}
+
 /*funciones para usuario autenticado */
 
 export const getNotices = async (req, res) => {
