@@ -80,7 +80,7 @@ const Navbar = () => {
                   </button>
                   {isEventosOpen && (
                     <ul className="absolute left-0 pl-4 mt-2 w-40 bg-white shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2">
-                      <li className="border-b border-gray-200 py-1"><Link to={"/"}>VI CIISIC</Link></li>
+                      <li className="border-b border-gray-200 py-1"><Link to={"https://ciisic.fiundc.tech/"} target='_blank'>VI CIISIC</Link></li>
                     </ul>
                   )}
                 </span>
@@ -132,7 +132,7 @@ const Navbar = () => {
           </button>
           {isEventosOpen && (
             <ul className="absolute left-0 pl-4 mt-2 w-40 bg-secondary shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2 z-30">
-              <li className="border-b border-gray-200 py-1"><Link to={"/"}>VI CIISIC</Link></li>
+              <li className="border-b border-gray-200 py-1"><Link to={"https://ciisic.fiundc.tech/"} target='_blank'>VI CIISIC</Link></li>
             </ul>
           )}
         </span>
