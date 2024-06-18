@@ -89,7 +89,7 @@ const Noticias = () => {
                                         <div key={index} className="relative flex w-full max-w-[48rem] flex-row rounded-xl bg-secondary bg-clip-border text-white shadow-md">
                                             <div className="relative m-0 w-2/5 shrink-0 overflow-hidden rounded-xl rounded-r-none bg-zinc-800 bg-clip-border">
                                                 <img
-                                                    src={`http://localhost:3000${notice.imageUrl}`}
+                                                    src={`http://localhost:3000${notice.imageUrl}`} /*Produccion: 'https://fi.undc.edu.pe' */
                                                     alt="image"
                                                     className="h-full w-full object-cover"
                                                 />

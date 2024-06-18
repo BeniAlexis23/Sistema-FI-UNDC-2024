@@ -42,7 +42,7 @@ const Actualidad = () => {
                         {
                             noticias.slice(-4).reverse().map((notice, index) => (
                                 <div key={index} className="bg-white rounded-lg border p-4">
-                                    <img src={`http://localhost:3000${notice.imageUrl}`} alt="Placeholder Image" className="w-full h-48 rounded-md object-cover" />
+                                    <img src={`http://localhost:3000${notice.imageUrl}`} /*Produccion: 'https://fi.undc.edu.pe' */ alt="Placeholder Image" className="w-full h-48 rounded-md object-cover" />
                                     <div className="px-1 py-4">
                                         <h1 className="font-bold text-2xl mb-2">{notice.title}</h1>
                                     </div>

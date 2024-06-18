@@ -69,7 +69,7 @@ const Noticia_Id = () => {
           <div className="w-full max-w-screen-xl px-6 text-gray-600 md:px-12 xl:px-6">
             <div className="space-y-6 items-center lg:gap-12">
               <div className="w-full flex justify-center">
-                <img src={`http://localhost:3000${noticia.imageUrl}`} alt="image" loading="lazy" className="w-full h-auto max-w-2xl object-cover rounded-md" />
+                <img src={`http://localhost:3000${noticia.imageUrl}`} /*Produccion: 'https://fi.undc.edu.pe' */ alt="image" loading="lazy" className="w-full h-auto max-w-2xl object-cover rounded-md" />
               </div>
               <div className="mt-8">
                 <motion.div
