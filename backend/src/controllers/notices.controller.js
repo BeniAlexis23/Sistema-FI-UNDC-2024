@@ -34,7 +34,9 @@ export const getNotices = async (req, res) => {
 
 export const createNotice = async (req, res) => {
     try {
-        const { title, description, imageUrl, date } = req.body
+        const { title, description, date } = req.body;
+        const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+
         const newNotice = new Notice({
             title,
             description,
@@ -42,10 +44,11 @@ export const createNotice = async (req, res) => {
             date,
             user: req.user.id
         });
+
         const savedNotice = await newNotice.save();
         res.json(savedNotice);
     } catch (error) {
-        return res.status(500).json({ error: "Something went wrong" })
+        return res.status(500).json({ error: "Something went wrong" });
     }
 };
 
@@ -71,10 +74,18 @@ export const deleteNotice = async (req, res) => {
 
 export const updateNotice = async (req, res) => {
     try {
-        const notice = await Notice.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!notice) return res.status(404).json({ message: 'Notice not found' });
-        res.json(notice);
+        const { title, description, date } = req.body;
+        const imageUrl = req.file ? `/uploads/${req.file.filename}` : req.body.imageUrl;
+
+        const updatedNotice = await Notice.findByIdAndUpdate(
+            req.params.id,
+            { title, description, imageUrl, date },
+            { new: true }
+        );
+
+        if (!updatedNotice) return res.status(404).json({ message: 'Notice not found' });
+        res.json(updatedNotice);
     } catch (error) {
-        return res.status(404).json({ message: 'Notice not found' });
+        return res.status(500).json({ error: "Something went wrong" });
     }
-}
+};

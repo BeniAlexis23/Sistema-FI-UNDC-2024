@@ -1,18 +1,16 @@
 import { useNotices } from "../context/NoticesContext";
 import { Link } from "react-router-dom";
-
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc)
+dayjs.extend(utc);
 
 // Función para truncar el texto
 const truncateText = (text, maxLength) => {
     if (text.length <= maxLength) return text;
     return text.slice(0, maxLength) + '...';
-}
+};
 
 const NoticeCard = ({ notice }) => {
-
     const { deleteNotice } = useNotices();
     const maxLengthT = 50; // Longitud máxima del texto del Titulo
     const maxLength = 100; // Longitud máxima del texto de la descripción
@@ -21,7 +19,7 @@ const NoticeCard = ({ notice }) => {
         <div className="relative flex w-full max-w-[48rem] flex-row rounded-xl bg-zinc-800 bg-clip-border text-white shadow-md">
             <div className="relative m-0 w-2/5 shrink-0 overflow-hidden rounded-xl rounded-r-none bg-zinc-800 bg-clip-border">
                 <img
-                    src={notice.imageUrl}
+                    src={`http://localhost:3000${notice.imageUrl}`}
                     alt="image"
                     className="h-full w-full object-cover"
                 />
@@ -35,12 +33,12 @@ const NoticeCard = ({ notice }) => {
                 </p>
                 <p className="text-white">{dayjs(notice.date).utc().format("DD/MM/YYYY")}</p>
                 <div className="flex gap-x-2 items-center">
-                    <Link to={`/notices/${notice._id}`} className="bg-yellow-500 px-4 py-1 rounded-sm" >Editar</Link>
+                    <Link to={`/notices/${notice._id}`} className="bg-yellow-500 px-4 py-1 rounded-sm">Editar</Link>
                     <button className="bg-red-500 text-white px-4 py-1 rounded-sm" onClick={() => { deleteNotice(notice._id) }}>Eliminar</button>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default NoticeCard;

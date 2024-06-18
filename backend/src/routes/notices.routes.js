@@ -3,16 +3,17 @@ import { authRequired } from "../middlewares/validateToken.js";
 import { getNoticias, getNoticia, getNotices, getNotice, createNotice, updateNotice, deleteNotice } from "../controllers/notices.controller.js";
 import { validateSchema } from "../middlewares/validator.middleware.js";
 import { createNoticeSchema } from "../schemas/notices.schema.js";
+import upload from '../multer.js';
 
 const router = Router();
 
-router.get('/noticias', getNoticias)
-router.get('/noticias/:id', getNoticia)
+router.get('/noticias', getNoticias);
+router.get('/noticias/:id', getNoticia);
 
-router.get('/notices', authRequired, getNotices)
-router.get('/notices/:id', authRequired, getNotice)
-router.post('/notices', authRequired, validateSchema(createNoticeSchema), createNotice)
-router.delete('/notices/:id', authRequired, deleteNotice)
-router.put('/notices/:id', authRequired, updateNotice)
+router.get('/notices', authRequired, getNotices);
+router.get('/notices/:id', authRequired, getNotice);
+router.post('/notices', authRequired, upload.single('imageUrl'), validateSchema(createNoticeSchema), createNotice); // Usar multer
+router.delete('/notices/:id', authRequired, deleteNotice);
+router.put('/notices/:id', authRequired, upload.single('imageUrl'), updateNotice);
 
-export default router
+export default router;
