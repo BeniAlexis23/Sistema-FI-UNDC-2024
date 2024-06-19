@@ -15,7 +15,14 @@ import { motion } from 'framer-motion';
 // variants
 import { fadeIn } from '../variants';
 
+const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+};
+
 const Noticias = () => {
+
+    const maxLengthT = 50; // Longitud máxima del texto del Titulo
 
     const [noticias, setNoticias] = useState([]);
 
@@ -97,7 +104,7 @@ const Noticias = () => {
                                             <div className="p-6">
                                                 <p className="text-white">{dayjs(notice.date).utc().format("DD/MM/YYYY")}</p>
                                                 <h4 className="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                                                    {notice.title}
+                                                    {truncateText(notice.title, maxLengthT)}
                                                 </h4>
 
                                                 <div className="flex gap-x-2 items-center mt-4">

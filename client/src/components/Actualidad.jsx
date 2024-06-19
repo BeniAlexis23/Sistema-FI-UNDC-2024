@@ -3,7 +3,14 @@ import { getNoticiasRequest } from "../api/notices";
 
 import { Link } from 'react-router-dom';
 
+const truncateText = (text, maxLength) => {
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength) + '...';
+};
+
 const Actualidad = () => {
+
+    const maxLengthT = 50; // Longitud máxima del texto del Titulo
 
     const [noticias, setNoticias] = useState([]);
 
@@ -44,7 +51,7 @@ const Actualidad = () => {
                                 <div key={index} className="bg-white rounded-lg border p-4">
                                     <img src={`http://localhost:3000${notice.imageUrl}`} /*Produccion: 'https://fi.undc.edu.pe' */ alt="Placeholder Image" className="w-full h-48 rounded-md object-cover" />
                                     <div className="px-1 py-4">
-                                        <h1 className="font-bold text-2xl mb-2">{notice.title}</h1>
+                                        <h1 className="font-bold text-2xl mb-2">{truncateText(notice.title, maxLengthT)}</h1>
                                     </div>
                                     <div className="px-1 py-1">
                                         <Link to={`/noticias/${notice._id}`} className="text-blue-500 hover:underline">Leer</Link>
