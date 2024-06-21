@@ -70,9 +70,9 @@ const Resoluciones = () => {
                             <div className="flex bg-gray-50 items-center p-2 rounded-md">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
                                     fill="currentColor">
-                                    <path fill-rule="evenodd"
+                                    <path fillRule="evenodd"
                                         d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clip-rule="evenodd" />
+                                        clipRule="evenodd" />
                                 </svg>
                                 <input className="bg-gray-50 outline-none ml-1 block " type="text" name="" id="" placeholder="buscar..." value={searchTerm} onChange={handleSearchChange} />
                             </div>
@@ -121,24 +121,22 @@ const Resoluciones = () => {
                                         <tbody>
                                             {
                                                 filteredResoluciones.map((rcf, index) => (
-                                                    <>
-                                                        <tr key={rcf._id}>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                                <p class="text-gray-900 whitespace-no-wrap">{index + 1}</p>
-                                                            </td>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                                <p class="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
-                                                            </td>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                                <p className="text-gray-900 whitespace-no-wrap">
-                                                                    {rcf.description}
-                                                                </p>
-                                                            </td>
-                                                            <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-                                                                <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
-                                                            </td>
-                                                        </tr>
-                                                    </>
+                                                    <tr key={rcf._id}>
+                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap">{index + 1}</p>
+                                                        </td>
+                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
+                                                        </td>
+                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                                                            <p className="text-gray-900 whitespace-no-wrap">
+                                                                {rcf.description}
+                                                            </p>
+                                                        </td>
+                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
+                                                            <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
+                                                        </td>
+                                                    </tr>
                                                 ))
                                             }
                                         </tbody>
