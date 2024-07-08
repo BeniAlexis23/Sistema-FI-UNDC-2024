@@ -88,7 +88,7 @@ const Navbar = () => {
             </ul>
           </div>
           <div className='space-x-12 hidden md:flex items-center'>
-            <button className='bg-primary py-2 px-4 transition-all duration-300 rounded text-white hover:text-gray-300 hover:bg-secondary'>Contacto</button>
+            <Link to={"/contacto"} className='bg-primary py-2 px-4 transition-all duration-300 rounded text-white hover:text-gray-300 hover:bg-secondary'>Contacto</Link>
           </div>
           <div className='md:hidden'>
             <button onClick={toggleMenu} className='text-white focus:outline-none focus:text-gray-300'>
@@ -136,6 +136,7 @@ const Navbar = () => {
             </ul>
           )}
         </span>
+        <Link to={"/contacto"}>Contacto</Link>
       </div>
     </>
   );

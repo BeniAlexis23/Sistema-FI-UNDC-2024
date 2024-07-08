@@ -20,6 +20,7 @@ import Departamento from './pages/Departamento';
 import Escuela from './pages/Escuela';
 import Investigacion from './pages/Investigacion';
 import Posgrado from './pages/Posgrado';
+import Contacto from './pages/Contacto';
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -45,6 +46,7 @@ const App = () => {
               <Route path="/escuela/rsu" element={<Escuela />} />
               <Route path="/investigacion" element={<Investigacion />} />
               <Route path="/posgrado" element={<Posgrado />} />
+              <Route path="/contacto" element={<Contacto />} />
 
               {/* Rutas Admin y Protegidas */}
               <Route path="/login" element={<LoginPage />} />
