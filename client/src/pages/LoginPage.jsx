@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form"
 import { useAuth } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+
+import banner2 from '../assets/banner2.png';
 
 const LoginPage = () => {
 
@@ -15,13 +17,19 @@ const LoginPage = () => {
   });
 
   useEffect(() => {
-    if (isAuthenticated) navigate("/notices");
+    if (isAuthenticated) navigate("/dashboard");
   }, [isAuthenticated])
 
   return (
     <>
-      <div className='flex h-[calc(100vh-100px)] items-center justify-center'>
-        <div className="bg-zinc-800 max-w-md w-full p-10 rounded-md">
+
+      <div class="bg-gray-100 flex justify-center items-center h-screen">
+
+        <div class="w-1/2 h-screen hidden lg:block">
+          <img src={banner2} alt="Placeholder Image" class="object-cover w-full h-full" />
+        </div>
+
+        <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
           {
             signinErros.map((error, i) => (
               <div className='bg-red-500 p-2 text-white text-center my-2' key={i}>
@@ -29,21 +37,27 @@ const LoginPage = () => {
               </div>
             ))
           }
-          <h1 className="text-2xl text-white font-bold">LOGIN</h1>
+          <h1 className="text-4xl font-bold my-2">CMS - FI UNDC</h1>
           <form onSubmit={onSubmit}>
-            <input type="email" {...register("email", { required: true })} placeholder='Email' className="w-full bg-zinc-700 text-white px-4 py-2 my-2 rounded-md" />
-            {errors.email && <p className='text-red-500'>Email is required</p>}
-            <input type="password" {...register("password", { required: true })} placeholder='Password' className="w-full bg-zinc-700 text-white px-4 py-2 my-2 rounded-md" />
-            {errors.password && <p className='text-red-500'>Password is required</p>}
-            <button className="bg-sky-500 text-white px-4 py-1 my-2 rounded-sm" type="submit">Login</button>
+
+            <div class="mb-4">
+              <label for="username" class="block text-gray-600">Email</label>
+              <input type="email" {...register("email", { required: true })} placeholder='ejm@gmail.com' className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" />
+              {errors.email && <p className='text-red-500'>Email is required</p>}
+            </div>
+
+            <div class="mb-4">
+              <label for="password" class="block text-gray-600">Password</label>
+              <input type="password" {...register("password", { required: true })} placeholder='******' className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500" />
+              {errors.password && <p className='text-red-500'>Password is required</p>}
+            </div>
+
+            <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full">Login</button>
           </form>
-          <p className="flex gap-x-2 text-white justify-between">
-            Don't have an account? <Link to="/register" className="text-sky-500">Sing Up</Link>
-          </p>
         </div>
       </div>
     </>
   )
 }
 
-export default LoginPage
+export default LoginPage;

@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { useRcfs } from "../context/RcfsContext";
-
 import NavbarAdmin from "../components/NavbarAdmin";
 import { Link } from "react-router-dom";
-
 import { FaFileDownload } from "react-icons/fa";
+
+import Swal from 'sweetalert2';
 
 function RcfsPage() {
 
-  const { getRcfs, deleteRcf, rcfs } = useRcfs()
-
+  const { getRcfs, deleteRcf, rcfs } = useRcfs();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedYear, setSelectedYear] = useState("2024");
 
@@ -34,25 +33,54 @@ function RcfsPage() {
     getRcfs();
   }, []);
 
+  const handleDelete = async (id) => {
+    const result = await Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Eliminar',
+      confirmButtonColor: '#e74c3c',
+      cancelButtonText: 'Cancelar',
+      cancelButtonColor: '#3498db'
+    });
+
+    if (result.isConfirmed) {
+      try {
+        await deleteRcf(id);
+        Swal.fire({
+          title: 'Eliminado!',
+          text: 'La RCF ha sido eliminada',
+          icon: 'success',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#2ecc71'
+        });
+      } catch (error) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'Hubo un problema al eliminar la RCF',
+          icon: 'error',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#e74c3c'
+        });
+      }
+    }
+  };
+
   return (
     <>
       <NavbarAdmin />
       {rcfs.length === 0 && <h1>No hay RCF</h1>}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-6">
+      <section className="flex max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-6">
         <div className="bg-white p-8 rounded-md w-full">
-          <div className=" flex items-center justify-between pb-6">
-            <div>
-              <h1 className="font-semibold text-2xl">Resoluciones de Coordinación de Facultad</h1>
-            </div>
-            <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6">
+            <h1 className="font-semibold text-2xl">Resoluciones de Coordinación de Facultad</h1>
+            <div className="mt-4 sm:mt-0 flex items-center justify-between sm:justify-start">
               <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                  fill="currentColor">
-                  <path fillRule="evenodd"
-                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                    clipRule="evenodd" />
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                 </svg>
-                <input className="bg-gray-50 outline-none ml-1 block " type="text" name="" id="" placeholder="buscar..." value={searchTerm} onChange={handleSearchChange} />
+                <input className="bg-gray-50 outline-none ml-1 block" type="text" placeholder="buscar..." value={searchTerm} onChange={handleSearchChange} />
               </div>
             </div>
           </div>
@@ -65,7 +93,6 @@ function RcfsPage() {
                     <select className="text-sm text-gray-900" onChange={handleYearChange} value={selectedYear}>
                       <option value="2024">2024</option>
                       <option value="2023">2023</option>
-                      {/* Agrega más opciones según necesites */}
                     </select>
                   </div>
                 </div>
@@ -90,32 +117,28 @@ function RcfsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {
-                      filteredResoluciones.map((rcf, index) => (
-                        <tr key={rcf._id}>
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">{index + 1}</p>
-                          </td>
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
-                          </td>
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                            <p className="text-gray-900 whitespace-no-wrap">
-                              {rcf.description}
-                            </p>
-                          </td>
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-                            <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
-                          </td>
-                          <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-                            <div className="flex gap-x-2 items-center">
-                              <Link to={`/rcfs/${rcf._id}`} className="bg-yellow-500 px-4 py-1 rounded-sm" >Editar</Link>
-                              <button className="bg-red-500 text-white px-4 py-1 rounded-sm" onClick={() => { deleteRcf(rcf._id) }}>Eliminar</button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))
-                    }
+                    {filteredResoluciones.map((rcf, index) => (
+                      <tr key={rcf._id}>
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">{index + 1}</p>
+                        </td>
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
+                        </td>
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                          <p className="text-gray-900 whitespace-no-wrap">{rcf.description}</p>
+                        </td>
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
+                          <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
+                        </td>
+                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
+                          <div className="flex gap-x-2 items-center">
+                            <Link to={`/rcfs/${rcf._id}`} className="bg-yellow-500 px-4 py-1 rounded-sm">Editar</Link>
+                            <button className="bg-red-500 text-white px-4 py-1 rounded-sm" onClick={() => handleDelete(rcf._id)}>Eliminar</button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -124,7 +147,7 @@ function RcfsPage() {
         </div>
       </section>
     </>
-  )
+  );
 }
 
 export default RcfsPage;

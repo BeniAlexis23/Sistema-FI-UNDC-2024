@@ -42,6 +42,7 @@ export const NoticeProvider = ({ children }) => {
         try {
             const res = await deleteNoticeRequest(id);
             if (res.status === 204) setNotices(notices.filter((notice) => notice._id !== id));
+            return res;
         } catch (error) {
             console.log(error);
         }
@@ -58,7 +59,8 @@ export const NoticeProvider = ({ children }) => {
 
     const updateNotice = async (id, notice) => {
         try {
-            await updateNoticesRequest(id, notice);
+            const res = await updateNoticesRequest(id, notice);
+            return res;
         } catch (error) {
             console.error(error);
         }

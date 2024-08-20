@@ -42,8 +42,9 @@ export function RcfProvider({ children }) {
         try {
             const res = await deleteRcfRequest(id);
             if (res.status === 204) setRcfs(rcfs.filter((rcf) => rcf._id !== id));
+            return res;
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
     }
 
@@ -58,7 +59,8 @@ export function RcfProvider({ children }) {
 
     const updateRcf = async (id, rcf) => {
         try {
-            await updateRcfsRequest(id, rcf);
+            const res = await updateRcfsRequest(id, rcf);
+            return res;
         } catch (error) {
             console.error(error);
         }
@@ -69,4 +71,4 @@ export function RcfProvider({ children }) {
             {children}
         </RcfContext.Provider>
     )
-} 
+}

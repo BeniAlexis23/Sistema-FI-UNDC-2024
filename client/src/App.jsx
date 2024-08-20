@@ -5,8 +5,9 @@ import { AuthProvider } from './context/AuthContext';
 import { NoticeProvider } from './context/NoticesContext';
 import { RcfProvider } from './context/RcfsContext';
 
-import RegisterPage from './pages/RegisterPage';
+/*import RegisterPage from './pages/RegisterPage';*/
 import LoginPage from './pages/LoginPage';
+import Dashboard from './pages/Dashboard';
 import NoticesPage from './pages/NoticesPage';
 import NoticesFormPage from './pages/NoticesFormPage';
 import RcfsPage from './pages/RcfsPages';
@@ -50,11 +51,16 @@ const App = () => {
 
               {/* Rutas Admin y Protegidas */}
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/register" element={<RegisterPage />} />
+              {/*<Route path="/register" element={<RegisterPage />} />*/}
               <Route element={<ProtectedRoute />}>
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/notices" element={<NoticesPage />} />
                 <Route path="/add-notice" element={<NoticesFormPage />} />
                 <Route path="/notices/:id" element={<NoticesFormPage />} />
+              </Route>
+
+              {/* Rutas protegidas para Usuario especifico */}
+              <Route element={<ProtectedRoute requiredEmail="bluyo@undc.edu.pe" /*'coordinacioningenieria@undc.edu.pe'*/ />}>
                 <Route path="/rcfs" element={<RcfsPage />} />
                 <Route path="/add-rcf" element={<RcfsFormPage />} />
                 <Route path="/rcfs/:id" element={<RcfsFormPage />} />

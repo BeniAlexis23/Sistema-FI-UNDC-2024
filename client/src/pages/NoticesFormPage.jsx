@@ -2,10 +2,13 @@ import { useForm } from 'react-hook-form';
 import { useNotices } from '../context/NoticesContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import NavbarAdmin from "../components/NavbarAdmin";
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
+
+import Swal from 'sweetalert2';
 
 const NoticesFormPage = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
@@ -32,17 +35,62 @@ const NoticesFormPage = () => {
     formData.append('date', data.date ? dayjs.utc(data.date).format() : dayjs.utc().format());
 
     if (data.imageUrl && data.imageUrl.length > 0) {
-      formData.append('imageUrl', data.imageUrl[0]); // 'imageUrl' es ahora un archivo
+      formData.append('imageUrl', data.imageUrl[0]);
     }
 
+    // Verificación si se está editando o creando una nueva noticia
     if (params.id) {
-      await updateNotice(params.id, formData);
-      navigate('/notices');
+      // Mostrar SweetAlert para confirmar la edición
+      Swal.fire({
+        title: "¿Actualizar noticia?",
+        showCancelButton: true,
+        confirmButtonText: "Actualizar",
+        confirmButtonColor: "#f1c40f",
+        cancelButtonText: "Cancelar",
+        cancelButtonColor: "#e74c3c"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          // Solo se actualiza la noticia si el usuario confirma
+          const response = await updateNotice(params.id, formData);
+          if (response && response.status === 200) {
+            Swal.fire({
+              title: "Actualizada!",
+              icon: "success",
+              confirmButtonText: "OK",
+              confirmButtonColor: "#2ecc71"
+            });
+            navigate('/notices');
+          } else {
+            Swal.fire("Error al actualizar", "Hubo un problema al actualizar la noticia", "error");
+          }
+        }
+      });
     } else {
-      const response = await createNotice(formData);
-      if (response && response.status === 200) {
-        navigate('/notices');
-      }
+      // Mostrar SweetAlert para confirmar la creación
+      Swal.fire({
+        title: "¿Guardar nueva noticia?",
+        showCancelButton: true,
+        confirmButtonText: "Guardar",
+        confirmButtonColor: "#2ecc71",
+        cancelButtonText: "Cancelar",
+        cancelButtonColor: "#e74c3c"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          // Solo se crea la noticia si el usuario confirma
+          const response = await createNotice(formData);
+          if (response && response.status === 200) {
+            Swal.fire({
+              title: "Guardado!",
+              icon: "success",
+              confirmButtonText: "OK",
+              confirmButtonColor: "#2ecc71"
+            });
+            navigate('/notices');
+          } else {
+            Swal.fire("Error al guardar", "Hubo un problema al guardar la noticia", "error");
+          }
+        }
+      });
     }
   });
 
@@ -91,6 +139,7 @@ const NoticesFormPage = () => {
             />
 
             <button className="bg-indigo-500 px-4 py-1 rounded-sm">Guardar</button>
+            <Link to={'/notices'} className="bg-red-500 px-4 py-1 ml-2 rounded-sm">Cancelar</Link>
           </form>
         </div>
       </div>

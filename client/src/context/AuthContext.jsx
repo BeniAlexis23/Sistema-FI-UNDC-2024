@@ -41,7 +41,7 @@ export const AuthProvider = ({ children }) => {
             if (Array.isArray(error.response.data)) {
                 return setErros(error.response.data);
             }
-            setErros([error.response.data.message])
+            setErros([error.response.data.message]);
         }
     };
 
@@ -54,15 +54,15 @@ export const AuthProvider = ({ children }) => {
     useEffect(() => {
         if (errors.length > 0) {
             const timer = setTimeout(() => {
-                setErros([])
-            }, 5000)
+                setErros([]);
+            }, 5000);
             return () => clearTimeout(timer);
         }
     }, [errors]);
 
     useEffect(() => {
         async function checkLogin() {
-            const cookies = Cookies.get()
+            const cookies = Cookies.get();
 
             if (!cookies.token) {
                 setIsAuthenticated(false);
@@ -87,11 +87,11 @@ export const AuthProvider = ({ children }) => {
             }
         }
         checkLogin();
-    }, [])
+    }, []);
 
     return (
         <AuthContext.Provider value={{ signup, signin, logout, loading, user, isAuthenticated, errors }}>
             {children}
         </AuthContext.Provider>
-    )
-}
+    );
+};

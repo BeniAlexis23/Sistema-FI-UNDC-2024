@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNotices } from "../context/NoticesContext";
-import NoticeCard from "../components/NoticeCard";
 
+import NoticeCard from "../components/NoticeCard";
 import NavbarAdmin from "../components/NavbarAdmin";
 
 function NoticesPage() {

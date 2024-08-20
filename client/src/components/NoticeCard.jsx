@@ -4,6 +4,8 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 dayjs.extend(utc);
 
+import Swal from 'sweetalert2';
+
 // Función para truncar el texto
 const truncateText = (text, maxLength) => {
     if (text.length <= maxLength) return text;
@@ -14,6 +16,41 @@ const NoticeCard = ({ notice }) => {
     const { deleteNotice } = useNotices();
     const maxLengthT = 50; // Longitud máxima del texto del Titulo
     const maxLength = 100; // Longitud máxima del texto de la descripción
+
+    // Función para manejar la eliminación con confirmación
+    const handleDelete = async (id) => {
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: "No podrás revertir esto",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            confirmButtonColor: '#e74c3c',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#3498db'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await deleteNotice(id);
+                Swal.fire({
+                    title: 'Eliminado!',
+                    text: 'La noticia ha sido eliminada',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#2ecc71'
+                });
+            } catch (error) {
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Hubo un problema al eliminar la noticia',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    confirmButtonColor: '#e74c3c'
+                });
+            }
+        }
+    };
 
     return (
         <div className="relative flex w-full max-w-[48rem] flex-row rounded-xl bg-zinc-800 bg-clip-border text-white shadow-md">
@@ -34,7 +71,7 @@ const NoticeCard = ({ notice }) => {
                 <p className="text-white">{dayjs(notice.date).utc().format("DD/MM/YYYY")}</p>
                 <div className="flex gap-x-2 items-center">
                     <Link to={`/notices/${notice._id}`} className="bg-yellow-500 px-4 py-1 rounded-sm">Editar</Link>
-                    <button className="bg-red-500 text-white px-4 py-1 rounded-sm" onClick={() => { deleteNotice(notice._id) }}>Eliminar</button>
+                    <button className="bg-red-500 text-white px-4 py-1 rounded-sm" onClick={() => handleDelete(notice._id)}>Eliminar</button>
                 </div>
             </div>
         </div>

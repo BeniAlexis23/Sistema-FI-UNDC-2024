@@ -2,15 +2,15 @@ import { useForm } from 'react-hook-form';
 import { useRcfs } from '../context/RcfsContext';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-
+import { Link } from 'react-router-dom';
 import NavbarAdmin from "../components/NavbarAdmin";
-
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc)
+dayjs.extend(utc);
+
+import Swal from 'sweetalert2';
 
 const RcfsFormPage = () => {
-
     const { register, handleSubmit, setValue, formState: { errors } } = useForm();
     const { createRcf, getRcf, updateRcf, errors: rcfsErrors, setErrors } = useRcfs();
     const navigate = useNavigate();
@@ -35,15 +35,59 @@ const RcfsFormPage = () => {
             date: data.date ? dayjs.utc(data.date).format() : dayjs.utc().format(),
         };
 
+        // Verificación si se está editando o creando una nueva RCF
         if (params.id) {
-            updateRcf(params.id, dataValid);
-            navigate('/rcfs');
+            // Mostrar SweetAlert para confirmar la edición
+            Swal.fire({
+                title: "¿Actualizar RCF?",
+                showCancelButton: true,
+                confirmButtonText: "Actualizar",
+                confirmButtonColor: "#f1c40f",
+                cancelButtonText: "Cancelar",
+                cancelButtonColor: "#e74c3c"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    // Solo se actualiza la RCF si el usuario confirma
+                    const response = await updateRcf(params.id, dataValid);
+                    if (response && response.status === 200) {
+                        Swal.fire({
+                            title: "Actualizada!",
+                            icon: "success",
+                            confirmButtonText: "OK",
+                            confirmButtonColor: "#2ecc71"
+                        });
+                        navigate('/rcfs');
+                    } else {
+                        Swal.fire("Error al actualizar", "Hubo un problema al actualizar la RCF", "error");
+                    }
+                }
+            });
         } else {
-            let data = await createRcf(dataValid);
-            console.log(data)
-            if (data.status == 200) {
-                navigate('/rcfs');
-            }
+            // Mostrar SweetAlert para confirmar la creación
+            Swal.fire({
+                title: "¿Guardar nueva RCF?",
+                showCancelButton: true,
+                confirmButtonText: "Guardar",
+                confirmButtonColor: "#2ecc71",
+                cancelButtonText: "Cancelar",
+                cancelButtonColor: "#e74c3c"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    // Solo se crea la RCF si el usuario confirma
+                    const response = await createRcf(dataValid);
+                    if (response && response.status === 200) {
+                        Swal.fire({
+                            title: "Guardado!",
+                            icon: "success",
+                            confirmButtonText: "OK",
+                            confirmButtonColor: "#2ecc71"
+                        });
+                        navigate('/rcfs');
+                    } else {
+                        Swal.fire("Error al guardar", "Hubo un problema al guardar la RCF", "error");
+                    }
+                }
+            });
         };
     });
 
@@ -60,18 +104,20 @@ const RcfsFormPage = () => {
                         ))
                     }
                     <form onSubmit={onSubmit}>
-                        <label for="title">Titulo</label>
+                        <label htmlFor="title">Titulo</label>
                         <input type="text" placeholder="Titulo" {...register('title', { required: true })} className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' autoFocus />
                         {errors.title && <p className='text-red-500'>Titulo requerido</p>}
-                        <label for="description">Descripción</label>
+                        <label htmlFor="description">Descripción</label>
                         <textarea rows="3" placeholder="Descripción" {...register('description', { required: true })} className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'></textarea>
                         {errors.description && <p className='text-red-500'>Descripcion requerida</p>}
                         <label htmlFor="url">URL de la RCF</label>
                         <input type="text" placeholder="URL" {...register('url', { required: true })} className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' />
                         {errors.url && <p className='text-red-500'>Url requerida</p>}
-                        <label for="date">Fecha</label>
+                        <label htmlFor="date">Fecha</label>
                         <input className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2' type="date" {...register('date')} />
+
                         <button className="bg-indigo-500 px-4 py-1 rounded-sm">Guardar</button>
+                        <Link to={'/rcfs'} className="bg-red-500 px-4 py-1 ml-2 rounded-sm">Cancelar</Link>
                     </form>
                 </div>
             </div>
