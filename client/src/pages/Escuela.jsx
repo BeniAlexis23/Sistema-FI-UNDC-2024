@@ -1,6 +1,14 @@
-import Navbar from '../components/Navbar'
-import Footer from '../shared/Footer'
-import Asto from '../assets/l-asto.png'
+import Navbar from '../components/Navbar';
+import Footer from '../shared/Footer';
+import Asto from '../assets/l-asto.png';
+import Programcion from '../assets/programacion.jpg'
+import { Link } from 'react-router-dom';
+
+import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
+import { MdCheckCircle } from "react-icons/md";
+import { HiDocumentArrowDown } from "react-icons/hi2";
+import { GrDocumentUser } from "react-icons/gr";
+import { FaUserGraduate } from "react-icons/fa6";
 
 // motion
 import { motion } from 'framer-motion';
@@ -47,7 +55,7 @@ const Escuela = () => {
                                 >
                                     <div class="mb-10">
                                         <p class="font-bold text-2xl mb-5">Director (e) de la Escuela Profesional de Ingeniería de Sistemas</p>
-                                        <h1 className="font-bold text-3xl mb-5">Mg. Leonidas Asto Huamán</h1>
+                                        <h1 className="font-bold text-3xl mb-5">M.Sc. Leonidas Asto Huamán</h1>
                                         <p class="text-sm text-justify lg:mr-10">De profesión, Ingeniero Informático y Sistemas con maestría en Informática, candidato a doctor en Ingeniería de Sistemas. Docente, con experiencia
                                             en universidades públicas y privadas. Asesor de tesis. Áreas de investigación: Machine Learning, Redes Neuronales, Interacción Humano Computador, IoT, Sistemas Inteligentes,
                                             Procesamiento Natural y BI. Con capacidad analizar, diseñar, construir, evaluar, diagnosticar, auditar y mantener sistemas informáticos aplicados en las diferentes áreas del
@@ -58,10 +66,192 @@ const Escuela = () => {
                         </div>
                     </div>
                 </div>
+
+                <div class="py-16 bg-white">
+                    <div class="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
+                        <h2 class="text-gray-900 font-bold text-3xl md:text-4xl mb-4">Perfil del Egresado en Ingeniería de Sistemas</h2>
+                        <div class="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
+                            <div class="md:5/12 lg:w-5/12">
+                                <img src={Programcion} alt="image" loading="lazy" width="" height="" />
+                            </div>
+                            <div class="md:7/12 lg:w-6/12">
+                                <p class="mt-6 text-gray-600 text-justify">
+                                    La Escuela Profesional de Ingeniería de Sistemas promueve las competencias específicas basadas en el desarrollo de la persona
+                                    con habilidades, conocimientos y capacidades para un adecuado desenvolvimiento profesional en el campo Ingeniería de sistemas.
+                                </p>
+                                <p class="mt-2 text-gray-600 text-justify">
+                                    El egresado en Ingeniería de Sistemas, bajo un enfoque de competencias, busca fortalecer el vínculo con el sector laboral y 
+                                    potenciar el capital humano en un contexto de constantes cambios. Desarrolla competencias específicas en software, redes de 
+                                    comunicación (LAN y WAN), TIC con estándares internacionales, y soluciones de ciencia de datos e inteligencia artificial, con 
+                                    la investigación como eje central para la innovación y transferencia de conocimiento.
+                                </p>
+                                <p class="mt-2 text-gray-600 text-justify">El egresado en Ingeniería de Sistemas tendrá el potencial para convertirse en un profesional
+                                    Exitoso y contribuir al crecimiento y desarrollo en el sector de la tecnología e informática, son sólidos conocimientos.</p>
+                            </div>
+                        </div>
+                        <div class="my-10 md:flex md:flex-col lg:gap-12">
+                            <h2 class="text-gray-900 font-bold text-3xl md:text-4xl mb-4 md:-mb-5">Objetivos Académicos</h2>
+                            <div>
+                                <ul class="list-disc pl-6 space-y-4 text-gray-600 text-justify">
+                                    <li>Promover y desarrollar labores de investigación científica y tecnológica de carácter multidisciplinario y con la participación de docentes y estudiantes, para mejorar habilidades y generar conocimientos técnicos y científicos, a fin de contribuir con responsabilidad social con el desarrollo del país.</li>
+                                    <li>Promover la participación de los estudiantes de ingeniería de sistemas en actividades extracurriculares, tales como, círculos de estudios y proyectos de investigación interdisciplinaria, que integren los procesos empresariales con las tecnologías de información.</li>
+                                    <li>Integrar a los estudiantes con graduados y empleadores exitosos para que, a través de la Información de sus experiencias, conozcan sobre los éxitos en la profesión de ingeniería de sistemas, con el fin de motivarlos.</li>
+                                    <li>Propiciar la capacitación permanente del personal docente con la finalidad de estar a la vanguardia en los conocimientos de los temas relacionados a la ingeniería de sistemas.</li>
+                                    <li>Atender las necesidades u los cambios que adoptan las organizaciones, en respuesta a las fluctuaciones del mercado, proporcionándoles profesionales calificados que ayuden a alcanzar sus objetivos estratégicos mediante el uso de las tecnologías de la información.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="my-10 md:flex md:flex-col lg:gap-12">
+                            <h2 class="text-gray-900 font-bold text-3xl md:text-4xl mb-4 md:-mb-5">Conceptual</h2>
+                            <div>
+                                <ul class="list-disc pl-6 space-y-4 text-gray-600 text-justify">
+                                    <li>Conoce e integra conocimientos de las ciencias básicas, ciencias de la computación y ciencias de la empresa para la solución de problemas.</li>
+                                    <li>Distingue y explica las diferentes fases de la solución de un problema.</li>
+                                    <li>Conoce las metodologías del enfoque sistémico y científico, para el desarrollo de propuestas de solución a problemas del mundo real.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="my-10 md:flex md:flex-col lg:gap-12">
+                            <h2 class="text-gray-900 font-bold text-3xl md:text-4xl mb-4 md:-mb-5">Procedimental</h2>
+                            <div>
+                                <ul class="list-disc pl-6 space-y-4 text-gray-600 text-justify">
+                                    <li>Aplica efectivamente la teoría General de Sistemas y el Pensamiento Sistémico en la compresión y solución de problemas organizacionales.</li>
+                                    <li>Modela, Simula, Implementa y Optimiza Sistemas Complejos, bajo el soporte de las tecnologías de información y Comunicación.</li>
+                                    <li>Planifica, Analiza, Diseña y Desarrolla sistemas de información y comunicación para diversos tipos de organizaciones.</li>
+                                    <li>Modela unidades de negocio en las organizaciones.</li>
+                                    <li>Aplica ingeniería de información integrados.</li>
+                                    <li>Integra la información organizacional.</li>
+                                    <li>Diseña e Implementa redes globales de comunicación de datos.</li>
+                                    <li>Gerencia organizaciones empresariales, desarrollando estrategias para el logro de ventajas competitivas sostenibles.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="my-10 md:flex md:flex-col lg:gap-12">
+                            <h2 class="text-gray-900 font-bold text-3xl md:text-4xl mb-4 md:-mb-5">Actitudinales</h2>
+                            <div>
+                                <ul class="list-disc pl-6 space-y-4 text-gray-600 text-justify">
+                                    <li>Ser proactivo hacia la investigación y actualización en tecnología de información y comunicaciones.</li>
+                                    <li>Ejerce su labor con creatividad, responsabilidad y ética.</li>
+                                    <li>Orienta su profesión al desarrollo regional y nacional, en base a la compresión de la realidad en sus diversas manifestaciones.</li>
+                                    <li>No tiene temor de promover en su campo una iniciativa con efectos de carácter mundial.</li>
+                                    <li>Promueve la generación de empresas.</li>
+                                    <li>Impulsa la aplicación nuevas tecnologías de información y comunicación en la empresa.</li>
+                                    <li>Promueve los cambios económicos, sociales, científicos y tecnológicos en el marco del desarrollo humano.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div className="my-10 md:flex md:flex-col lg:gap-12 text-justify">
+                            <h2 className="text-gray-900 font-bold text-3xl md:text-4xl mb-4 md:-mb-5">Grados y Títulos</h2>
+                            <div>
+                                <ul className="pl-4 space-y-4 text-gray-600">
+                                    <li className="flex items-start">
+                                        <FaUserGraduate className="mr-2 text-2xl inline" />
+                                        <span>Grado Académico: Bachiller en Ingeniería de Sistemas.</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <FaUserGraduate className="mr-2 text-2xl inline" />
+                                        <span>Título Profesional: Ingeniero de Sistemas.</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {/*Cards */}
+                        <h4 class="text-2xl mt-6 text-gray-900 font-bold inline-flex items-start">
+                            <MdCheckCircle class="mr-2 inline" />
+                            Planes de estudios vigentes
+                        </h4>
+                        <div class="md:min-w-[700px] xl:min-w-[800px] mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 justify-center mx-auto">
+                            <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
+                                <div class="ml-[18px] flex h-[90px] w-auto flex-row items-center">
+                                    <div class="rounded-full bg-lightPrimary p-3 dark:bg-gray-300">
+                                        <span class="flex items-center text-brand-500 text-black text-3xl">
+                                            <HiOutlineClipboardDocumentList />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="h-50 ml-4 flex w-auto flex-col justify-center">
+                                    <Link to={"https://drive.google.com/file/d/1ve1jDeKrh475vw2V3dyF3pU9BkzsWcSx/view?usp=sharing"} target='_blank'><h4 class="text-xl font-bold text-navy-700 text-black">Plan de estudios 2024</h4></Link>
+                                </div>
+                            </div>
+                            <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
+                                <div class="ml-[18px] flex h-[90px] w-auto flex-row items-center">
+                                    <div class="rounded-full bg-lightPrimary p-3 dark:bg-gray-300">
+                                        <span class="flex items-center text-brand-500 text-black text-3xl">
+                                            <HiOutlineClipboardDocumentList />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="h-50 ml-4 flex w-auto flex-col justify-center">
+                                    <Link to={"https://drive.google.com/file/d/16v8FIV--vDkHz8Mg6jP-YQvrMduPtHKF/view?usp=sharing"} target='_blank'><h4 class="text-xl font-bold text-navy-700 text-black">Plan de estudios 2016</h4></Link>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl mt-20 text-gray-900 font-bold inline-flex items-start">
+                            <MdCheckCircle class="mr-2 inline" />
+                            Documentos de Practicas-Preprofesionales
+                        </h4>
+                        <div class="md:min-w-[700px] xl:min-w-[800px] mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 justify-center mx-auto">
+                            <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
+                                <div class="ml-[18px] flex h-[90px] w-auto flex-row items-center">
+                                    <div class="rounded-full bg-lightPrimary p-3 dark:bg-gray-300">
+                                        <span class="flex items-center text-brand-500 text-black text-3xl">
+                                            <GrDocumentUser />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="h-50 ml-4 flex w-auto flex-col justify-center">
+                                    <h4 class="text-xl font-bold text-navy-700 text-black">Reglamento de PPP</h4>
+                                </div>
+                            </div>
+                            <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
+                                <div class="ml-[18px] flex h-[90px] w-auto flex-row items-center">
+                                    <div class="rounded-full bg-lightPrimary p-3 dark:bg-gray-300">
+                                        <span class="flex items-center text-brand-500 text-black text-3xl">
+                                            <HiDocumentArrowDown />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="h-50 ml-4 flex w-auto flex-col justify-center">
+                                    <h4 class="text-xl font-bold text-navy-700 text-black">Formatos de PPP</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="text-2xl mt-20 text-gray-900 font-bold inline-flex items-start">
+                            <MdCheckCircle class="mr-2 inline" />
+                            Documentos de RSU
+                        </h4>
+                        <div class="md:min-w-[700px] xl:min-w-[800px] mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 justify-center mx-auto">
+                            <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
+                                <div class="ml-[18px] flex h-[90px] w-auto flex-row items-center">
+                                    <div class="rounded-full bg-lightPrimary p-3 dark:bg-gray-300">
+                                        <span class="flex items-center text-brand-500 text-black text-3xl">
+                                            <GrDocumentUser />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="h-50 ml-4 flex w-auto flex-col justify-center">
+                                    <h4 class="text-xl font-bold text-navy-700 text-black">Reglamento de RSU</h4>
+                                </div>
+                            </div>
+                            <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
+                                <div class="ml-[18px] flex h-[90px] w-auto flex-row items-center">
+                                    <div class="rounded-full bg-lightPrimary p-3 dark:bg-gray-300">
+                                        <span class="flex items-center text-brand-500 text-black text-3xl">
+                                            <HiDocumentArrowDown />
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="h-50 ml-4 flex w-auto flex-col justify-center">
+                                    <h4 class="text-xl font-bold text-navy-700 text-black">Formatos de RSU</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             <Footer />
         </>
     )
 }
 
-export default Escuela
+export default Escuela;

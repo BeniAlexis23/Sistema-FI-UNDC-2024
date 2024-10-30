@@ -30,19 +30,18 @@ const Actualidad = () => {
     return (
         <div className="md:px-14 p-4 max-w-screen-2xl mx-auto space-y-10" id='about'>
             <h2 className="md:text-5xl text-3xl font-extrabold">ACTUALIDAD</h2>
-            <div className='flex items-center'>
+            {/*<div className='flex items-center'>
                 <button className="flex px-3 py-2 bg-primary mr-1 text-white font-semibold rounded">
                     <span>Noticias</span>
                 </button>
-
-                {/*<button className="flex px-3 py-2 bg-secondary mr-1 text-white font-semibold rounded">
+                <button className="flex px-3 py-2 bg-secondary mr-1 text-white font-semibold rounded">
                     <span>Eventos</span>
                 </button>
 
                 <button className="flex px-3 py-2 bg-secondary mr-1 text-white font-semibold rounded">
                     <span>Proyectos</span>
-                </button>*/}
-            </div>
+                </button>
+            </div>*/}
             <div className='flex flex-col md:flex-row justify-between items-center gap-8'>
                 <div className="container mx-auto p-4">
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">

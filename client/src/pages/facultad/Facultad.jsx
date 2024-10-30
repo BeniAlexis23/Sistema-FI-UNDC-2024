@@ -2,7 +2,7 @@ import Navbar from '../../components/Navbar';
 import Footer from '../../shared/Footer';
 import Almidon from '../../assets/c-almidon.png';
 
-import banner1 from '../../assets/banner1.png';
+import banner1 from '../../assets/banner1.jpg';
 import Banner from '../../shared/Banner';
 // motion
 import { motion } from 'framer-motion';

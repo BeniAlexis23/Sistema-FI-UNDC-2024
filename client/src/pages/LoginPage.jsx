@@ -3,7 +3,7 @@ import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-import banner2 from '../assets/banner2.png';
+import banner2 from '../assets/banner2.jpg';
 
 const LoginPage = () => {
 

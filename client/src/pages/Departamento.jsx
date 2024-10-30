@@ -39,7 +39,7 @@ const Departamento = () => {
                                         whileInView={"show"}
                                         viewport={{ once: true, amount: 0.7 }}
                                     >
-                                        <img src={Roque} class="w-full relative z-10" alt="" />
+                                        <img src={Oseda} class="w-full relative z-10" alt="" />
                                     </motion.div>
                                 </div>
                             </div>
@@ -52,13 +52,19 @@ const Departamento = () => {
                                 >
                                     <div class="mb-10">
                                         <p class="font-bold text-2xl mb-5">Director (e) del Departamento Académico de Ingenieria de Sistemas</p>
-                                        <h1 className="font-bold text-3xl mb-5">Dr. Edwin Roque Tito</h1>
-                                        <p class="text-sm text-justify lg:mr-10">Docente Universitario de Pre y Posgrado, con experiencia en: Proyectos de desarrollo de software, implementación de sistemas de información en
-                                            todas sus etapas, administración de base de datos y sistemas operativos; orientados al logro de objetivos y cumplir metas organizacionales. Formación profesional en
-                                            constante actualización, aprovecho cada momento y espacio del que hacer universitario; Ingeniero de Sistemas de profesión, Magister Scientiae en Informática por
-                                            la Universidad Nacional del Altiplano, Doctor en Ingeniería de Sistemas por la Universidad Nacional Federico Villarreal, Maestría en Integración e Innovación de
-                                            TI en la PUCP y segunda Especialidad en Formulación y Evaluación de Proyectos de Inversión en la UNA; mi objetivo personal es formar parte de un gran equipo de trabajo,
-                                            donde pueda aportar mi experiencia en el área de Ingeniería de sistemas y telecomunicaciones, y continuar con mi desarrollo profesional.</p>
+                                        <h1 className="font-bold text-3xl mb-5">Ph.D. Dulio Oseda Gago</h1>
+                                        <p class="text-sm text-justify lg:mr-10">Docente universitario en la categoría de Principal, con más de 23 años de experiencia 
+                                            en investigación, gestión educacional y acreditación universitaria. Doctor en Ciencias de la Educación, Doctor en Psicología 
+                                            Educacional y Tutorial, Doctor en Educación, Doctor en Administración de la Educación, Doctor en Sistemas de Ingeniería, DBA in 
+                                            Business Administration, Ph.D. in Business Administration and Ph.D. in Scientific Research. Posdoctor en Ciencias de la Educación, 
+                                            Posdoctor en Sistemas Diacrónicos y Sincrónicos de la Investigación Científica, y Posdoctor in Big Data. Experiencia en gestión de 
+                                            proyectos, planificación estratégica, consecución de fondos concursables de cooperación técnica, organización de cursos y eventos 
+                                            científicos y publicación en revistas especializadas nacionales y extranjeras. Experiencia como docente universitario a nivel de 
+                                            pre y posgrado. Ponente en diversos eventos nacionales e internacionales. Ganador en la categoría de "Maestro" de las Palmas 
+                                            Magisteriales del MINEDU, Conferencista internacional de la OIICE. Fluente en italiano, portugués e inglés. Ha sido Vicerrector 
+                                            Académico en la Universidad Nacional Intercultural de la Amazonia de Ucayali y Vicerrector de Investigación en la Universidad Nacional 
+                                            Autónoma de Chota - Cajamarca. Actual docente investigador en la Universidad Nacional Mayor de San Marcos y Universidad Nacional 
+                                            de Cañete.</p>
                                     </div>
                                 </motion.div>
                             </div>
@@ -84,7 +90,7 @@ const Departamento = () => {
                             </div>
                             <div class="text-center py-8 sm:py-6">
                                 <p class="text-xl text-gray-700 font-bold mb-2">Dr. Wagner Vicente Ramos</p>
-                                <p class="text-base text-gray-400 font-normal">Director General (e) de la Escuela de Posgrado de la UNDC</p>
+                                <p class="text-base text-gray-400 font-normal">Responsable de Tutoria Académica de la Facultad de Ingeniería</p>
                             </div>
                         </div>
                     </motion.div>
@@ -94,11 +100,11 @@ const Departamento = () => {
                     >
                         <div class="w-full bg-white rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                             <div>
-                                <img class="object-center object-cover h-auto w-full" src={Oseda} alt="photo" />
+                                <img class="object-center object-cover h-auto w-full" src={Roque} alt="photo" />
                             </div>
                             <div class="text-center py-8 sm:py-6">
-                                <p class="text-xl text-gray-700 font-bold mb-2">Ph.D. Dulio Oseda Gago</p>
-                                <p class="text-base text-gray-400 font-normal">Director (e) del Centro de Investigación Científica de la UNDC</p>
+                                <p class="text-xl text-gray-700 font-bold mb-2">Dr. Edwin Roque Tito</p>
+                                <p class="text-base text-gray-400 font-normal">Responsable de Practicas Preprofesionales de la Facultad de Ingeniería</p>
                             </div>
                         </div>
                     </motion.div>

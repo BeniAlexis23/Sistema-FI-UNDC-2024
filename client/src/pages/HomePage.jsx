@@ -12,9 +12,9 @@ const HomePage = () => {
     <>
       <Navbar />
       <Home />
+      <Actualidad />
       <Newsletter />
       <Aacademica />
-      <Actualidad />
       <SInformacion />
       <Footer />
     </>

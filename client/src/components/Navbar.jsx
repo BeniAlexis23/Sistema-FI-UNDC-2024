@@ -65,8 +65,8 @@ const Navbar = () => {
                   {isEscuelaOpen && (
                     <ul className="absolute left-0 pl-4 mt-2 w-40 bg-white shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2">
                       <li className="border-b border-gray-200 py-1"><Link to={"/escuela"}>Ingeniería de Sistemas</Link></li>
-                      <li className="border-b border-gray-200 py-1"><Link to={"/escuela/tutoria"}>Tutoria</Link></li>
-                      <li className="border-b border-gray-200 py-1"><Link to={"/escuela/rsu"}>RSU</Link></li>
+                      <li className="border-b border-gray-200 py-1"><Link to={"https://tutoria.undc.edu.pe/Login/index.php"} target='_blank'>Tutoria</Link></li>
+                      <li className="border-b border-gray-200 py-1"><Link to={"https://portal.undc.edu.pe/proyeccionsocial/"} target='_blank'>RSU</Link></li>
                     </ul>
                   )}
                 </span>
@@ -119,8 +119,8 @@ const Navbar = () => {
           {isEscuelaOpen && (
             <ul className="absolute left-0 pl-4 mt-2 w-40 bg-secondary shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2 z-30">
               <li className="border-b border-gray-200 py-1"><Link to={"/escuela"}>Ingeniería de Sistemas</Link></li>
-              <li className="border-b border-gray-200 py-1"><Link to={"/escuela/tutoria"}>Tutoria</Link></li>
-              <li className="border-b border-gray-200 py-1"><Link to={"/escuela/rsu"}>RSU</Link></li>
+              <li className="border-b border-gray-200 py-1"><Link to={"https://tutoria.undc.edu.pe/Login/index.php"} target='_blank'>Tutoria</Link></li>
+              <li className="border-b border-gray-200 py-1"><Link to={"https://portal.undc.edu.pe/proyeccionsocial/"} target='_blank'>RSU</Link></li>
             </ul>
           )}
         </span>
