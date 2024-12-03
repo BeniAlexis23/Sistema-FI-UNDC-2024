@@ -200,7 +200,7 @@ const Escuela = () => {
                                     </div>
                                 </div>
                                 <div class="h-50 ml-4 flex w-auto flex-col justify-center">
-                                    <h4 class="text-xl font-bold text-navy-700 text-black">Reglamento de PPP</h4>
+                                    <Link to={"https://drive.google.com/drive/folders/10no5Ew5dja2WeSYvEDC7FYmhFYy4NalP?usp=sharing"} target='_blank'><h4 class="text-xl font-bold text-navy-700 text-black">Reglamento de PPP</h4></Link>
                                 </div>
                             </div>
                             <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
@@ -212,7 +212,7 @@ const Escuela = () => {
                                     </div>
                                 </div>
                                 <div class="h-50 ml-4 flex w-auto flex-col justify-center">
-                                    <h4 class="text-xl font-bold text-navy-700 text-black">Formatos de PPP</h4>
+                                    <Link to={"https://drive.google.com/drive/folders/1s8yv6N1PvbwZBLpKKxeUWcKWSFWRB0r3?usp=sharing"} target='_blank'><h4 class="text-xl font-bold text-navy-700 text-black">Formatos de PPP</h4></Link>
                                 </div>
                             </div>
                         </div>
@@ -230,7 +230,7 @@ const Escuela = () => {
                                     </div>
                                 </div>
                                 <div class="h-50 ml-4 flex w-auto flex-col justify-center">
-                                    <h4 class="text-xl font-bold text-navy-700 text-black">Reglamento de RSU</h4>
+                                    <Link to={"https://drive.google.com/file/d/1XN9mCYqLui66LLy34WULbCk9G9zHJVHv/view?usp=sharing"} target='_blank'><h4 class="text-xl font-bold text-navy-700 text-black">Reglamento de RSU</h4></Link>
                                 </div>
                             </div>
                             <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
@@ -242,7 +242,7 @@ const Escuela = () => {
                                     </div>
                                 </div>
                                 <div class="h-50 ml-4 flex w-auto flex-col justify-center">
-                                    <h4 class="text-xl font-bold text-navy-700 text-black">Formatos de RSU</h4>
+                                    <Link to={"https://portal.undc.edu.pe/proyeccionsocial/base-legal/"} target='_blank'><h4 class="text-xl font-bold text-navy-700 text-black">Formatos de RSU</h4></Link>
                                 </div>
                             </div>
                         </div>
