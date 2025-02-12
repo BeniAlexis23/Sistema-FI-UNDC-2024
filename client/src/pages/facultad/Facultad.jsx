@@ -1,6 +1,6 @@
 import Navbar from '../../components/Navbar';
 import Footer from '../../shared/Footer';
-import Almidon from '../../assets/c-almidon.png';
+import Oseda from '../../assets/d-oseda.png'
 
 import banner1 from '../../assets/banner1.jpg';
 import Banner from '../../shared/Banner';
@@ -42,7 +42,7 @@ const Facultad = () => {
                     whileInView={"show"}
                     viewport={{ once: true, amount: 0.7 }}
                   >
-                    <img src={Almidon} className="w-full relative z-10" alt="" />
+                    <img src={Oseda} className="w-full relative z-10" alt="" />
                   </motion.div>
                 </div>
               </div>
@@ -55,21 +55,19 @@ const Facultad = () => {
                 >
                   <div className="mb-10">
                     <p className="font-bold text-2xl mb-5">Cordinador (e) de la Facultad de Ingeniería</p>
-                    <h1 className="font-bold text-3xl mb-5">Dr. Carlos Alcides Almidón Ortiz</h1>
-                    <p className="text-sm text-justify lg:mr-10">Doctor en Sistemas de Ingeniería , Egresado Doctorado en Ingeniería de Sistemas,
-                      Magister en Ingeniería de Sistemas, Ingeniero de Sistemas, Colegiado, Docente Posgrado, docente universitario, Instructor Cisco
-                      CCNA, Especialista en comunicaciones, Consultor en comunicaciones con más de 15 años de experiencia (Supervisión, residencia, perfil,
-                      expedientes técnicos en el área), Certificado de CCNA Ciberseguridad, Certificado en diseño e instalación de sistemas domóticos,
-                      Certificado en diseño de Datacenter, Certificado en Instalación - Testing de Cableado Estructurado en Fibra y Cobre MMC, Curso
-                      de Especialización de Gestión por procesos PUCP, Diplomado en configuración de servidores, Diplomado en Gerencia, Diplomado en
-                      Didáctica Universitaria, Diplomado en Diseño y Gerencia de Proyectos de Inversión Pública, Diplomado en Modelamiento de Software,
-                      Diplomado en Gestión Basado en Procesos, Diplomado en Investigación Formativa, especialista en diseño de infraestructura de
-                      comunicaciones, seguridad e Informática con amplia trayectoria en consultoría en Tecnologías de Información y comunicación en
-                      Instituciones Públicas y Privadas; capacitador en Tecnologías de Información y expositor de Temas relacionados Gestión de Procesos,
-                      Tecnologías de información, Infraestructuras de comunicaciones.
-                      Interpretación fluida de las normas legales en base a la lectura constante, como entretenimiento y capacitación. Exigente en el
-                      cumplimiento oportuno de las obligaciones Institucionales, identificación plena con la institución donde presto servicios, asimismo
-                      con la problemática de los mismos.</p>
+                    <h1 className="font-bold text-3xl mb-5">Ph.D. Dulio Oseda Gago</h1>
+                    <p className="text-sm text-justify lg:mr-10">Docente universitario en la categoría de Principal, con más de 23 años de experiencia
+                      en investigación, gestión educacional y acreditación universitaria. Doctor en Ciencias de la Educación, Doctor en Psicología
+                      Educacional y Tutorial, Doctor en Educación, Doctor en Administración de la Educación, Doctor en Sistemas de Ingeniería, DBA in
+                      Business Administration, Ph.D. in Business Administration and Ph.D. in Scientific Research. Posdoctor en Ciencias de la Educación,
+                      Posdoctor en Sistemas Diacrónicos y Sincrónicos de la Investigación Científica, y Posdoctor in Big Data. Experiencia en gestión de
+                      proyectos, planificación estratégica, consecución de fondos concursables de cooperación técnica, organización de cursos y eventos
+                      científicos y publicación en revistas especializadas nacionales y extranjeras. Experiencia como docente universitario a nivel de
+                      pre y posgrado. Ponente en diversos eventos nacionales e internacionales. Ganador en la categoría de "Maestro" de las Palmas
+                      Magisteriales del MINEDU, Conferencista internacional de la OIICE. Fluente en italiano, portugués e inglés. Ha sido Vicerrector
+                      Académico en la Universidad Nacional Intercultural de la Amazonia de Ucayali y Vicerrector de Investigación en la Universidad Nacional
+                      Autónoma de Chota - Cajamarca. Actual docente investigador en la Universidad Nacional Mayor de San Marcos y Universidad Nacional
+                      de Cañete.</p>
                   </div>
                 </motion.div>
               </div>

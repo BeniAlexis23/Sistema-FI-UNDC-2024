@@ -1,6 +1,6 @@
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
-import Asto from '../assets/l-asto.png';
+import Vicente from '../assets/w-vicente.png';
 import Programcion from '../assets/programacion.jpg'
 import { Link } from 'react-router-dom';
 
@@ -42,7 +42,7 @@ const Escuela = () => {
                                         whileInView={"show"}
                                         viewport={{ once: true, amount: 0.7 }}
                                     >
-                                        <img src={Asto} class="w-full relative z-10" alt="" />
+                                        <img src={Vicente} class="w-full relative z-10" alt="" />
                                     </motion.div>
                                 </div>
                             </div>
@@ -55,11 +55,15 @@ const Escuela = () => {
                                 >
                                     <div class="mb-10">
                                         <p class="font-bold text-2xl mb-5">Director (e) de la Escuela Profesional de Ingeniería de Sistemas</p>
-                                        <h1 className="font-bold text-3xl mb-5">M.Sc. Leonidas Asto Huamán</h1>
-                                        <p class="text-sm text-justify lg:mr-10">De profesión, Ingeniero Informático y Sistemas con maestría en Informática, candidato a doctor en Ingeniería de Sistemas. Docente, con experiencia
-                                            en universidades públicas y privadas. Asesor de tesis. Áreas de investigación: Machine Learning, Redes Neuronales, Interacción Humano Computador, IoT, Sistemas Inteligentes,
-                                            Procesamiento Natural y BI. Con capacidad analizar, diseñar, construir, evaluar, diagnosticar, auditar y mantener sistemas informáticos aplicados en las diferentes áreas del
-                                            conocimiento. Dedicado a la Administración de Sistemas GNU/Linux.</p>
+                                        <h1 className="font-bold text-3xl mb-5">Dr. Wagner Enoc Vicente Ramos</h1>
+                                        <p class="text-sm text-justify lg:mr-10">Docente investigador de la Universidad Nacional de Cañete, con más de 15 años 
+                                            de experiencia en pre y posgrado. Doctor en Sistemas de Ingeniería, Magister en Gestión Educativa, Ingeniero de Sistemas 
+                                            y actual doctorando en Ciencias Económicas por la Universidad de Buenos Aires (Argentina). Desempeñé cargos de Director 
+                                            de Escuela de Ingeniería de Sistemas y Computación, Coordinador de Investigación de Ciencias de la Empresa, Coordinador 
+                                            de la Facultad de Ingeniería y Director de Escuela de Posgrado. Conferencista y par evaluador en congresos nacionales e 
+                                            internacionales como investigador RENACYT y miembro activo de IEEE Computer Society desarrollo temas de investigación 
+                                            entorno a ciencias de las organizaciones, transformación digital e inteligencia artificial; así mismo, soy integrante 
+                                            del comité editorial y revisor de diversas revistas científicas indexadas a Latindex y Scopus.</p>
                                     </div>
                                 </motion.div>
                             </div>

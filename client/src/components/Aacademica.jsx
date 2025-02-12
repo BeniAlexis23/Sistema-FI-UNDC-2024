@@ -1,7 +1,8 @@
 import academica1 from '../assets/a-academica1.png'
-import academica2 from '../assets/a-academica2.jpg'
+import academica2 from '../assets/a-academica2.png'
 import academica3 from '../assets/a-academica3.png'
-import academica4 from '../assets/a-academica4.jpg'
+import academica4 from '../assets/a-academica4.png'
+
 // motion
 import { motion } from 'framer-motion';
 // variants

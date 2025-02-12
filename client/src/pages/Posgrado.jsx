@@ -1,6 +1,6 @@
 import Navbar from '../components/Navbar'
 import Footer from '../shared/Footer'
-import Angoma from '../assets/m-angoma.png'
+import Almidon from '../assets/c-almidon.png'
 // motion
 import { motion } from 'framer-motion';
 // variants
@@ -33,7 +33,7 @@ const Posgrado = () => {
                     whileInView={"show"}
                     viewport={{ once: true, amount: 0.7 }}
                   >
-                    <img src={Angoma} class="w-full relative z-10" alt="" />
+                    <img src={Almidon} class="w-full relative z-10" alt="" />
                   </motion.div>
                 </div>
               </div>
@@ -46,14 +46,21 @@ const Posgrado = () => {
                 >
                   <div class="mb-10">
                     <p class="font-bold text-2xl mb-5">Director (e) de la Unidad de Posgrado de la Facultad de Ingeniería</p>
-                    <h1 className="font-bold text-3xl mb-5">Dra. Miriam Angoma Astucuri</h1>
-                    <p class="text-sm text-justify lg:mr-10">Docente universitaria de la Universidad Peruana los Andes Sede la Merced, coordinadora de Asuntos 
-                    Académicos del periodo académico 2010-I al 2016-II, Responsable de investigación en el periodo Académico 2017-I y responsable de posgrado durante 
-                    el periodo 2017-II; docente universitario en la Universidad Nacional de Huancavelica en la Escuela Profesional de Ingeniería de Sistemas en el 
-                    periodo académico 2018-I y 2018-II, jefa del área de producción de la Escuela Profesional de Ingeniería de Sistemas. Doctora en Sistemas de 
-                    Ingeniería de la Universidad Nacional de Centro del Perú, Magister en Administración, mención : Gestión de Proyectos de la Universidad Nacional 
-                    del Centro, Egresada de la segunda especialización en didáctica universitaria de la Universidad Peruana Los Andes, Egresada de la maestría en 
-                    docencia universitaria de la Universidad Peruana Los Andes.</p>
+                    <h1 className="font-bold text-3xl mb-5">Dr. Carlos Alcides Almidón Ortiz</h1>
+                    <p class="text-sm text-justify lg:mr-10">Doctor en Sistemas de Ingeniería , Egresado Doctorado en Ingeniería de Sistemas,
+                      Magister en Ingeniería de Sistemas, Ingeniero de Sistemas, Colegiado, Docente Posgrado, docente universitario, Instructor Cisco
+                      CCNA, Especialista en comunicaciones, Consultor en comunicaciones con más de 15 años de experiencia (Supervisión, residencia, perfil,
+                      expedientes técnicos en el área), Certificado de CCNA Ciberseguridad, Certificado en diseño e instalación de sistemas domóticos,
+                      Certificado en diseño de Datacenter, Certificado en Instalación - Testing de Cableado Estructurado en Fibra y Cobre MMC, Curso
+                      de Especialización de Gestión por procesos PUCP, Diplomado en configuración de servidores, Diplomado en Gerencia, Diplomado en
+                      Didáctica Universitaria, Diplomado en Diseño y Gerencia de Proyectos de Inversión Pública, Diplomado en Modelamiento de Software,
+                      Diplomado en Gestión Basado en Procesos, Diplomado en Investigación Formativa, especialista en diseño de infraestructura de
+                      comunicaciones, seguridad e Informática con amplia trayectoria en consultoría en Tecnologías de Información y comunicación en
+                      Instituciones Públicas y Privadas; capacitador en Tecnologías de Información y expositor de Temas relacionados Gestión de Procesos,
+                      Tecnologías de información, Infraestructuras de comunicaciones.
+                      Interpretación fluida de las normas legales en base a la lectura constante, como entretenimiento y capacitación. Exigente en el
+                      cumplimiento oportuno de las obligaciones Institucionales, identificación plena con la institución donde presto servicios, asimismo
+                      con la problemática de los mismos..</p>
                   </div>
                 </motion.div>
               </div>
