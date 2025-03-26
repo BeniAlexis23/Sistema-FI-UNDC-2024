@@ -56,13 +56,13 @@ const Escuela = () => {
                                     <div class="mb-10">
                                         <p class="font-bold text-2xl mb-5">Director (e) de la Escuela Profesional de Ingeniería de Sistemas</p>
                                         <h1 className="font-bold text-3xl mb-5">Dr. Wagner Enoc Vicente Ramos</h1>
-                                        <p class="text-sm text-justify lg:mr-10">Docente investigador de la Universidad Nacional de Cañete, con más de 15 años 
-                                            de experiencia en pre y posgrado. Doctor en Sistemas de Ingeniería, Magister en Gestión Educativa, Ingeniero de Sistemas 
-                                            y actual doctorando en Ciencias Económicas por la Universidad de Buenos Aires (Argentina). Desempeñé cargos de Director 
-                                            de Escuela de Ingeniería de Sistemas y Computación, Coordinador de Investigación de Ciencias de la Empresa, Coordinador 
-                                            de la Facultad de Ingeniería y Director de Escuela de Posgrado. Conferencista y par evaluador en congresos nacionales e 
-                                            internacionales como investigador RENACYT y miembro activo de IEEE Computer Society desarrollo temas de investigación 
-                                            entorno a ciencias de las organizaciones, transformación digital e inteligencia artificial; así mismo, soy integrante 
+                                        <p class="text-sm text-justify lg:mr-10">Docente investigador de la Universidad Nacional de Cañete, con más de 15 años
+                                            de experiencia en pre y posgrado. Doctor en Sistemas de Ingeniería, Magister en Gestión Educativa, Ingeniero de Sistemas
+                                            y actual doctorando en Ciencias Económicas por la Universidad de Buenos Aires (Argentina). Desempeñé cargos de Director
+                                            de Escuela de Ingeniería de Sistemas y Computación, Coordinador de Investigación de Ciencias de la Empresa, Coordinador
+                                            de la Facultad de Ingeniería y Director de Escuela de Posgrado. Conferencista y par evaluador en congresos nacionales e
+                                            internacionales como investigador RENACYT y miembro activo de IEEE Computer Society desarrollo temas de investigación
+                                            entorno a ciencias de las organizaciones, transformación digital e inteligencia artificial; así mismo, soy integrante
                                             del comité editorial y revisor de diversas revistas científicas indexadas a Latindex y Scopus.</p>
                                     </div>
                                 </motion.div>
@@ -84,9 +84,9 @@ const Escuela = () => {
                                     con habilidades, conocimientos y capacidades para un adecuado desenvolvimiento profesional en el campo Ingeniería de sistemas.
                                 </p>
                                 <p class="mt-2 text-gray-600 text-justify">
-                                    El egresado en Ingeniería de Sistemas, bajo un enfoque de competencias, busca fortalecer el vínculo con el sector laboral y 
-                                    potenciar el capital humano en un contexto de constantes cambios. Desarrolla competencias específicas en software, redes de 
-                                    comunicación (LAN y WAN), TIC con estándares internacionales, y soluciones de ciencia de datos e inteligencia artificial, con 
+                                    El egresado en Ingeniería de Sistemas, bajo un enfoque de competencias, busca fortalecer el vínculo con el sector laboral y
+                                    potenciar el capital humano en un contexto de constantes cambios. Desarrolla competencias específicas en software, redes de
+                                    comunicación (LAN y WAN), TIC con estándares internacionales, y soluciones de ciencia de datos e inteligencia artificial, con
                                     la investigación como eje central para la innovación y transferencia de conocimiento.
                                 </p>
                                 <p class="mt-2 text-gray-600 text-justify">El egresado en Ingeniería de Sistemas tendrá el potencial para convertirse en un profesional

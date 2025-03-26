@@ -1,16 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRcfs } from "../context/RcfsContext";
 import NavbarAdmin from "../components/NavbarAdmin";
 import { Link } from "react-router-dom";
 import { FaFileDownload } from "react-icons/fa";
-
 import Swal from 'sweetalert2';
 
 function RcfsPage() {
-
   const { getRcfs, deleteRcf, rcfs } = useRcfs();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedYear, setSelectedYear] = useState("2024");
+  const [selectedYear, setSelectedYear] = useState("2025");
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -20,14 +18,16 @@ function RcfsPage() {
     setSelectedYear(event.target.value);
   };
 
-  const filteredResoluciones = rcfs.filter((rcf) => {
-    const rcfYear = new Date(rcf.date).getFullYear().toString();
-    return (
-      (rcf.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        rcf.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
-      (selectedYear === "" || rcfYear === selectedYear)
-    );
-  });
+  const filteredResoluciones = useMemo(() => {
+    return rcfs.filter((rcf) => {
+      const rcfYear = new Date(rcf.date).getFullYear().toString();
+      return (
+        (rcf.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          rcf.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
+        (selectedYear === "" || rcfYear === selectedYear)
+      );
+    });
+  }, [rcfs, searchTerm, selectedYear]);
 
   useEffect(() => {
     getRcfs();
@@ -91,56 +91,13 @@ function RcfsPage() {
                   <h2>Selecciona el año:</h2>
                   <div className="inline-flex mt-2 xs:mt-0">
                     <select className="text-sm text-gray-900" onChange={handleYearChange} value={selectedYear}>
+                      <option value="2025">2025</option>
                       <option value="2024">2024</option>
                       <option value="2023">2023</option>
                     </select>
                   </div>
                 </div>
-                <table className="min-w-full leading-normal">
-                  <thead>
-                    <tr>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        N°
-                      </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Resolución
-                      </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Contenido
-                      </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Descarga
-                      </th>
-                      <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Acciones
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredResoluciones.map((rcf, index) => (
-                      <tr key={rcf._id}>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">{index + 1}</p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">{rcf.description}</p>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-                          <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
-                        </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-                          <div className="flex gap-x-2 items-center">
-                            <Link to={`/rcfs/${rcf._id}`} className="bg-yellow-500 px-4 py-1 rounded-sm">Editar</Link>
-                            <button className="bg-red-500 text-white px-4 py-1 rounded-sm" onClick={() => handleDelete(rcf._id)}>Eliminar</button>
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                <ResolucionesTable resoluciones={filteredResoluciones} onDelete={handleDelete} />
               </div>
             </div>
           </div>
@@ -149,5 +106,53 @@ function RcfsPage() {
     </>
   );
 }
+
+const ResolucionesTable = ({ resoluciones, onDelete }) => (
+  <table className="min-w-full leading-normal">
+    <thead>
+      <tr>
+        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          N°
+        </th>
+        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          Resolución
+        </th>
+        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          Contenido
+        </th>
+        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          Descarga
+        </th>
+        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+          Acciones
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {resoluciones.map((rcf, index) => (
+        <tr key={rcf._id}>
+          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p className="text-gray-900 whitespace-no-wrap">{index + 1}</p>
+          </td>
+          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p className="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
+          </td>
+          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+            <p className="text-gray-900 whitespace-no-wrap">{rcf.description}</p>
+          </td>
+          <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
+            <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
+          </td>
+          <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
+            <div className="flex gap-x-2 items-center">
+              <Link to={`/rcfs/${rcf._id}`} className="bg-yellow-500 px-4 py-1 rounded-sm">Editar</Link>
+              <button className="bg-red-500 text-white px-4 py-1 rounded-sm" onClick={() => onDelete(rcf._id)}>Eliminar</button>
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+);
 
 export default RcfsPage;

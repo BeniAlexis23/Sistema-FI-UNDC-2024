@@ -1,6 +1,6 @@
 import Navbar from '../../components/Navbar';
 import Footer from '../../shared/Footer';
-import Oseda from '../../assets/d-oseda.png'
+import Oseda from '../../assets/d-oseda.png';
 
 import banner1 from '../../assets/banner1.jpg';
 import Banner from '../../shared/Banner';

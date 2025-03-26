@@ -46,7 +46,7 @@ const Investigacion = () => {
                                 >
                                     <div class="mb-10">
                                         <p class="font-bold text-2xl mb-5">Director (e) de la Unidad de Investigación de la Facultad de Ingeniería</p>
-                                        <h1 className="font-bold text-3xl mb-5">Mg. Amanda Duran Carhuamaca</h1>
+                                        <h1 className="font-bold text-3xl mb-5">Dra. Amanda Duran Carhuamaca</h1>
                                         <p class="text-sm text-justify lg:mr-10">Profesional encauzada en alcanzar objetivos con base en el uso de tecnología. Magister en Informática de
                                             la Pontificia Universidad Católica del Perú, Ingeniera de Sistemas, candidata a Doctora en Ingeniería de Sistemas, Doctorado en Docencia Universitaria.
                                             Con experiencia en la gestión y dirección de proyectos en diferentes organizaciones. Analista Funcional de proyectos de software. Experiencia en

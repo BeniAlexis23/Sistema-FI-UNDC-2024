@@ -1,22 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { getResolucionesRequest } from "../../api/rcfs";
-
 import { FaFileDownload } from "react-icons/fa";
-
 import Navbar from '../../components/Navbar';
 import Footer from '../../shared/Footer';
 import { Link } from "react-router-dom";
-
-// motion
 import { motion } from 'framer-motion';
-// variants
 import { fadeIn } from '../../variants';
 
 const Resoluciones = () => {
-
     const [resoluciones, setResoluciones] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedYear, setSelectedYear] = useState("2024");
+    const [selectedYear, setSelectedYear] = useState("2025");
+    const [error, setError] = useState(null);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -26,21 +21,23 @@ const Resoluciones = () => {
         setSelectedYear(event.target.value);
     };
 
-
-    const filteredResoluciones = resoluciones.filter((rcf) => {
-        const rcfYear = new Date(rcf.date).getFullYear().toString();
-        return (
-            (rcf.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                rcf.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
-            (selectedYear === "" || rcfYear === selectedYear)
-        );
-    });
+    const filteredResoluciones = useMemo(() => {
+        return resoluciones.filter((rcf) => {
+            const rcfYear = new Date(rcf.date).getFullYear().toString();
+            return (
+                (rcf.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    rcf.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
+                (selectedYear === "" || rcfYear === selectedYear)
+            );
+        });
+    }, [resoluciones, searchTerm, selectedYear]);
 
     const getResoluciones = async () => {
         try {
             const res = await getResolucionesRequest();
             setResoluciones(res.data);
         } catch (error) {
+            setError("Error al cargar las resoluciones. Por favor, inténtalo de nuevo más tarde.");
             console.log(error);
         }
     }
@@ -49,13 +46,12 @@ const Resoluciones = () => {
         getResoluciones();
     }, []);
 
-
     return (
         <>
             <Navbar />
             <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-24">
                 <div className="bg-white p-8 rounded-md w-full">
-                    <div className=" flex items-center justify-between pb-6">
+                    <div className="flex items-center justify-between pb-6">
                         <div>
                             <motion.div
                                 variants={fadeIn("right", 0.2)}
@@ -78,6 +74,7 @@ const Resoluciones = () => {
                             </div>
                         </div>
                     </div>
+                    {error && <div className="text-red-500">{error}</div>}
                     <motion.div
                         variants={fadeIn("up", 0.2)}
                         initial="hidden"
@@ -91,6 +88,7 @@ const Resoluciones = () => {
                                         <h2>Selecciona el año:</h2>
                                         <div className="inline-flex mt-2 xs:mt-0">
                                             <select className="text-sm text-gray-900" onChange={handleYearChange} value={selectedYear}>
+                                                <option value="2025">2025</option>
                                                 <option value="2024">2024</option>
                                                 <option value="2023">2023</option>
                                                 {/* Agrega más opciones según necesites */}

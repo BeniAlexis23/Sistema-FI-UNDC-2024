@@ -110,6 +110,20 @@ const Departamento = () => {
                     >
                         <div class="w-full bg-white rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
                             <div>
+                                <img class="object-center object-cover h-auto w-full" src={Larico} alt="photo" />
+                            </div>
+                            <div class="text-center py-8 sm:py-6">
+                                <p class="text-xl text-gray-700 font-bold mb-2">Dr. Guido Larico Uchamaco</p>
+                                <p class="text-base text-gray-400 font-normal">Docente Principal</p>
+                            </div>
+                        </div>
+                    </motion.div>
+                    <motion.div
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.7 }}
+                    >
+                        <div class="w-full bg-white rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
+                            <div>
                                 <img class="object-center object-cover h-auto w-full" src={Vicente} alt="photo" />
                             </div>
                             <div class="text-center py-8 sm:py-6">

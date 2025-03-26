@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import UndcLogo from '../assets/es-undc.png'
+
 const Sidebar = () => {
     return (
         <>
@@ -8,7 +10,7 @@ const Sidebar = () => {
                 <div className="flex h-screen flex-col justify-between pt-2 pb-6">
                     <div>
                         <div className="w-max p-2.5">
-                            <img src="./src/assets/es-undc.png" className="h-9 w-8" />
+                            <img src={UndcLogo} className="h-9 w-8" />
                         </div>
                         <ul className="mt-6 space-y-2 tracking-wide">
                             <li className="min-w-max">
