@@ -1,18 +1,18 @@
 import Navbar from '../components/Navbar'
 import Footer from '../shared/Footer'
 
-import Oseda from '../assets/d-oseda.png'
-import Vicente from '../assets/w-vicente.png'
-import Almidon from '../assets/c-almidon.png'
-import Roque from '../assets/e-roque.jpg'
-import Duran from '../assets/a-duran.png'
-import Pacheco from '../assets/a-pacheco.png'
-import Angoma from '../assets/m-angoma.png'
-import Ferreyros from '../assets/j-ferreyros.png'
-import Larico from '../assets/g-larico.png'
-import Asto from '../assets/l-asto.png'
-import Aranguena from '../assets/m-aranguena.png'
-import Huancahuire from '../assets/c-huancahuire.png'
+import Oseda from '../assets/d-oseda.webp'
+import Vicente from '../assets/w-vicente.webp'
+import Almidon from '../assets/c-almidon.webp'
+import Roque from '../assets/e-roque.webp'
+import Duran from '../assets/a-duran.webp'
+import Pacheco from '../assets/a-pacheco.webp'
+import Angoma from '../assets/m-angoma.webp'
+import Ferreyros from '../assets/j-ferreyros.webp'
+import Larico from '../assets/g-larico.webp'
+import Asto from '../assets/l-asto.webp'
+import Aranguena from '../assets/m-aranguena.webp'
+import Huancahuire from '../assets/c-huancahuire.webp'
 
 // motion
 import { motion } from 'framer-motion';
@@ -46,7 +46,7 @@ const Departamento = () => {
                                         whileInView={"show"}
                                         viewport={{ once: true, amount: 0.7 }}
                                     >
-                                        <img src={Larico} class="w-full relative z-10" alt="" />
+                                        <img src={Asto} class="w-full relative z-10" alt="" />
                                     </motion.div>
                                 </div>
                             </div>
@@ -59,22 +59,13 @@ const Departamento = () => {
                                 >
                                     <div class="mb-10">
                                         <p class="font-bold text-2xl mb-5">Director (e) del Departamento Académico de Ingenieria de Sistemas</p>
-                                        <h1 className="font-bold text-3xl mb-5">Dr. Guido Raúl Larico Uchamaco</h1>
-                                        <p class="text-sm text-justify lg:mr-10">Docente ordinario principal en la Universidad Nacional de
-                                            Cañete - Lima e investigador RENACYT, con una destacada trayectoria en el ámbito académico y
-                                            tecnológico. Posee el grado académico de Doctor, con estudios de Doctorado en Ingeniería de Sistemas
-                                            en la Universidad Nacional Federico Villarreal y Doctorado en Educación en la Universidad Nacional
-                                            Enrique Guzmán y Valle. Además, cuenta con una Maestría en Informática por la Universidad Nacional
-                                            del Altiplano y una Maestría en Docencia Universitaria por la Universidad Nacional Enrique Guzmán y
-                                            Valle. Se ha desempeñado como consultor y desarrollador de tecnologías libres y abiertas en proyectos
-                                            de software para diversas entidades del sector público y privado. Asimismo, ha participado como
-                                            capacitador y webmaster en el Programa Nacional de Formación y Capacitación Permanente
-                                            del Ministerio de Educación. Cuenta con una sólida experiencia en la dirección y asesoramiento de proyectos de tesis, tanto
-                                            de pregrado como de posgrado, contribuyendo significativamente al desarrollo de investigaciones
-                                            en diversas áreas del conocimiento. En el ámbito académico, imparte sus conocimientos en las asignaturas de Metodología de la
-                                            Investigación Científica y Tesis, desempeñándose como metodólogo, brindando formación
-                                            especializada en investigación y guiando a estudiantes en la construcción de sus trabajos
-                                            académicos con rigor científico.</p>
+                                        <h1 className="font-bold text-3xl mb-5">M.Sc. Leonidas Asto Huamán</h1>
+                                        <p class="text-sm text-justify lg:mr-10">De profesión, Ingeniero Informático y Sistemas con maestría en Informática,
+                                            candidato a doctor en Ingeniería de Sistemas. Docente, con experiencia en universidades públicas y privadas.
+                                            Asesor de tesis. Áreas de investigación: Machine Learning, Redes Neuronales, Interacción Humano Computador, IoT,
+                                            Sistemas Inteligentes, Procesamiento Natural y BI. Con capacidad analizar, diseñar, construir, evaluar,
+                                            diagnosticar, auditar y mantener sistemas informáticos aplicados en las diferentes áreas del conocimiento.
+                                            Dedicado a la Administración de Sistemas GNU/Linux.</p>
                                     </div>
                                 </motion.div>
                             </div>

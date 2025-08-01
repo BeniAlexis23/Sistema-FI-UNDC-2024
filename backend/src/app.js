@@ -9,6 +9,7 @@ import path from 'path';
 import authRoutes from "./routes/auth.routes.js";
 import noticesRoutes from "./routes/notices.routes.js";
 import rcfsRoutes from "./routes/rcfs.routes.js";
+import decretosRoutes from "./routes/decretos.routes.js";
 
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -31,6 +32,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Servir 
 app.use("/api", authRoutes);
 app.use("/api", noticesRoutes);
 app.use("/api", rcfsRoutes);
+app.use("/api", decretosRoutes);
 
 app.use(express.static('dist'));
 

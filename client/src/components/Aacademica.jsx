@@ -1,7 +1,7 @@
-import academica1 from '../assets/a-academica1.png'
-import academica2 from '../assets/a-academica2.png'
-import academica3 from '../assets/a-academica3.png'
-import academica4 from '../assets/a-academica4.png'
+import academica1 from '../assets/a-academica1.webp'
+import academica2 from '../assets/a-academica2.webp'
+import academica3 from '../assets/a-academica3.webp'
+import academica4 from '../assets/a-academica4.webp'
 
 // motion
 import { motion } from 'framer-motion';
@@ -22,7 +22,7 @@ const Aacademica = () => {
                             whileInView={"show"}
                             viewport={{ once: true, amount: 0.7 }}
                         >
-                            <a href="https://tallerfi.undc.edu.pe/inicio/" target='_blank'>
+                            <a href="#" target='_blank'>
                                 <div className='bg-[rgba(255, 255, 255, 0.04)] rounded-[35px] h-96 shadow-3xl p-8 items-center flex justify-center hover:-translate-y-4 transition-all duration-300 cursor-pointer md:mt-16'>
                                     <div>
                                         <img src={academica1} alt="" className='object-center object-cover h-auto w-full' />
@@ -40,7 +40,7 @@ const Aacademica = () => {
                             <div className='bg-[rgba(255, 255, 255, 0.04)] rounded-[35px] h-96 shadow-3xl p-8 items-center flex justify-center hover:-translate-y-4 transition-all duration-300 cursor-pointer'>
                                 <div>
                                     <img src={academica2} alt="" className='object-center object-cover h-auto w-full' />
-                                    <h5 className='text-2xl font-semibold px-5 text-center mt-5'>Presentación de Productos Académicos</h5>
+                                    <h5 className='text-2xl font-semibold px-5 text-center mt-5'>Exposición de Productos Académicos</h5>
                                 </div>
                             </div>
                         </motion.div>
@@ -53,7 +53,7 @@ const Aacademica = () => {
                             <div className='bg-[rgba(255, 255, 255, 0.04)] rounded-[35px] h-96 shadow-3xl p-8 items-center flex justify-center hover:-translate-y-4 transition-all duration-300 cursor-pointer md:mt-16'>
                                 <div>
                                     <img src={academica3} alt="" className='object-center object-cover h-auto w-full' />
-                                    <h5 className='text-2xl font-semibold px-5 text-center mt-5'>Semillero de Investigación</h5>
+                                    <h5 className='text-2xl font-semibold px-5 text-center mt-5'>Ferias de Investigación Formativa</h5>
                                 </div>
                             </div>
                         </motion.div>
@@ -66,7 +66,7 @@ const Aacademica = () => {
                             <div className='bg-[rgba(255, 255, 255, 0.04)] rounded-[35px] h-96 shadow-3xl p-8 items-center flex justify-center hover:-translate-y-4 transition-all duration-300 cursor-pointer'>
                                 <div>
                                     <img src={academica4} alt="" className='object-center object-cover h-auto w-full' />
-                                    <h5 className='text-2xl font-semibold px-5 text-center mt-5'>Reencuentro de Egresados</h5>
+                                    <h5 className='text-2xl font-semibold px-5 text-center mt-5'>Pausas Activas</h5>
                                 </div>
                             </div>
                         </motion.div>

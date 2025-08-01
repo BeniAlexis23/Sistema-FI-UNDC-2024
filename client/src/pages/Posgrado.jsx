@@ -1,6 +1,6 @@
 import Navbar from '../components/Navbar'
 import Footer from '../shared/Footer'
-import Almidon from '../assets/c-almidon.png'
+import Almidon from '../assets/c-almidon.webp'
 // motion
 import { motion } from 'framer-motion';
 // variants

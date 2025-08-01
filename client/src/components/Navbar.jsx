@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import logo from '../assets/es-undc.png';
-import logo2 from '../assets/logo-fi.jpg'
+import logo2 from '../assets/logo-fi.png';
 import { FaXmark, FaBars } from "react-icons/fa6";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { Link } from 'react-router-dom';
@@ -40,7 +40,8 @@ const Navbar = () => {
           <div className='flex space-x-14 items-center'>
             <a href="/" className='text-2xl font-semibold flex items-center space-x-3'>
               <img src={logo} alt="" className='w-10 inline-block items-center' />
-              <span>FI-UNDC</span>
+              <img src={logo2} alt="" className='w-10 inline-block items-center' />
+              <span>FI - UNDC</span>
             </a>
             <ul className='md:flex space-x-12 hidden'>
               <li>
@@ -80,7 +81,9 @@ const Navbar = () => {
                   </button>
                   {isEventosOpen && (
                     <ul className="absolute left-0 pl-4 mt-2 w-40 bg-white shadow-lg rounded-md p-2 border border-zinc-200 flex flex-col gap-2">
-                      <li className="border-b border-gray-200 py-1"><Link to={"https://ciisic.fiundc.tech/"} target='_blank'>VI CIISIC</Link></li>
+                      <li className="border-b border-gray-200 py-1"><Link to={"#"} target='_blank'>VII CIISIC</Link></li>
+                      <li className="border-b border-gray-200 py-1"><Link to={"https://jepa.episundc.pe/"} target='_blank'>V JEPA</Link></li>
+                      <li className="border-b border-gray-200 py-1"><Link to={"https://uifi.episundc.pe/"} target='_blank'>IV FEINFO</Link></li>
                     </ul>
                   )}
                 </span>

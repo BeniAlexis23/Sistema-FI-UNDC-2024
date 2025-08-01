@@ -1,7 +1,9 @@
 import axios from './axios'
 
+/* APIs sin autenticación */
 export const getResolucionesRequest = () => axios.get('/resoluciones')
 
+/* APIs protegidas con autenticación */
 export const getRcfsRequest = () => axios.get('/rcfs')
 
 export const getRcfRequest = (id) => axios.get(`/rcfs/${id}`)

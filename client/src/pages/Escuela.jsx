@@ -1,7 +1,7 @@
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
-import Vicente from '../assets/w-vicente.png';
-import Programcion from '../assets/programacion.jpg'
+import Vicente from '../assets/w-vicente.webp';
+import Programacion from '../assets/programacion.webp'
 import { Link } from 'react-router-dom';
 
 import { HiOutlineClipboardDocumentList } from "react-icons/hi2";
@@ -76,7 +76,7 @@ const Escuela = () => {
                         <h2 class="text-gray-900 font-bold text-3xl md:text-4xl mb-4">Perfil del Egresado en Ingeniería de Sistemas</h2>
                         <div class="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
                             <div class="md:5/12 lg:w-5/12">
-                                <img src={Programcion} alt="image" loading="lazy" width="" height="" />
+                                <img src={Programacion} alt="image" loading="lazy" width="" height="" />
                             </div>
                             <div class="md:7/12 lg:w-6/12">
                                 <p class="mt-6 text-gray-600 text-justify">

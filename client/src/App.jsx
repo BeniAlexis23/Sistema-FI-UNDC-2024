@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { NoticeProvider } from './context/NoticesContext';
 import { RcfProvider } from './context/RcfsContext';
+import { DecretoProvider } from './context/UI-DecretosContext';
 
 /*import RegisterPage from './pages/RegisterPage';*/
 import LoginPage from './pages/LoginPage';
@@ -23,6 +24,10 @@ import Investigacion from './pages/Investigacion';
 import Posgrado from './pages/Posgrado';
 import Contacto from './pages/Contacto';
 
+/*Decretos */
+import DecretosPage from './pages/DecretosPages';
+import DecretosFormPage from './pages/DecretosFormPage';
+
 import ProtectedRoute from './ProtectedRoute';
 
 import ScrollToTop from './utils/ScrollToTop';
@@ -32,41 +37,51 @@ const App = () => {
     <AuthProvider>
       <NoticeProvider>
         <RcfProvider>
-          <HashRouter>
-            <ScrollToTop />
-            <Routes>
-              {/* Rutas Públicas */}
-              <Route path="/" element={<HomePage />} />
-              <Route path="/facultad" element={<Facultad />} />
-              <Route path="/facultad/resoluciones" element={<Resoluciones />} />
-              <Route path="/noticias" element={<Noticias />} />
-              <Route path="/noticias/:id" element={<Noticia_Id />} />
-              <Route path="/departamento" element={<Departamento />} />
-              <Route path="/escuela" element={<Escuela />} />
-              <Route path="/escuela/tutoria" element={<Escuela />} />
-              <Route path="/escuela/rsu" element={<Escuela />} />
-              <Route path="/investigacion" element={<Investigacion />} />
-              <Route path="/posgrado" element={<Posgrado />} />
-              <Route path="/contacto" element={<Contacto />} />
+          <DecretoProvider>
+            <HashRouter>
+              <ScrollToTop />
+              <Routes>
+                {/* Rutas Públicas */}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/facultad" element={<Facultad />} />
+                <Route path="/facultad/resoluciones" element={<Resoluciones />} />
+                <Route path="/noticias" element={<Noticias />} />
+                <Route path="/noticias/:id" element={<Noticia_Id />} />
+                <Route path="/departamento" element={<Departamento />} />
+                <Route path="/escuela" element={<Escuela />} />
+                <Route path="/escuela/tutoria" element={<Escuela />} />
+                <Route path="/escuela/rsu" element={<Escuela />} />
+                <Route path="/investigacion" element={<Investigacion />} />
+                <Route path="/posgrado" element={<Posgrado />} />
+                <Route path="/contacto" element={<Contacto />} />
 
-              {/* Rutas Admin y Protegidas */}
-              <Route path="/login" element={<LoginPage />} />
-              {/*<Route path="/register" element={<RegisterPage />} />*/}
-              <Route element={<ProtectedRoute />}>
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/notices" element={<NoticesPage />} />
-                <Route path="/add-notice" element={<NoticesFormPage />} />
-                <Route path="/notices/:id" element={<NoticesFormPage />} />
-              </Route>
+                {/* Rutas Admin y Protegidas */}
+                <Route path="/login" element={<LoginPage />} />
+                {/*<Route path="/register" element={<RegisterPage />} />*/}
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/notices" element={<NoticesPage />} />
+                  <Route path="/add-notice" element={<NoticesFormPage />} />
+                  <Route path="/notices/:id" element={<NoticesFormPage />} />
+                </Route>
 
-              {/* Rutas protegidas para Usuario especifico */}
-              <Route element={<ProtectedRoute requiredEmail="bluyo@undc.edu.pe" /*'coordinacioningenieria@undc.edu.pe'*/ />}>
-                <Route path="/rcfs" element={<RcfsPage />} />
-                <Route path="/add-rcf" element={<RcfsFormPage />} />
-                <Route path="/rcfs/:id" element={<RcfsFormPage />} />
-              </Route>
-            </Routes>
-          </HashRouter>
+                {/* Rutas protegidas para Usuario especifico */}
+                <Route element={<ProtectedRoute requiredEmail="bluyo@undc.edu.pe" /*'coordinacioningenieria@undc.edu.pe'*/ />}>
+                  <Route path="/rcfs" element={<RcfsPage />} />
+                  <Route path="/add-rcf" element={<RcfsFormPage />} />
+                  <Route path="/rcfs/:id" element={<RcfsFormPage />} />
+                </Route>
+
+                {/* Rutas de Decretos */}
+                <Route element={<ProtectedRoute requiredEmail="bluyo@undc.edu.pe" /*'coordinacioningenieria@undc.edu.pe'*/ />}>
+                  <Route path="/decretos" element={<DecretosPage />} />
+                  <Route path="/add-decreto" element={<DecretosFormPage />} />
+                  <Route path="/decretos/:id" element={<DecretosFormPage />} />
+                </Route>
+
+              </Routes>
+            </HashRouter>
+          </DecretoProvider>
         </RcfProvider>
       </NoticeProvider>
     </AuthProvider>

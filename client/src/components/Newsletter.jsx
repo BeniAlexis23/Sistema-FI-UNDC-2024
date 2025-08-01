@@ -1,5 +1,5 @@
 import Banner from "../shared/Banner"
-import newImg from "../assets/newImg.png"
+import newImg from "../assets/newImg.webp"
 
 const Newsletter = () => {
     return (
