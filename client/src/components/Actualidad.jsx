@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getNoticiasRequest } from "../api/notices";
+import CardLanding from "./CardLanding";
 
 import { Link } from 'react-router-dom';
 
@@ -44,21 +45,26 @@ const Actualidad = () => {
             </div>*/}
             <div className='flex flex-col md:flex-row justify-between items-center gap-8'>
                 <div className="container mx-auto p-4">
+
+                    {/*Card */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-4">
-                        {
-                            noticias.slice(-4).reverse().map((notice, index) => (
-                                <div key={index} className="bg-white rounded-lg border p-4">
-                                    <img src={`http://localhost:3000${notice.imageUrl}`} /*Produccion: 'https://fi.undc.edu.pe' */ alt="Placeholder Image" className="w-full h-48 rounded-md object-cover" />
-                                    <div className="px-1 py-4">
-                                        <h1 className="font-bold text-2xl mb-2">{truncateText(notice.title, maxLengthT)}</h1>
-                                    </div>
-                                    <div className="px-1 py-1">
-                                        <Link to={`/noticias/${notice._id}`} className="text-blue-500 hover:underline">Leer</Link>
-                                    </div>
-                                </div>
-                            ))
-                        }
+                        {noticias.slice(-4).reverse().map((notice, index) => (
+                            <CardLanding
+                                key={index}
+                                news={{
+                                    title: notice.title,
+                                    image: `http://localhost:3000${notice.imageUrl}`/*Produccion: 'https://fi.undc.edu.pe' */,
+                                    author: notice.author || "Administrador",
+                                    publishDate: new Date(notice.date).toLocaleDateString("es-PE") || "Fecha desconocida",
+                                    readTime: notice.readTime || "2 min",
+                                    summary: truncateText(notice.description, maxLengthT) || "Sin resumen",
+                                    category: notice.category || "General",
+                                    id: notice._id
+                                }}
+                            />
+                        ))}
                     </div>
+
                 </div>
             </div>
             <div className="items-center flex justify-center">
@@ -70,4 +76,4 @@ const Actualidad = () => {
     )
 }
 
-export default Actualidad
+export default Actualidad;
