@@ -80,4 +80,4 @@ const Facultad = () => {
   )
 }
 
-export default Facultad
+export default Facultad;
