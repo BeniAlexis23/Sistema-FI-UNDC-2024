@@ -104,7 +104,7 @@ const Investigacion = () => {
                     </div>
                 </div>
 
-                {/*Lista de Decretos*/}
+                {/*Lista de Decretos
                 <div className="bg-white p-8 rounded-md w-full">
                     <div className="flex items-center justify-between pb-6">
                         <div>
@@ -146,7 +146,6 @@ const Investigacion = () => {
                                                 <option value="2025">2025</option>
                                                 <option value="2024">2024</option>
                                                 <option value="2023">2023</option>
-                                                {/* Agrega más opciones según necesites */}
                                             </select>
                                         </div>
                                     </div>
@@ -198,7 +197,7 @@ const Investigacion = () => {
                             </div>
                         </div>
                     </motion.div>
-                </div>
+                </div> */}
 
             </section>
             <Footer />

@@ -162,7 +162,7 @@ const Escuela = () => {
                         {/*Cards */}
                         <h4 class="text-2xl mt-6 text-gray-900 font-bold inline-flex items-start">
                             <MdCheckCircle class="mr-2 inline" />
-                            Planes de estudios vigentes
+                            Plane de estudios vigente
                         </h4>
                         <div class="md:min-w-[700px] xl:min-w-[800px] mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 justify-center mx-auto">
                             <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
@@ -175,18 +175,6 @@ const Escuela = () => {
                                 </div>
                                 <div class="h-50 ml-4 flex w-auto flex-col justify-center">
                                     <Link to={"https://drive.google.com/file/d/1ve1jDeKrh475vw2V3dyF3pU9BkzsWcSx/view?usp=sharing"} target='_blank'><h4 class="text-xl font-bold text-navy-700 text-black">Plan de estudios 2024</h4></Link>
-                                </div>
-                            </div>
-                            <div class="relative flex flex-grow !flex-row flex-col items-center rounded-[10px] border-[2px] bg-white shadow-md dark:border-[#00000033]">
-                                <div class="ml-[18px] flex h-[90px] w-auto flex-row items-center">
-                                    <div class="rounded-full bg-lightPrimary p-3 dark:bg-gray-300">
-                                        <span class="flex items-center text-brand-500 text-black text-3xl">
-                                            <HiOutlineClipboardDocumentList />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="h-50 ml-4 flex w-auto flex-col justify-center">
-                                    <Link to={"https://drive.google.com/file/d/16v8FIV--vDkHz8Mg6jP-YQvrMduPtHKF/view?usp=sharing"} target='_blank'><h4 class="text-xl font-bold text-navy-700 text-black">Plan de estudios 2016</h4></Link>
                                 </div>
                             </div>
                         </div>

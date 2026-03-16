@@ -10,7 +10,7 @@ import { fadeIn } from '../../variants';
 const Resoluciones = () => {
     const [resoluciones, setResoluciones] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [selectedYear, setSelectedYear] = useState("2025");
+    const [selectedYear, setSelectedYear] = useState("2026");
     const [error, setError] = useState(null);
 
     const handleSearchChange = (event) => {
@@ -88,6 +88,7 @@ const Resoluciones = () => {
                                         <h2>Selecciona el año:</h2>
                                         <div className="inline-flex mt-2 xs:mt-0">
                                             <select className="text-sm text-gray-900" onChange={handleYearChange} value={selectedYear}>
+                                                <option value="2026">2026</option>
                                                 <option value="2025">2025</option>
                                                 <option value="2024">2024</option>
                                                 <option value="2023">2023</option>
