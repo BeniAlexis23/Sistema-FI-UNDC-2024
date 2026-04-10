@@ -156,7 +156,7 @@ const Departamento = () => {
                     whileInView={"show"}
                     viewport={{ once: true, amount: 0.7 }}
                   >
-                    <img src={Asto} class="w-full relative z-10" alt="" />
+                    <img src={Roque} class="w-full relative z-10" alt="" />
                   </motion.div>
                 </div>
               </div>
@@ -173,20 +173,19 @@ const Departamento = () => {
                       Sistemas
                     </p>
                     <h1 className="font-bold text-3xl mb-5">
-                      M.Sc. Leonidas Asto Huamán
+                      Ph.D. Edwin Roque Tito
                     </h1>
                     <p class="text-sm text-justify lg:mr-10">
-                      De profesión, Ingeniero Informático y Sistemas con
-                      maestría en Informática, candidato a doctor en Ingeniería
-                      de Sistemas. Docente, con experiencia en universidades
-                      públicas y privadas. Asesor de tesis. Áreas de
-                      investigación: Machine Learning, Redes Neuronales,
-                      Interacción Humano Computador, IoT, Sistemas Inteligentes,
-                      Procesamiento Natural y BI. Con capacidad analizar,
-                      diseñar, construir, evaluar, diagnosticar, auditar y
-                      mantener sistemas informáticos aplicados en las diferentes
-                      áreas del conocimiento. Dedicado a la Administración de
-                      Sistemas GNU/Linux.
+                      Docente Universitario de Pre y Posgrado, con experiencia en: Proyectos de desarrollo de software, 
+                      implementación de sistemas de información en todas sus etapas, administración de base de datos y 
+                      sistemas operativos; orientados al logro de objetivos y cumplir metas organizacionales. Formación 
+                      profesional en constante actualización, aprovecho cada momento y espacio del que hacer universitario; 
+                      Ingeniero de Sistemas de profesión, Magister Scientiae en Informática por la Universidad Nacional del 
+                      Altiplano, Doctor en Ingeniería de Sistemas por la Universidad Nacional Federico Villarreal, Maestría 
+                      en Integración e Innovación de TI en la PUCP y segunda Especialidad en Formulación y Evaluación de 
+                      Proyectos de Inversión en la UNA; mi objetivo personal es formar parte de un gran equipo de trabajo, 
+                      donde pueda aportar mi experiencia en el área de Ingeniería de sistemas y telecomunicaciones, y 
+                      continuar con mi desarrollo profesional.
                     </p>
                   </div>
                 </motion.div>
