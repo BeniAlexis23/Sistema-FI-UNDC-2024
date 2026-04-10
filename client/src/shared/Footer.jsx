@@ -1,61 +1,127 @@
-import logo from '../assets/es-undc.png';
-import { FaFacebookSquare } from "react-icons/fa";
-import { FaInstagramSquare } from "react-icons/fa";
-import { FaLinkedin } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import { FaFacebookSquare, FaInstagramSquare, FaLinkedin } from 'react-icons/fa';
+
+import logoUndc from '../assets/es-undc.png';
+import logoFi from '../assets/logo-fi.png';
+
+const quickLinks = [
+  { label: 'Facultad', to: '/facultad' },
+  { label: 'Departamento', to: '/departamento' },
+  { label: 'Escuela', to: '/escuela' },
+  { label: 'Noticias', to: '/noticias' },
+];
+
+const externalLinks = [
+  { label: 'Portal UNDC', href: 'https://portal.undc.edu.pe/' },
+  { label: 'Centro de Idiomas', href: 'https://www.undc.edu.pe/idiomas/' },
+  { label: 'Posgrado UNDC', href: 'https://posgrado.undc.edu.pe/' },
+  { label: 'Admisión', href: 'https://admision.undc.edu.pe/' },
+];
+
+const socialLinks = [
+  { icon: FaFacebookSquare, href: 'https://www.facebook.com/FIUNDC', label: 'Facebook' },
+  { icon: FaInstagramSquare, href: 'https://www.instagram.com/', label: 'Instagram' },
+  { icon: FaLinkedin, href: 'https://www.linkedin.com/', label: 'LinkedIn' },
+];
 
 const Footer = () => {
-    return (
-        <div className="bg-secondary md:px-14 p-4 max-w-screen-2xl mx-auto text-white">
-            <div className='my-12 flex flex-col md:flex-row gap-10'>
-                <div className='md:w-1/2 space-y-8'>
-                    <a href="/" className='text-2xl font-semibold flex items-center space-x-3'>
-                        <img src={logo} alt="" className='w-10 inline-block items-center' /> <span className='text-white'>UNDC-FI</span>
-                    </a>
-                    <p className='md:w-1/2 text-justify'>Los ingenieros resuelven problemas complejos y
-                        desarrollan soluciones innovadoras para enfrentar desafíos en áreas como la tecnología, la salud, el medio ambiente y
-                        la infraestructura. Su trabajo impulsa el progreso y mejora la calidad de vida en la sociedad.</p>
-                </div>
-                {/*footer navigation*/}
-                <div className='md:w-1/2 flex flex-col md:flex-row flex-wrap justify-between gap-8 items-start'>
-                    <div className='space-y-4 mt-5'>
-                        <h4 className='text-xl'>Horarios</h4>
-                        <ul className='space-y-3'>
-                            <a className='block hover:text-gray-300'>8:00 AM - 1:00 PM</a>
-                            <a className='block hover:text-gray-300'>2:00 PM - 5:00 PM</a>
-                            <a className='block hover:text-gray-300'>LUNES - VIERNES</a>
-                        </ul>
-                    </div>
-                    <div className='space-y-4 mt-5'>
-                        <h4 className='text-xl'>Plataformas</h4>
-                        <ul className='space-y-3'>
-                            <a href="https://portal.undc.edu.pe/" target="_blank" className='block hover:text-gray-300'>Portal UNDC</a>
-                            <a href="https://www.undc.edu.pe/idiomas/" target="_blank" className='block hover:text-gray-300'>Centro de Idiomas</a>
-                            <a href="https://posgrado.undc.edu.pe/" target="_blank" className='block hover:text-gray-300'>Posgrado UNDC</a>
-                            <a href="https://admision.undc.edu.pe/" target="_blank" className='block hover:text-gray-300'>Admisión</a>
-                        </ul>
-                    </div>
-                    <div className='space-y-4 mt-5'>
-                        <h4 className='text-xl'>Contactos</h4>
-                        <ul className='space-y-3'>
-                            <p className='hover:text-gray-300'>+51 949026908</p>
-                            <p className='hover:text-gray-300'>Av. Mariscal Benavides</p>
-                            <p className='hover:text-gray-300'>N° 322</p>
-                            <p className='hover:text-gray-300'>San Vicente - Cañete</p>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <div className='flex flex-col sm:flex-row gap-8 sm:items-center justify-between my-8'>
-                <p>Facultad de Ingeniería - {/*<a href="https://github.com/BeniAlexis23" target='_blank'>@BeniAlexis23</a>*/} 2025. All right reserved.</p>
-                <div className='flex items-center space-x-5'>
-                    <a href='https://www.facebook.com/FIUNDC' target="_blank"><FaFacebookSquare className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' /></a>
-                    <FaInstagramSquare className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' />
-                    <FaLinkedin className='w-8 cursor-pointer hover:-translate-y-4 transition-all duration-300 size-8' />
-                </div>
-            </div>
-        </div>
-    )
-}
+  const currentYear = new Date().getFullYear();
 
-export default Footer
+  return (
+    <footer className="mt-16 w-full bg-slate-950 text-white">
+      <div className="mx-auto w-full max-w-screen-2xl">
+        <div className="grid gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.3fr_0.8fr_0.8fr_1fr] lg:gap-10 lg:px-10">
+          <div className="max-w-md">
+            <Link to="/" className="inline-flex items-center gap-3">
+              <img src={logoUndc} alt="Logo UNDC" className="h-10 w-10 object-contain" />
+              <img src={logoFi} alt="Logo FI" className="h-10 w-10 object-contain" />
+              <span className="text-lg font-bold tracking-wide text-white">FI - UNDC</span>
+            </Link>
+
+            <p className="mt-4 text-sm leading-6 text-slate-300">
+              Portal institucional de la Facultad de Ingeniería para difundir información académica,
+              noticias, resoluciones y servicios de la Escuela Profesional de Ingeniería de Sistemas.
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-300">
+              Navegación
+            </h3>
+            <div className="mt-4 grid gap-3 text-sm text-slate-300">
+              {quickLinks.map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.to}
+                  className="transition hover:text-white"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-300">
+              Plataformas
+            </h3>
+            <div className="mt-4 grid gap-3 text-sm text-slate-300">
+              {externalLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="transition hover:text-white"
+                >
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-300">
+              Contacto
+            </h3>
+            <div className="mt-4 grid gap-3 text-sm text-slate-300">
+              <p>Horario: 8:00 AM - 1:00 PM / 2:00 PM - 5:00 PM</p>
+              <p>Lunes a viernes</p>
+              <p>+51 949026908</p>
+              <p>Av. Mariscal Benavides N° 322, San Vicente - Cañete</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 px-5 py-4 sm:px-8 lg:px-10">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-slate-400">
+              Facultad de Ingeniería UNDC © {currentYear}. Todos los derechos reservados.
+            </p>
+
+            <div className="flex items-center gap-3">
+              {socialLinks.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={item.label}
+                    className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-slate-200 transition hover:border-sky-300/60 hover:bg-sky-400/10 hover:text-white"
+                  >
+                    <Icon className="text-lg" />
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
