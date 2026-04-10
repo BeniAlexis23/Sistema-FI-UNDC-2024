@@ -17,7 +17,7 @@ const schoolItems = [
 ];
 
 const eventItems = [
-  { label: 'VII CIISIC', to: '#', external: true },
+  { label: 'VII CIISIC', to: 'https://ciisic-vii.episundc.pe/', external: true },
   { label: 'V JEPA', to: 'https://jepa.episundc.pe/', external: true },
   { label: 'IV FEINFO', to: 'https://uifi.episundc.pe/', external: true },
 ];
