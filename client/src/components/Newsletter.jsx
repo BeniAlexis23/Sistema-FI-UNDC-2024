@@ -1,13 +1,17 @@
-import Banner from "../shared/Banner"
-import newImg from "../assets/newImg.webp"
+import Banner from '../shared/Banner';
+import newImg from '../assets/newImg.webp';
 
 const Newsletter = () => {
-    return (
-        <div className="md:px-14 p-4 max-w-screen-2xl mx-auto mb-24">
-            {/*use our banner component and pass props */}
-            <Banner banner={newImg} heading={"A nuestros estudiantes..."} subheading={"En la Facultad de Ingeniería de la UNDC, transformamos ideas en innovación, desafíos en oportunidades y conocimiento en progreso. Impulsamos el desarrollo de futuros líderes en ingeniería, forjando un camino hacia un mundo más tecnológico, sostenible y próspero. ¡Únete a nosotros y sé parte del cambio que impulsa el mañana desde hoy en la UNDC!"}/>
-        </div>
-    )
-}
+  return (
+    <section className="mx-auto mb-16 max-w-screen-2xl px-4 md:px-14">
+      <Banner
+        banner={newImg}
+        eyebrow="Mensaje institucional"
+        heading="A nuestros estudiantes"
+        subheading="En la Facultad de Ingeniería de la UNDC, transformamos ideas en innovación, desafíos en oportunidades y conocimiento en progreso. Impulsamos la formación de futuros líderes en ingeniería, abriendo camino hacia un entorno más tecnológico, sostenible y competitivo. Queremos que cada estudiante encuentre aquí el espacio para crecer, crear y aportar desde hoy al cambio que viene."
+      />
+    </section>
+  );
+};
 
-export default Newsletter
+export default Newsletter;

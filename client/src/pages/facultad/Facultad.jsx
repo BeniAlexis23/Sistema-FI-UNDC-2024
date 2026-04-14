@@ -1,83 +1,94 @@
+import { motion } from 'framer-motion';
+
 import Navbar from '../../components/Navbar';
 import Footer from '../../shared/Footer';
-import Oseda from '../../assets/d-oseda.webp';
-
-import banner1 from '../../assets/banner1.webp';
 import Banner from '../../shared/Banner';
-// motion
-import { motion } from 'framer-motion';
-// variants
+import Oseda from '../../assets/d-oseda.webp';
+import banner1 from '../../assets/banner1.webp';
 import { fadeIn } from '../../variants';
 
 const Facultad = () => {
   return (
     <>
       <Navbar />
-      <div className="md:px-14 p-4 mt-24 max-w-screen-2xl mx-auto" id='home'>
-        <Banner banner={banner1} heading="UNDC - Facultad de Ingeniería" subheading="La Facultad de Ingeniería de la UNDC es un centro de excelencia dedicado a la formación de 
-                profesionales altamente capacitados en diversas disciplinas ingenieriles. Con un enfoque innovador y orientado hacia la investigación, la facultad ofrece programas 
-                académicos actualizados que preparan a los estudiantes para enfrentar los desafíos del mundo moderno. Nuestros docentes expertos y recursos tecnológicos de vanguardia 
-                garantizan una educación de calidad que fomenta el pensamiento crítico, la creatividad y el liderazgo en el ámbito de la ingeniería." />
-      </div>
-      <section className=" mx-auto px-4 sm:px-6 lg:px-4 ">
+
+      <section className="mx-auto mt-24 max-w-screen-2xl px-4 md:px-14" id="home">
+        <Banner
+          banner={banner1}
+          eyebrow="Presentación institucional"
+          heading="UNDC - Facultad de Ingeniería"
+          subheading="La Facultad de Ingeniería de la UNDC es un espacio de formación orientado a la excelencia académica, la investigación y la innovación. Promovemos una educación sólida y actualizada que prepara profesionales capaces de responder a los retos del entorno tecnológico y contribuir activamente al desarrollo de la sociedad."
+        />
+      </section>
+
+      <section className="mx-auto mb-20 mt-14 max-w-screen-2xl px-4 md:px-14">
         <motion.div
-          variants={fadeIn("right", 0.2)}
+          variants={fadeIn('right', 0.2)}
           initial="hidden"
-          whileInView={"show"}
-          viewport={{ once: true, amount: 0.7 }}
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25 }}
+          className="space-y-3"
         >
-          <h1 className="mt-10 mb-4 font-bold text-3xl md:text-4xl lg:text-5xl text-center font-heading text-gray-900">
-            Nuestras Autoridades
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
+            Autoridad académica
+          </p>
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-[2.9rem] xl:text-[3.1rem]">
+            Coordinación de la Facultad de Ingeniería
           </h1>
         </motion.div>
-        {/*Dr Almidon*/}
-        <div className="flex items-center mt-4 p-5 lg:p-5 overflow-hidden relative">
-          <div className="w-full max-w-6xl rounded shadow-xl p-5 lg:p-5 mx-auto text-gray-800 relative md:text-left">
-            <div className="md:flex items-center -mx-10">
-              <div className="w-full md:w-1/2 px-10 mb-10 md:mb-0 lg:ml-2">
-                <div className="relative">
-                  <motion.div
-                    variants={fadeIn("left", 0.2)}
-                    initial="hidden"
-                    whileInView={"show"}
-                    viewport={{ once: true, amount: 0.7 }}
-                  >
-                    <img src={Oseda} className="w-full relative z-10" alt="" />
-                  </motion.div>
-                </div>
+
+        <motion.article
+          variants={fadeIn('up', 0.2)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_55px_rgba(15,23,42,0.08)]"
+        >
+          <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="relative bg-slate-100">
+              <img
+                src={Oseda}
+                alt="Ph.D. Dulio Oseda Gago"
+                className="h-[300px] w-full object-cover object-top sm:h-[360px] lg:h-full"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent" />
+            </div>
+
+            <div className="flex flex-col justify-center px-5 py-7 sm:px-8 lg:px-9 lg:py-8">
+              <div className="mb-5 inline-flex w-fit items-center rounded-full bg-sky-50 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-primary">
+                Coordinador (e) de la Facultad de Ingeniería
               </div>
-              <div className="w-full md:w-1/2 px-10">
-                <motion.div
-                  variants={fadeIn("up", 0.2)}
-                  initial="hidden"
-                  whileInView={"show"}
-                  viewport={{ once: true, amount: 0.7 }}
-                >
-                  <div className="mb-10">
-                    <p className="font-bold text-2xl mb-5">Cordinador (e) de la Facultad de Ingeniería</p>
-                    <h1 className="font-bold text-3xl mb-5">Ph.D. Dulio Oseda Gago</h1>
-                    <p className="text-sm text-justify lg:mr-10">Docente universitario en la categoría de Principal, con más de 23 años de experiencia
-                      en investigación, gestión educacional y acreditación universitaria. Doctor en Ciencias de la Educación, Doctor en Psicología
-                      Educacional y Tutorial, Doctor en Educación, Doctor en Administración de la Educación, Doctor en Sistemas de Ingeniería, DBA in
-                      Business Administration, Ph.D. in Business Administration and Ph.D. in Scientific Research. Posdoctor en Ciencias de la Educación,
-                      Posdoctor en Sistemas Diacrónicos y Sincrónicos de la Investigación Científica, y Posdoctor in Big Data. Experiencia en gestión de
-                      proyectos, planificación estratégica, consecución de fondos concursables de cooperación técnica, organización de cursos y eventos
-                      científicos y publicación en revistas especializadas nacionales y extranjeras. Experiencia como docente universitario a nivel de
-                      pre y posgrado. Ponente en diversos eventos nacionales e internacionales. Ganador en la categoría de "Maestro" de las Palmas
-                      Magisteriales del MINEDU, Conferencista internacional de la OIICE. Fluente en italiano, portugués e inglés. Ha sido Vicerrector
-                      Académico en la Universidad Nacional Intercultural de la Amazonia de Ucayali y Vicerrector de Investigación en la Universidad Nacional
-                      Autónoma de Chota - Cajamarca. Actual docente investigador en la Universidad Nacional Mayor de San Marcos y Universidad Nacional
-                      de Cañete.</p>
-                  </div>
-                </motion.div>
-              </div>
+
+              <h2 className="text-[1.9rem] font-extrabold tracking-tight text-slate-900 sm:text-[2.25rem]">
+                Ph.D. Dulio Oseda Gago
+              </h2>
+
+              <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
+                Docente universitario en la categoría de Principal, con más de 23 años de experiencia en investigación,
+                gestión educacional y acreditación universitaria. Doctor en Ciencias de la Educación, Doctor en Psicología
+                Educacional y Tutorial, Doctor en Educación, Doctor en Administración de la Educación, Doctor en Sistemas
+                de Ingeniería, DBA in Business Administration, Ph.D. in Business Administration y Ph.D. in Scientific Research.
+              </p>
+
+              <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
+                Cuenta además con formación posdoctoral en Ciencias de la Educación, Sistemas Diacrónicos y Sincrónicos de
+                la Investigación Científica y Big Data. Ha liderado procesos de planificación estratégica, gestión de proyectos,
+                organización de eventos científicos y publicaciones académicas en ámbitos nacionales e internacionales.
+              </p>
+
+              <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
+                Su trayectoria incluye experiencia como Vicerrector Académico y Vicerrector de Investigación, así como labor
+                docente en pregrado y posgrado. Actualmente se desempeña como docente investigador en la Universidad Nacional
+                Mayor de San Marcos y en la Universidad Nacional de Cañete.
+              </p>
             </div>
           </div>
-        </div>
+        </motion.article>
       </section>
+
       <Footer />
     </>
-  )
-}
+  );
+};
 
 export default Facultad;

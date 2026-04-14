@@ -29,8 +29,15 @@ const Actualidad = () => {
     }, []);
 
     return (
-        <div className="md:px-14 p-4 max-w-screen-2xl mx-auto space-y-10" id='about'>
-            <h2 className="md:text-5xl text-3xl font-extrabold">ACTUALIDAD</h2>
+        <section className="mx-auto mt-12 mb-16 max-w-screen-2xl space-y-10 px-4 md:px-14" id='about'>
+            <div className="space-y-3">
+                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
+                    Información reciente
+                </p>
+                <h2 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-5xl xl:text-[3.35rem]">
+                    Actualidad
+                </h2>
+            </div>
             {/*<div className='flex items-center'>
                 <button className="flex px-3 py-2 bg-primary mr-1 text-white font-semibold rounded">
                     <span>Noticias</span>
@@ -67,12 +74,15 @@ const Actualidad = () => {
 
                 </div>
             </div>
-            <div className="items-center flex justify-center">
-                <Link to={"/noticias"} className="flex px-3 py-2 bg-primary hover:bg-secondary text-white font-semibold rounded hover:text-gray-300 cursor-pointer">
-                    <span>Ver Más</span>
+            <div className="flex justify-center pt-2">
+                <Link
+                    to={"/noticias"}
+                    className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02] hover:bg-secondary"
+                >
+                    <span>Ver más</span>
                 </Link>
             </div>
-        </div>
+        </section>
     )
 }
 

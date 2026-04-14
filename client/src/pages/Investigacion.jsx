@@ -1,208 +1,128 @@
-import { useEffect, useState, useMemo } from "react";
-import { getUIDecretosRequest } from "../api/ui-decretos";
-import { FaFileDownload } from "react-icons/fa";
+import { motion } from 'framer-motion';
 
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
 import Duran from '../assets/a-duran.webp';
-
-import { Link } from "react-router-dom";
-// motion
-import { motion } from 'framer-motion';
-// variants
 import { fadeIn } from '../variants';
 
 const Investigacion = () => {
+  return (
+    <>
+      <Navbar />
 
-    const [decretos, setDecretos] = useState([]);
-    const [searchTerm, setSearchTerm] = useState("");
-    const [selectedYear, setSelectedYear] = useState("2025");
-    const [error, setError] = useState(null);
+      <section className="mx-auto mt-24 max-w-screen-2xl px-4 md:px-14">
+        <motion.div
+          variants={fadeIn('right', 0.2)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.25 }}
+          className="space-y-3"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
+            Investigación institucional
+          </p>
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-[2.9rem] xl:text-[3.1rem]">
+            Unidad de Investigación de la Facultad de Ingeniería
+          </h1>
+        </motion.div>
 
-    const handleSearchChange = (event) => {
-        setSearchTerm(event.target.value);
-    };
+        <motion.article
+          variants={fadeIn('up', 0.2)}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          className="mt-8 overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_24px_55px_rgba(15,23,42,0.08)]"
+        >
+          <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="relative bg-slate-100">
+              <img
+                src={Duran}
+                alt="Dra. Amanda Duran Carhuamaca"
+                className="h-[300px] w-full object-cover object-top sm:h-[360px] lg:h-full"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent" />
+            </div>
 
-    const handleYearChange = (event) => {
-        setSelectedYear(event.target.value);
-    };
+            <div className="flex flex-col justify-center px-5 py-7 sm:px-8 lg:px-9 lg:py-8">
+              <div className="mb-5 inline-flex w-fit items-center rounded-full bg-sky-50 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-primary">
+                Directora (e) de la Unidad de Investigación
+              </div>
 
-    const filteredDecretos = useMemo(() => {
-        return decretos.filter((decreto) => {
-            const decretoYear = new Date(decreto.date).getFullYear().toString();
-            return (
-                (decreto.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    decreto.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
-                (selectedYear === "" || decretoYear === selectedYear)
-            );
-        });
-    }, [decretos, searchTerm, selectedYear]);
+              <h2 className="text-[1.9rem] font-extrabold tracking-tight text-slate-900 sm:text-[2.25rem]">
+                Dra. Amanda Duran Carhuamaca
+              </h2>
 
-    const getDecretos = async () => {
-        try {
-            const res = await getUIDecretosRequest();
-            setDecretos(res.data);
-        } catch (error) {
-            setError("Error al cargar los decretos. Por favor, inténtalo de nuevo más tarde.");
-            console.log(error);
-        }
-    }
+              <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
+                Profesional orientada al logro de objetivos con base en el uso estratégico de la tecnología. Magíster en
+                Informática por la Pontificia Universidad Católica del Perú, Ingeniera de Sistemas, candidata a Doctora en
+                Ingeniería de Sistemas y con formación doctoral en Docencia Universitaria.
+              </p>
 
-    useEffect(() => {
-        getDecretos();
-    }, []);
+              <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
+                Cuenta con experiencia en gestión y dirección de proyectos en distintas organizaciones, además de una sólida
+                trayectoria como analista funcional de proyectos de software y docente universitaria con más de 13 años de
+                experiencia.
+              </p>
 
-    return (
-        <>
-            <Navbar />
-            <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-8">
-                <motion.div
-                    variants={fadeIn("right", 0.2)}
-                    initial="hidden"
-                    whileInView={"show"}
-                    viewport={{ once: true, amount: 0.7 }}
-                >
-                    <h1 class="mt-24 mb-4 font-bold text-3xl md:text-4xl lg:text-5xl text-center font-heading text-gray-900">
-                        Unidad de Investigación de la Facultad de Ingeniería
-                    </h1>
-                </motion.div>
-                {/*Dr Almidon*/}
-                <div class="flex items-center -mt-4 p-5 lg:p-5 overflow-hidden relative">
-                    <div class="w-full max-w-6xl rounded shadow-xl p-5 lg:p-5 mx-auto text-gray-800 relative md:text-left">
-                        <div class="md:flex items-center -mx-10">
-                            <div class="w-full md:w-1/2 px-10 mb-10 md:mb-0 lg:ml-2">
-                                <div class="relative">
-                                    <motion.div
-                                        variants={fadeIn("left", 0.2)}
-                                        initial="hidden"
-                                        whileInView={"show"}
-                                        viewport={{ once: true, amount: 0.7 }}
-                                    >
-                                        <img src={Duran} class="w-full relative z-10" alt="" />
-                                    </motion.div>
-                                </div>
-                            </div>
-                            <div class="w-full md:w-1/2 px-10">
-                                <motion.div
-                                    variants={fadeIn("up", 0.2)}
-                                    initial="hidden"
-                                    whileInView={"show"}
-                                    viewport={{ once: true, amount: 0.7 }}
-                                >
-                                    <div class="mb-10">
-                                        <p class="font-bold text-2xl mb-5">Director (e) de la Unidad de Investigación de la Facultad de Ingeniería</p>
-                                        <h1 className="font-bold text-3xl mb-5">Dra. Amanda Duran Carhuamaca</h1>
-                                        <p class="text-sm text-justify lg:mr-10">Profesional encauzada en alcanzar objetivos con base en el uso de tecnología. Magister en Informática de
-                                            la Pontificia Universidad Católica del Perú, Ingeniera de Sistemas, candidata a Doctora en Ingeniería de Sistemas, Doctorado en Docencia Universitaria.
-                                            Con experiencia en la gestión y dirección de proyectos en diferentes organizaciones. Analista Funcional de proyectos de software. Experiencia en
-                                            docencia universitaria (13 años). Directora de la EAP de Ingeniería de Sistemas. Docente- investigadora en más de 10 de universidades. Expositora
-                                            de temas de vanguardia en investigación y tecnología.</p>
-                                    </div>
-                                </motion.div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
+                Ha ejercido la dirección de la EAP de Ingeniería de Sistemas, desarrollado labor docente-investigadora en
+                múltiples universidades y participado como expositora en temas de vanguardia relacionados con investigación
+                y tecnología.
+              </p>
+            </div>
+          </div>
+        </motion.article>
+      </section>
 
-                {/*Lista de Decretos
-                <div className="bg-white p-8 rounded-md w-full">
-                    <div className="flex items-center justify-between pb-6">
-                        <div>
-                            <motion.div
-                                variants={fadeIn("right", 0.2)}
-                                initial="hidden"
-                                whileInView={"show"}
-                                viewport={{ once: true, amount: 0.7 }}
-                            >
-                                <h1 className="font-semibold text-2xl">Decretos de la Unidad de Investigación de la FI</h1>
-                            </motion.div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                            <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20"
-                                    fill="currentColor">
-                                    <path fillRule="evenodd"
-                                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                                        clipRule="evenodd" />
-                                </svg>
-                                <input className="bg-gray-50 outline-none ml-1 block " type="text" name="" id="" placeholder="buscar..." value={searchTerm} onChange={handleSearchChange} />
-                            </div>
-                        </div>
-                    </div>
-                    {error && <div className="text-red-500">{error}</div>}
-                    <motion.div
-                        variants={fadeIn("up", 0.2)}
-                        initial="hidden"
-                        whileInView={"show"}
-                        viewport={{ once: true, amount: 0.7 }}
-                    >
-                        <div>
-                            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-                                <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                                    <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row">
-                                        <h2>Selecciona el año:</h2>
-                                        <div className="inline-flex mt-2 xs:mt-0">
-                                            <select className="text-sm text-gray-900" onChange={handleYearChange} value={selectedYear}>
-                                                <option value="2025">2025</option>
-                                                <option value="2024">2024</option>
-                                                <option value="2023">2023</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <table className="min-w-full leading-normal">
-                                        <thead>
-                                            <tr>
-                                                <th
-                                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                    N°
-                                                </th>
-                                                <th
-                                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                    Decreto
-                                                </th>
-                                                <th
-                                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                                                    Contenido
-                                                </th>
-                                                <th
-                                                    className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider flex justify-center items-center">
-                                                    Descarga
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {
-                                                filteredDecretos.map((decreto, index) => (
-                                                    <tr key={decreto._id}>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p className="text-gray-900 whitespace-no-wrap">{index + 1}</p>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p className="text-gray-900 whitespace-no-wrap">{decreto.title}</p>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                                                            <p className="text-gray-900 whitespace-no-wrap">
-                                                                {decreto.description}
-                                                            </p>
-                                                        </td>
-                                                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-                                                            <Link to={decreto.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
-                                                        </td>
-                                                    </tr>
-                                                ))
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div> */}
+      <section className="mx-auto mt-16 max-w-screen-2xl px-4 md:px-14">
+        <div className="grid gap-6 xl:grid-cols-3">
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:p-8 xl:col-span-2">
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
+              Enfoque Académico
+            </p>
+            <h2 className="mt-3 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
+              Investigación Orientada a Innovación y Transferencia
+            </h2>
+            <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
+              La Unidad de Investigación de la Facultad de Ingeniería impulsa iniciativas que fortalecen la producción
+              científica, la formación investigativa y la articulación entre academia, tecnología y entorno social.
+            </p>
+            <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
+              Su trabajo busca generar proyectos con impacto real, promoviendo el análisis riguroso, la innovación aplicada
+              y la participación activa de docentes y estudiantes en procesos de investigación pertinentes y sostenibles.
+            </p>
+          </div>
 
-            </section>
-            <Footer />
-        </>
-    )
-}
+          <div className="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-[0_18px_45px_rgba(15,23,42,0.06)] sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
+              Líneas de Acción
+            </p>
+            <h2 className="mt-3 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
+              Prioridades de la Unidad
+            </h2>
+            <ul className="mt-5 space-y-4 text-sm leading-7 text-slate-600 sm:text-base">
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-primary" />
+                <span>Fomento de la investigación científica y tecnológica.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-primary" />
+                <span>Participación docente y estudiantil en proyectos de impacto.</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="mt-2 h-2.5 w-2.5 shrink-0 rounded-full bg-primary" />
+                <span>Difusión de resultados y fortalecimiento de la cultura investigativa.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-export default Investigacion
+      {/* Sección de decretos de investigación oculta temporalmente */}
+
+      <Footer />
+    </>
+  );
+};
+
+export default Investigacion;
