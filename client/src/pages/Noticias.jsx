@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import 'dayjs/locale/es';
 dayjs.extend(utc)
+dayjs.locale('es');
 
 import { useEffect, useState } from "react";
 import { getNoticiasRequest } from "../api/notices";
@@ -20,24 +22,18 @@ const truncateText = (text, maxLength) => {
     return text.slice(0, maxLength) + '...';
 };
 
-const getCardClassName = (index) => {
-    if (index === 0) {
-        return "lg:col-span-2 lg:row-span-2";
-    }
-
-    return "";
-};
+const ITEMS_PER_PAGE = 12;
 
 const Noticias = () => {
 
-    const maxLengthT = 50; // Longitud máxima del texto del Titulo
-
     const [noticias, setNoticias] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const getNoticias = async () => {
         try {
             const res = await getNoticiasRequest();
             setNoticias(res.data);
+            setCurrentPage(1);
         } catch (error) {
             console.log(error);
         }
@@ -46,6 +42,24 @@ const Noticias = () => {
     useEffect(() => {
         getNoticias();
     }, []);
+
+    const orderedNoticias = noticias
+        .slice()
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+    const totalPages = Math.ceil(orderedNoticias.length / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const pageNoticias = orderedNoticias.slice(startIndex, startIndex + ITEMS_PER_PAGE);
+    const featuredNoticias = pageNoticias.slice(0, 4);
+    const compactNoticias = pageNoticias.slice(4);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const formatNoticeDate = (date) => (
+        dayjs(date).utc().locale('es').format("DD MMM, YYYY")
+    );
 
     return (
         <>
@@ -104,70 +118,89 @@ const Noticias = () => {
                                 </div>
                             </motion.div>
                         </div>
-                        <div className="mt-10">
-                            <div className="grid grid-cols-1 gap-5 lg:grid-cols-4 lg:auto-rows-[230px]">
-                                {
-                                    noticias.slice().reverse().map((notice, index) => (
-                                        <article
-                                            key={notice._id || index}
-                                            className={`group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_55px_rgba(15,23,42,0.1)] ${getCardClassName(index)}`}
+                        <div className="mt-12">
+                            <h2 className="text-2xl font-extrabold uppercase tracking-tight text-slate-950 sm:text-3xl">
+                                Ultimas noticias
+                            </h2>
+                            <div className="mt-7 grid grid-cols-1 gap-5 lg:grid-cols-[1.05fr_1fr] lg:gap-7">
+                                <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-1">
+                                    {featuredNoticias.map((notice) => (
+                                        <Link
+                                            key={notice._id}
+                                            to={`/noticias/${notice._id}`}
+                                            className="group relative block min-h-[260px] overflow-hidden bg-slate-900 shadow-[0_18px_45px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:min-h-[300px] lg:min-h-[255px]"
                                         >
-                                            {index === 0 ? (
-                                                <div className="relative h-[360px] sm:h-[460px] lg:h-full">
-                                                    <img
-                                                        src={`http://localhost:3000${notice.imageUrl}`}
-                                                        alt={notice.title}
-                                                        className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.03]"
-                                                    />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
-                                                    <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
-                                                        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/85 sm:text-base">
-                                                            {dayjs(notice.date).utc().format("DD MMM, YYYY")}  |  Leer
-                                                        </p>
-                                                        <h2 className="mt-4 max-w-3xl text-3xl font-extrabold leading-tight text-white sm:text-4xl xl:text-[2.9rem]">
-                                                            {notice.title}
-                                                        </h2>
-                                                        <div className="mt-6">
-                                                            <Link
-                                                                to={`/noticias/${notice._id}`}
-                                                                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-sky-100"
-                                                            >
-                                                                Leer noticia
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ) : (
-                                                <div className="grid h-full grid-cols-1 sm:grid-cols-[0.95fr_1.05fr] lg:grid-cols-[0.9fr_1.1fr]">
-                                                    <div className="overflow-hidden">
-                                                        <img
-                                                            src={`http://localhost:3000${notice.imageUrl}`}
-                                                            alt={notice.title}
-                                                            className="h-full min-h-[220px] w-full object-cover object-center transition duration-500 group-hover:scale-[1.03] sm:min-h-full"
-                                                        />
-                                                    </div>
-                                                    <div className="flex flex-col justify-center p-5 sm:p-6">
-                                                        <p className="text-base font-bold text-slate-500 sm:text-[1.05rem]">
-                                                            {dayjs(notice.date).utc().format("DD MMM, YYYY")}
-                                                        </p>
-                                                        <h3 className="mt-3 text-2xl font-extrabold leading-tight text-slate-900 sm:text-[1.95rem] lg:text-[2.1rem]">
-                                                            {truncateText(notice.title, 90)}
-                                                        </h3>
-                                                        <div className="mt-5">
-                                                            <Link
-                                                                to={`/noticias/${notice._id}`}
-                                                                className="inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary"
-                                                            >
-                                                                Leer más
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )}
-                                        </article>
-                                    ))
-                                }
+                                            <img
+                                                src={`http://localhost:3000${notice.imageUrl}`}
+                                                alt={notice.title}
+                                                className="absolute inset-0 h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
+                                            <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                                                <p className="text-xs font-extrabold text-white sm:text-sm">
+                                                    {formatNoticeDate(notice.date)} <span className="mx-2">|</span> Leer
+                                                </p>
+                                                <h3 className="mt-2 max-w-xl text-xl font-extrabold leading-tight text-white sm:text-2xl lg:text-[1.65rem]">
+                                                    {truncateText(notice.title, 96)}
+                                                </h3>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+
+                                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                                    {compactNoticias.map((notice) => (
+                                        <Link
+                                            key={notice._id}
+                                            to={`/noticias/${notice._id}`}
+                                            className="group grid min-h-[132px] grid-cols-[42%_1fr] overflow-hidden border border-slate-200 bg-white transition duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_16px_35px_rgba(15,23,42,0.08)] sm:min-h-[145px] lg:min-h-[122px]"
+                                        >
+                                            <div className="overflow-hidden bg-slate-100">
+                                                <img
+                                                    src={`http://localhost:3000${notice.imageUrl}`}
+                                                    alt={notice.title}
+                                                    className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
+                                                />
+                                            </div>
+                                            <div className="flex flex-col justify-center p-4">
+                                                <p className="text-xs font-extrabold text-slate-500 sm:text-sm">
+                                                    {formatNoticeDate(notice.date)}
+                                                </p>
+                                                <h3 className="mt-2 text-[0.95rem] font-extrabold leading-snug text-slate-950 sm:text-base lg:text-[1.02rem]">
+                                                    {truncateText(notice.title, 82)}
+                                                </h3>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
                             </div>
+
+                            {totalPages > 1 && (
+                                <nav className="mt-9 flex flex-wrap items-center justify-center gap-2" aria-label="Paginacion de noticias">
+                                    {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+                                        <button
+                                            key={page}
+                                            type="button"
+                                            onClick={() => handlePageChange(page)}
+                                            aria-current={currentPage === page ? 'page' : undefined}
+                                            className={`h-10 min-w-10 px-4 text-sm font-bold transition ${currentPage === page
+                                                ? 'bg-primary text-white'
+                                                : 'bg-slate-100 text-slate-800 hover:bg-slate-200'
+                                                }`}
+                                        >
+                                            {page}
+                                        </button>
+                                    ))}
+                                    <button
+                                        type="button"
+                                        onClick={() => handlePageChange(Math.min(currentPage + 1, totalPages))}
+                                        disabled={currentPage === totalPages}
+                                        className="h-10 bg-primary px-5 text-sm font-bold text-white transition hover:bg-secondary disabled:cursor-not-allowed disabled:bg-slate-200 disabled:text-slate-500"
+                                    >
+                                        Siguiente
+                                    </button>
+                                </nav>
+                            )}
                         </div>
                     </div>
                 </div>
