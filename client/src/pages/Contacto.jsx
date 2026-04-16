@@ -60,7 +60,7 @@ const Contacto = () => {
     <>
       <Navbar />
 
-      <section className="mx-auto mt-24 max-w-screen-2xl px-4 md:px-14">
+      <section className="mx-auto mt-24 w-full max-w-screen-2xl overflow-hidden px-4 sm:px-6 md:px-14">
         <div className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
             Comunicación institucional
@@ -70,8 +70,8 @@ const Contacto = () => {
           </h1>
         </div>
 
-        <div className="mt-10 grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_24px_55px_rgba(15,23,42,0.08)] sm:p-8">
+        <div className="mt-10 grid w-full min-w-0 gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className="min-w-0 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_24px_55px_rgba(15,23,42,0.08)] sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
               Estamos para ayudarte
             </p>
@@ -84,37 +84,37 @@ const Contacto = () => {
             </p>
 
             <div className="mt-8 space-y-4">
-              <div className="flex items-start gap-4 rounded-[1.5rem] bg-slate-50 px-5 py-4">
+              <div className="flex min-w-0 items-start gap-4 rounded-[1.5rem] bg-slate-50 px-4 py-4 sm:px-5">
                 <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sky-100 text-primary">
                   <MdEmail className="text-2xl" />
                 </span>
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Correo</p>
-                  <p className="mt-1 text-base font-semibold text-slate-900">
+                  <p className="mt-1 break-words text-base font-semibold text-slate-900">
                     coordinacioningenieria@undc.edu.pe
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 rounded-[1.5rem] bg-slate-50 px-5 py-4">
+              <div className="flex min-w-0 items-start gap-4 rounded-[1.5rem] bg-slate-50 px-4 py-4 sm:px-5">
                 <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sky-100 text-primary">
                   <MdOutlinePhoneInTalk className="text-2xl" />
                 </span>
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Atención</p>
-                  <p className="mt-1 text-base font-semibold text-slate-900">
+                  <p className="mt-1 break-words text-base font-semibold text-slate-900">
                     Respuesta por correo institucional
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start gap-4 rounded-[1.5rem] bg-slate-50 px-5 py-4">
+              <div className="flex min-w-0 items-start gap-4 rounded-[1.5rem] bg-slate-50 px-4 py-4 sm:px-5">
                 <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-sky-100 text-primary">
                   <FiMapPin className="text-xl" />
                 </span>
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Ubicación</p>
-                  <p className="mt-1 text-base font-semibold text-slate-900">
+                  <p className="mt-1 break-words text-base font-semibold text-slate-900">
                     Av. Mariscal Benavides N.° 322, San Vicente - Cañete
                   </p>
                 </div>
@@ -146,7 +146,7 @@ const Contacto = () => {
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-[0_24px_55px_rgba(15,23,42,0.08)] sm:p-8">
+          <div className="min-w-0 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-[0_24px_55px_rgba(15,23,42,0.08)] sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
               Formulario web
             </p>

@@ -20,6 +20,14 @@ const truncateText = (text, maxLength) => {
     return text.slice(0, maxLength) + '...';
 };
 
+const getCardClassName = (index) => {
+    if (index === 0) {
+        return "lg:col-span-2 lg:row-span-2";
+    }
+
+    return "";
+};
+
 const Noticias = () => {
 
     const maxLengthT = 50; // Longitud máxima del texto del Titulo
@@ -43,7 +51,7 @@ const Noticias = () => {
         <>
             <Navbar />
 
-            <div className="relative isolate overflow-hidden bg-white px-6 py-32 lg:overflow-visible lg:px-0">
+            <div className="relative isolate overflow-hidden bg-white px-6 pt-32 lg:overflow-visible lg:px-0">
                 <div className="absolute inset-0 -z-10 overflow-hidden">
                     <svg className="absolute left-[max(50%,25rem)] top-0 h-[64rem] w-[128rem] -translate-x-1/2 stroke-gray-200 [mask-image:radial-gradient(64rem_64rem_at_top,white,transparent)]" aria-hidden="true">
                         <defs>
@@ -65,8 +73,15 @@ const Noticias = () => {
                             initial="hidden"
                             whileInView={"show"}
                             viewport={{ once: true, amount: 0.7 }}
+                            className="space-y-4"
                         >
-                            <h1 className="mt-2 mb-8 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">NOTICIAS - FI</h1>
+                            <p className="text-xs font-semibold uppercase tracking-[0.34em] text-primary/80 sm:text-sm">
+                                Actualidad institucional
+                            </p>
+                            <h1 className="text-4xl font-extrabold uppercase tracking-tight text-gray-900 sm:text-5xl xl:text-[3.4rem]">
+                                Noticias FI
+                            </h1>
+                            <div className="h-1.5 w-24 rounded-full bg-primary" />
                         </motion.div>
                     </div>
                 </div>
@@ -81,7 +96,7 @@ const Noticias = () => {
                                 viewport={{ once: true, amount: 0.7 }}
                             >
                                 <div className="max-w-screen">
-                                    <p className="text-gray-900 text-justify md:text-2xl">¡Bienvenido a la sección de Noticias de la FI! Aquí encontrarás las últimas actualizaciones
+                                    <p className="text-gray-900 text-justify mt-8 md:text-2xl">¡Bienvenido a la sección de Noticias de la FI! Aquí encontrarás las últimas actualizaciones
                                         y acontecimientos más relevantes relacionados con nuestra institución y el mundo académico. Desde innovadores proyectos de
                                         investigación y eventos destacados hasta logros de nuestros estudiantes y profesores, esta sección está diseñada para mantenerte
                                         informado sobre todo lo que sucede en la comunidad de FI. Explora nuestras noticias y descubre cómo estamos contribuyendo al
@@ -89,29 +104,67 @@ const Noticias = () => {
                                 </div>
                             </motion.div>
                         </div>
-                        <div className="flex justify-center px-5 mt-10">
-                            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 my-4">
+                        <div className="mt-10">
+                            <div className="grid grid-cols-1 gap-5 lg:grid-cols-4 lg:auto-rows-[230px]">
                                 {
                                     noticias.slice().reverse().map((notice, index) => (
-                                        <div key={index} className="relative flex w-full max-w-[48rem] flex-row rounded-xl bg-secondary bg-clip-border text-white shadow-md">
-                                            <div className="relative m-0 w-2/5 shrink-0 overflow-hidden rounded-xl rounded-r-none bg-zinc-800 bg-clip-border">
-                                                <img
-                                                    src={`http://localhost:3000${notice.imageUrl}`} /*Produccion: 'https://fi.undc.edu.pe' */
-                                                    alt="image"
-                                                    className="h-full w-full object-cover"
-                                                />
-                                            </div>
-                                            <div className="p-6">
-                                                <p className="text-white">{dayjs(notice.date).utc().format("DD/MM/YYYY")}</p>
-                                                <h4 className="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-                                                    {truncateText(notice.title, maxLengthT)}
-                                                </h4>
-
-                                                <div className="flex gap-x-2 items-center mt-4">
-                                                    <Link to={`/noticias/${notice._id}`} className="bg-primary px-4 py-1 rounded-sm" >Leer</Link>
+                                        <article
+                                            key={notice._id || index}
+                                            className={`group overflow-hidden rounded-[1.75rem] border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_55px_rgba(15,23,42,0.1)] ${getCardClassName(index)}`}
+                                        >
+                                            {index === 0 ? (
+                                                <div className="relative h-[360px] sm:h-[460px] lg:h-full">
+                                                    <img
+                                                        src={`http://localhost:3000${notice.imageUrl}`}
+                                                        alt={notice.title}
+                                                        className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+                                                    />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
+                                                    <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8">
+                                                        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-white/85 sm:text-base">
+                                                            {dayjs(notice.date).utc().format("DD MMM, YYYY")}  |  Leer
+                                                        </p>
+                                                        <h2 className="mt-4 max-w-3xl text-3xl font-extrabold leading-tight text-white sm:text-4xl xl:text-[2.9rem]">
+                                                            {notice.title}
+                                                        </h2>
+                                                        <div className="mt-6">
+                                                            <Link
+                                                                to={`/noticias/${notice._id}`}
+                                                                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-sky-100"
+                                                            >
+                                                                Leer noticia
+                                                            </Link>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
+                                            ) : (
+                                                <div className="grid h-full grid-cols-1 sm:grid-cols-[0.95fr_1.05fr] lg:grid-cols-[0.9fr_1.1fr]">
+                                                    <div className="overflow-hidden">
+                                                        <img
+                                                            src={`http://localhost:3000${notice.imageUrl}`}
+                                                            alt={notice.title}
+                                                            className="h-full min-h-[220px] w-full object-cover object-center transition duration-500 group-hover:scale-[1.03] sm:min-h-full"
+                                                        />
+                                                    </div>
+                                                    <div className="flex flex-col justify-center p-5 sm:p-6">
+                                                        <p className="text-base font-bold text-slate-500 sm:text-[1.05rem]">
+                                                            {dayjs(notice.date).utc().format("DD MMM, YYYY")}
+                                                        </p>
+                                                        <h3 className="mt-3 text-2xl font-extrabold leading-tight text-slate-900 sm:text-[1.95rem] lg:text-[2.1rem]">
+                                                            {truncateText(notice.title, 90)}
+                                                        </h3>
+                                                        <div className="mt-5">
+                                                            <Link
+                                                                to={`/noticias/${notice._id}`}
+                                                                className="inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white transition hover:bg-secondary"
+                                                            >
+                                                                Leer más
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </article>
                                     ))
                                 }
                             </div>
