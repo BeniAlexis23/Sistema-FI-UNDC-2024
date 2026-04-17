@@ -88,7 +88,7 @@ const Noticia_Id = () => {
               {noticia?.date ? dayjs(noticia.date).utc().format('dddd DD MMM, YYYY') : ''}
             </p>
 
-            <h1 className="max-w-4xl text-4xl font-extrabold leading-tight tracking-tight text-slate-950 sm:text-5xl xl:text-[3.2rem]">
+            <h1 className="lg:text-4xl font-extrabold tracking-tight text-slate-900 text-2xl xl:text-[2.1rem]">
               {noticia?.title}
             </h1>
           </motion.div>

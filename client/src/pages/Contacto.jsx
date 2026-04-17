@@ -60,7 +60,7 @@ const Contacto = () => {
     <>
       <Navbar />
 
-      <section className="mx-auto mt-24 w-full max-w-screen-2xl overflow-hidden px-4 sm:px-6 md:px-14">
+      <section className="mx-auto mt-24 w-full max-w-screen-2xl overflow-visible px-4 sm:px-6 md:px-14">
         <div className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-primary/80 sm:text-sm">
             Comunicación institucional
