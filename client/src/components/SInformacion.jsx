@@ -17,7 +17,7 @@ const systems = [
   },
   {
     label: 'Biblioteca',
-    href: 'https://biblioteca.undc.edu.pe/',
+    href: 'https://vri.undc.edu.pe/biblioteca/',
     icon: ImBooks,
   },
   {

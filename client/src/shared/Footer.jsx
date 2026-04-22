@@ -24,6 +24,13 @@ const socialLinks = [
   { icon: FaLinkedin, href: 'https://www.linkedin.com/', label: 'LinkedIn' },
 ];
 
+const certifications = [
+  { standard: 'ISO', code: '21001:2018', color: 'text-sky-400', ring: 'border-sky-500/45' },
+  { standard: 'ISO', code: '9001:2015', color: 'text-blue-400', ring: 'border-blue-500/45' },
+  { standard: 'ISO', code: '14001:2015', color: 'text-emerald-400', ring: 'border-emerald-500/45' },
+  { standard: 'ISO', code: '45001:2018', color: 'text-amber-400', ring: 'border-amber-500/45' },
+];
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -38,10 +45,27 @@ const Footer = () => {
               <span className="text-lg font-bold tracking-wide text-white">FI - UNDC</span>
             </Link>
 
-            <p className="mt-4 text-sm leading-6 text-slate-300">
+            <p className="mt-4 text-[0.82rem] leading-5 text-slate-300">
               Portal institucional de la Facultad de Ingeniería para difundir información académica,
               noticias, resoluciones y servicios de la Escuela Profesional de Ingeniería de Sistemas.
             </p>
+
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+              {certifications.map((item) => (
+                <span
+                  key={item.code}
+                  className={`inline-flex h-9 w-9 flex-col items-center justify-center rounded-full border ${item.ring} bg-slate-950/35 text-center shadow-sm`}
+                  title={`${item.standard} ${item.code}`}
+                >
+                  <span className={`text-[0.65rem] font-black leading-none ${item.color}`}>
+                    {item.standard}
+                  </span>
+                  <span className={`mt-0.5 text-[0.38rem] font-bold leading-none ${item.color}`}>
+                    {item.code}
+                  </span>
+                </span>
+              ))}
+            </div>
           </div>
 
           <div>
