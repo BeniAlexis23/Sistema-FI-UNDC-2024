@@ -1,18 +1,21 @@
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 
-import Navbar from '../../components/Navbar';
-import Footer from '../../shared/Footer';
-import Banner from '../../shared/Banner';
-import Oseda from '../../assets/d-oseda.webp';
-import banner1 from '../../assets/banner1.webp';
-import { fadeIn } from '../../variants';
+import Navbar from "../../components/Navbar";
+import Footer from "../../shared/Footer";
+import Banner from "../../shared/Banner";
+import Vicente from "../../assets/w-vicente.webp";
+import banner1 from "../../assets/banner1.webp";
+import { fadeIn } from "../../variants";
 
 const Facultad = () => {
   return (
     <>
       <Navbar />
 
-      <section className="mx-auto mt-24 max-w-screen-2xl px-4 md:px-14" id="home">
+      <section
+        className="mx-auto mt-24 max-w-screen-2xl px-4 md:px-14"
+        id="home"
+      >
         <Banner
           banner={banner1}
           eyebrow="Presentación institucional"
@@ -23,7 +26,7 @@ const Facultad = () => {
 
       <section className="mx-auto mb-20 mt-14 max-w-screen-2xl px-4 md:px-14">
         <motion.div
-          variants={fadeIn('right', 0.2)}
+          variants={fadeIn("right", 0.2)}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.25 }}
@@ -38,7 +41,7 @@ const Facultad = () => {
         </motion.div>
 
         <motion.article
-          variants={fadeIn('up', 0.2)}
+          variants={fadeIn("up", 0.2)}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
@@ -47,8 +50,8 @@ const Facultad = () => {
           <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="relative bg-slate-100">
               <img
-                src={Oseda}
-                alt="Ph.D. Dulio Oseda Gago"
+                src={Vicente}
+                alt="Dr. Wagner Enoc Vicente Ramos"
                 className="h-[300px] w-full object-cover object-top sm:h-[360px] lg:h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent" />
@@ -60,26 +63,30 @@ const Facultad = () => {
               </div>
 
               <h2 className="text-[1.9rem] font-extrabold tracking-tight text-slate-900 sm:text-[2.25rem]">
-                Ph.D. Dulio Oseda Gago
+                Dr. Wagner Enoc Vicente Ramos
               </h2>
 
               <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Docente universitario en la categoría de Principal, con más de 23 años de experiencia en investigación,
-                gestión educacional y acreditación universitaria. Doctor en Ciencias de la Educación, Doctor en Psicología
-                Educacional y Tutorial, Doctor en Educación, Doctor en Administración de la Educación, Doctor en Sistemas
-                de Ingeniería, DBA in Business Administration, Ph.D. in Business Administration y Ph.D. in Scientific Research.
+                Docente investigador de la Universidad Nacional de Cañete, con
+                más de 15 años de experiencia en pregrado y posgrado. Doctor en
+                Sistemas de Ingeniería, Magíster en Gestión Educativa, Ingeniero
+                de Sistemas y actual doctorando en Ciencias Económicas por la
+                Universidad de Buenos Aires.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Cuenta además con formación posdoctoral en Ciencias de la Educación, Sistemas Diacrónicos y Sincrónicos de
-                la Investigación Científica y Big Data. Ha liderado procesos de planificación estratégica, gestión de proyectos,
-                organización de eventos científicos y publicaciones académicas en ámbitos nacionales e internacionales.
+                Ha desempeñado cargos como Director de Escuela de Ingeniería de
+                Sistemas y Computación, Coordinador de Investigación,
+                Coordinador de la Facultad de Ingeniería y Director de Escuela
+                de Posgrado.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Su trayectoria incluye experiencia como Vicerrector Académico y Vicerrector de Investigación, así como labor
-                docente en pregrado y posgrado. Actualmente se desempeña como docente investigador en la Universidad Nacional
-                Mayor de San Marcos y en la Universidad Nacional de Cañete.
+                Es conferencista y par evaluador en congresos nacionales e
+                internacionales, investigador RENACYT y miembro activo de IEEE
+                Computer Society, con líneas de trabajo en ciencias de las
+                organizaciones, transformación digital e inteligencia
+                artificial.
               </p>
             </div>
           </div>
