@@ -1,102 +1,68 @@
 import User from '../models/user.model.js';
 import bcrypt from 'bcryptjs';
 import { createAccessToken } from '../libs/jwt.js';
-import jwt from 'jsonwebtoken';
-import { TOKEN_SECRET } from '../config.js';
+import { tokenCookieClearOptions, tokenCookieOptions } from '../config.js';
 
-export const register = async (req, res) => {
-    const { email, password, username } = req.body;
-
-    try {
-
-        const userFound = await User.findOne({ email });
-        if (userFound) return res.status(400).json(["the email already in use"]);
-
-        const passwordHash = await bcrypt.hash(password, 10);
-
-        const newUser = new User({
-            username,
-            email,
-            password: passwordHash,
-        });
-
-        const userSaved = await newUser.save();
-
-        const token = await createAccessToken({ id: userSaved._id });
-
-        res.cookie('token', token)
-        res.json({
-            id: userSaved._id,
-            username: userSaved.username,
-            email: userSaved.email,
-            createdAt: userSaved.createdAt,
-            updatedAt: userSaved.updatedAt
-        })
-
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
+const serializeUser = (user) => ({
+    id: user._id,
+    username: user.username,
+    email: user.email,
+    role: user.role,
+    active: user.active,
+    passwordChangeRequired: user.passwordChangeRequired,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt
+});
 
 export const login = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const userFound = await User.findOne({ email })
-        if (!userFound) return res.status(400).json({ message: 'User not found' });
+        const normalizedEmail = email.trim().toLowerCase();
+        const userFound = await User.findOne({ email: normalizedEmail });
+        if (!userFound || !userFound.active) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
 
         const isMatch = await bcrypt.compare(password, userFound.password);
-        if (!isMatch) return res.status(400).json({ message: "Invalid Password" })
+        if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
 
         const token = await createAccessToken({ id: userFound._id });
 
-        res.cookie('token', token)
-        res.json({
-            id: userFound._id,
-            username: userFound.username,
-            email: userFound.email,
-            createdAt: userFound.createdAt,
-            updatedAt: userFound.updatedAt
-        })
+        res.cookie('token', token, tokenCookieOptions);
+        res.json(serializeUser(userFound));
 
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Unable to sign in' });
     }
 };
 
 export const logout = (req, res) => {
-    res.cookie('token', "", { expires: new Date(0) });
+    res.clearCookie('token', tokenCookieClearOptions);
     return res.sendStatus(200);
 }
 
 export const profile = async (req, res) => {
-    const userFound = await User.findById(req.user.id)
-    if (!userFound) return res.status(400).json({ message: "User Not Found" });
-
-    return res.json({
-        id: userFound._id,
-        username: userFound.username,
-        email: userFound.email,
-        createdAt: userFound.createdAt,
-        updatedAt: userFound.updatedAt
-    });
+    return res.json(serializeUser(req.user));
 };
 
-export const verifyToken = async (req, res) => {
-    const { token } = req.cookies;
+export const changePassword = async (req, res) => {
+    const { currentPassword, newPassword } = req.body;
 
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    try {
+        const user = await User.findById(req.user.id);
+        const validPassword = user && await bcrypt.compare(currentPassword, user.password);
+        if (!validPassword) {
+            return res.status(400).json({ message: "Current password is incorrect" });
+        }
 
-    jwt.verify(token, TOKEN_SECRET, async (err, user) => {
-        if (err) return res.status(401).json({ message: "Unauthorized" });
+        user.password = await bcrypt.hash(newPassword, 10);
+        user.passwordChangeRequired = false;
+        await user.save();
+        return res.json(serializeUser(user));
+    } catch (error) {
+        return res.status(500).json({ message: "Unable to change password" });
+    }
+};
 
-        const userFound = await User.findById(user.id)
-        if(!userFound) return res.status(401).json({ message: "Unauthorized" });
-
-        return res.json({
-            id: userFound._id,
-            username: userFound.username,
-            email: userFound.email
-        })
-    })
-}
+export const verifyToken = (req, res) => res.json(serializeUser(req.user));

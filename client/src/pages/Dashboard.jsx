@@ -1,181 +1,59 @@
-import NavbarAdmin from "../components/NavbarAdmin";
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from "react";
-import { getNoticiasRequest } from "../api/notices";
-import { getResolucionesRequest } from "../api/rcfs";
-
-import { FaEye } from "react-icons/fa";
-import { AiFillFileAdd } from "react-icons/ai";
-import { FaArrowAltCircleRight } from "react-icons/fa";
-import Sidebar from "../components/Sidebar";
+import { ArrowRight, FilePlus2, FileText, Newspaper } from 'lucide-react';
+import AdminLayout from '../components/AdminLayout';
+import { getNoticiasRequest } from '../api/notices';
+import { getResolucionesRequest } from '../api/rcfs';
+import { useAuth } from '../context/AuthContext';
 
 const Dashboard = () => {
+  const { user } = useAuth();
+  const [counts, setCounts] = useState({ notices: 0, rcfs: 0 });
 
-    const [noticias, setNoticias] = useState([]);
-    const [resoluciones, setResoluciones] = useState([]);
+  useEffect(() => {
+    const loadCounts = async () => {
+      const results = await Promise.allSettled([getNoticiasRequest(), getResolucionesRequest()]);
+      setCounts({
+        notices: results[0].status === 'fulfilled' ? results[0].value.data.length : 0,
+        rcfs: results[1].status === 'fulfilled' ? results[1].value.data.length : 0,
+      });
+    };
+    loadCounts();
+  }, []);
 
-    const getNoticias = async () => {
-        try {
-            const res = await getNoticiasRequest();
-            setNoticias(res.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+  const modules = [
+    { label: 'Noticias', description: 'Publicaciones y comunicados del portal.', count: counts.notices, icon: Newspaper, to: '/notices', addTo: '/add-notice', accent: 'bg-sky-50 text-primary' },
+    { label: 'Resoluciones', description: 'Resoluciones del Consejo de Facultad.', count: counts.rcfs, icon: FileText, to: '/rcfs', addTo: '/add-rcf', accent: 'bg-emerald-50 text-emerald-600' },
+  ];
 
-    const getResoluciones = async () => {
-        try {
-            const res = await getResolucionesRequest();
-            setResoluciones(res.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+  return (
+    <AdminLayout title={`Hola, ${user?.username || 'usuario'}`} description="Aquí tienes una vista general del contenido institucional y accesos rápidos para mantenerlo actualizado.">
+      <section className="mb-8 overflow-hidden rounded-[2rem] bg-gradient-to-br from-primary via-blue-600 to-blue-700 p-6 text-white shadow-[0_24px_55px_rgba(16,129,234,0.2)] sm:p-8">
+        <div className="max-w-2xl">
+          <p className="text-xs font-bold uppercase tracking-[0.24em] text-sky-100">Resumen del portal</p>
+          <h2 className="mt-3 text-2xl font-bold sm:text-3xl">Contenido claro, vigente y accesible</h2>
+          <p className="mt-3 text-sm leading-6 text-blue-50 sm:text-base">Administra las publicaciones desde un único lugar. Los cambios se reflejan en el sitio público según tus permisos.</p>
+        </div>
+      </section>
 
-    useEffect(() => {
-        getNoticias();
-    }, []);
-
-    useEffect(() => {
-        getResoluciones();
-    }, []);
-
-    return (
-        <>
-            <NavbarAdmin />
-            <div className="flex">
-                {/* Sidebar */}
-                <Sidebar />
-                {/* Cards container */}
-                <div className="flex-grow p-10">
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-                        <div className="relative bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-xl">
-                            <div className="text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-pink-500 left-4 -top-6">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div className="mt-8">
-                                <p className="text-xl font-semibold my-2">Noticias</p>
-                                <Link to={"/notices"} className="flex items-center space-x-2 text-base my-3">
-                                    <FaEye />
-                                    <p className="text-gray-500">Ver Noticias</p>
-                                </Link>
-                                <Link to='/add-notice' className="flex items-center space-x-2 text-base my-3">
-                                    <AiFillFileAdd />
-                                    <p className="text-gray-500">Agregar Noticias</p>
-                                </Link>
-                                <div className="border-t-2"></div>
-                                <div className="flex justify-between">
-                                    <div className="my-2">
-                                        <p className="font-semibold text-base mb-2">N° Noticias</p>
-                                        <div className="flex items-center space-x-2 text-base">
-                                            <FaArrowAltCircleRight />
-                                            <p>{noticias.length}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Repite los otros cards aquí */}
-
-                        <div className="relative bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-xl">
-                            <div className="text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-green-500 left-4 -top-6">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                </svg>
-                            </div>
-                            <div className="mt-8">
-                                <p className="text-xl font-semibold my-2">Resoluciones CF</p>
-                                <Link to={"/rcfs"} className="flex items-center space-x-2 text-base my-3">
-                                    <FaEye />
-                                    <p className="text-gray-500">Ver RCF</p>
-                                </Link>
-                                <Link to='/add-rcf' className="flex items-center space-x-2 text-base my-3">
-                                    <AiFillFileAdd />
-                                    <p className="text-gray-500">Agregar RCF</p>
-                                </Link>
-                                <div className="border-t-2"></div>
-                                <div className="flex justify-between">
-                                    <div className="my-2">
-                                        <p className="font-semibold text-base mb-2">N° RCF</p>
-                                        <div className="flex items-center space-x-2 text-base">
-                                            <FaArrowAltCircleRight />
-                                            <p>{resoluciones.length}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Repite los otros cards aquí */}
-
-                        <div className="relative bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-xl">
-                            <div className="text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-blue-500 left-4 -top-6">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                </svg>
-                            </div>
-                            <div className="mt-8">
-                                <p className="text-xl font-semibold my-2">Formatos Estudiantes</p>
-                                <div className="flex items-center space-x-2 text-base my-3">
-                                    <FaEye />
-                                    <p className="text-gray-500">Ver Formatos E.</p>
-                                </div>
-                                <div className="flex items-center space-x-2 text-base my-3">
-                                    <AiFillFileAdd />
-                                    <p className="text-gray-500">Agregar Formatos E.</p>
-                                </div>
-                                <div className="border-t-2"></div>
-                                <div className="flex justify-between">
-                                    <div className="my-2">
-                                        <p className="font-semibold text-base mb-2">N° Formatos</p>
-                                        <div className="flex items-center space-x-2 text-base">
-                                            <FaArrowAltCircleRight />
-                                            <p>0</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Repite los otros cards aquí */}
-
-                        <div className="relative bg-white py-6 px-6 rounded-3xl w-64 my-4 shadow-xl">
-                            <div className="text-white flex items-center absolute rounded-full py-4 px-4 shadow-xl bg-yellow-500 left-4 -top-6">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-                                </svg>
-                            </div>
-                            <div className="mt-8">
-                                <p className="text-xl font-semibold my-2">Formatos SIG</p>
-                                <div className="flex items-center space-x-2 text-base my-3">
-                                    <FaEye />
-                                    <p className="text-gray-500">Ver Formatos SIG</p>
-                                </div>
-                                <div className="flex items-center space-x-2 text-base my-3">
-                                    <AiFillFileAdd />
-                                    <p className="text-gray-500">Agregar Formatos SIG</p>
-                                </div>
-                                <div className="border-t-2"></div>
-                                <div className="flex justify-between">
-                                    <div className="my-2">
-                                        <p className="font-semibold text-base mb-2">N°  Formatos</p>
-                                        <div className="flex items-center space-x-2 text-base">
-                                            <FaArrowAltCircleRight />
-                                            <p>0</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {modules.map(({ label, description, count, icon: Icon, to, addTo, accent }) => (
+          <article key={label} className="group rounded-[1.5rem] border border-slate-200 bg-white p-6 shadow-[0_16px_40px_rgba(15,23,42,0.05)] transition hover:-translate-y-1 hover:border-sky-200 hover:shadow-[0_22px_50px_rgba(15,23,42,0.09)]">
+            <div className="flex items-start justify-between gap-4">
+              <span className={`inline-flex h-12 w-12 items-center justify-center rounded-2xl ${accent}`}><Icon size={24} /></span>
+              <span className="text-3xl font-bold tracking-tight text-slate-950">{count}</span>
             </div>
-        </>
-    );
+            <h3 className="mt-6 text-xl font-bold text-slate-900">{label}</h3>
+            <p className="mt-2 min-h-12 text-sm leading-6 text-slate-500">{description}</p>
+            <div className="mt-6 flex items-center gap-3 border-t border-slate-100 pt-5">
+              <Link to={to} className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-secondary">Ver listado <ArrowRight size={16} /></Link>
+              <Link to={addTo} className="ml-auto inline-flex items-center gap-2 rounded-xl bg-slate-900 px-3 py-2 text-sm font-semibold text-white transition hover:bg-primary"><FilePlus2 size={16} /> Nuevo</Link>
+            </div>
+          </article>
+        ))}
+      </div>
+    </AdminLayout>
+  );
 };
 
 export default Dashboard;

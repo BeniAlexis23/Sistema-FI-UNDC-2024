@@ -7,7 +7,11 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "preview": "node dist/index"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "preview": "node dist/index",
+    "migrate:roles": "node scripts/migrate-user-roles.js",
+    "migrate:roles:rollback": "node scripts/rollback-user-roles.js"
   },
   "keywords": [],
   "author": "",
@@ -16,16 +20,22 @@
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "dotenv": "^17.4.2",
     "express": "^4.18.3",
+    "express-rate-limit": "^8.6.0",
+    "file-type": "^22.0.1",
+    "helmet": "^8.3.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
-    "serve": "^14.2.3",
+    "sanitize-html": "^2.17.6",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
-    "nodemon": "^3.1.0"
+    "mongodb-memory-server": "^11.2.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^7.2.2",
+    "vitest": "^4.1.10"
   }
 }

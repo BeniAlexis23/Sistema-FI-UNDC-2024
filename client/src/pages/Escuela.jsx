@@ -7,7 +7,7 @@ import { FaUserGraduate } from 'react-icons/fa6';
 
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
-import Vicente from '../assets/w-vicente.webp';
+import Angoma from '../assets/m-angoma.webp';
 import Programacion from '../assets/programacion.webp';
 import { fadeIn } from '../variants';
 
@@ -164,8 +164,8 @@ const Escuela = () => {
           <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="relative bg-slate-100">
               <img
-                src={Vicente}
-                alt="Dr. Wagner Enoc Vicente Ramos"
+                src={Angoma}
+                alt="Dra. Miriam Angoma Astucuri"
                 className="h-[300px] w-full object-cover object-top sm:h-[360px] lg:h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent" />
@@ -177,24 +177,19 @@ const Escuela = () => {
               </div>
 
               <h2 className="text-[1.9rem] font-extrabold tracking-tight text-slate-900 sm:text-[2.25rem]">
-                Dr. Wagner Enoc Vicente Ramos
+                Dra. Miriam Angoma Astucuri
               </h2>
 
               <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Docente investigador de la Universidad Nacional de Cañete, con más de 15 años de experiencia en
-                pregrado y posgrado. Doctor en Sistemas de Ingeniería, Magíster en Gestión Educativa, Ingeniero de
-                Sistemas y actual doctorando en Ciencias Económicas por la Universidad de Buenos Aires.
+                Doctora en Sistemas de Ingeniería por la Universidad Nacional del Centro del Perú, Magíster en Administración con mención en Gestión de Proyectos e Ingeniera de Sistemas y Computación. Cuenta con amplia trayectoria como docente universitaria ordinaria en la Universidad Nacional de Cañete y experiencia académica en la Universidad Peruana Los Andes y la Universidad Nacional de Huancavelica, desempeñándose en la formación de profesionales de Ingeniería de Sistemas, investigación científica y gestión académica.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Ha desempeñado cargos como Director de Escuela de Ingeniería de Sistemas y Computación, Coordinador de
-                Investigación, Coordinador de la Facultad de Ingeniería y Director de Escuela de Posgrado.
+                En los últimos años ha fortalecido su especialización mediante certificaciones y diplomados en Inteligencia Artificial y Tecnologías de la Información, Business Intelligence, Analytics y Big Data, ITIL 4 Foundation, Transformación Digital, Gestión por Procesos en la Gestión Pública, así como capacitación docente e innovación educativa. Su formación está orientada a la transformación digital, la gestión de servicios TI, la analítica de datos, la inteligencia artificial y la mejora continua de las organizaciones.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Es conferencista y par evaluador en congresos nacionales e internacionales, investigador RENACYT y
-                miembro activo de IEEE Computer Society, con líneas de trabajo en ciencias de las organizaciones,
-                transformación digital e inteligencia artificial.
+                Asimismo, desarrolla una destacada labor como investigadora y ponente en congresos nacionales e internacionales, contando con publicaciones en revistas indexadas, trabajos de investigación científica y producción bibliográfica en áreas relacionadas con tecnologías de la información, entornos virtuales de aprendizaje, gestión organizacional y educación superior. Su experiencia integra la docencia, la investigación y la innovación tecnológica, contribuyendo al fortalecimiento de la calidad educativa, la investigación científica y la transformación digital en la educación superior.
               </p>
             </div>
           </div>

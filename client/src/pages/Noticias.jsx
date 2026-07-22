@@ -11,6 +11,7 @@ dayjs.locale('es');
 
 import { useEffect, useState } from "react";
 import { getNoticiasRequest } from "../api/notices";
+import { assetUrl } from '../utils/assetUrl';
 
 // motion
 import { motion } from 'framer-motion';
@@ -131,7 +132,7 @@ const Noticias = () => {
                                             className="group relative block min-h-[260px] overflow-hidden bg-slate-900 shadow-[0_18px_45px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:min-h-[300px] lg:min-h-[255px]"
                                         >
                                             <img
-                                                src={`http://localhost:3000${notice.imageUrl}`}
+                                                src={assetUrl(notice.imageUrl)}
                                                 alt={notice.title}
                                                 className="absolute inset-0 h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
                                             />
@@ -157,7 +158,7 @@ const Noticias = () => {
                                         >
                                             <div className="overflow-hidden bg-slate-100">
                                                 <img
-                                                    src={`http://localhost:3000${notice.imageUrl}`}
+                                                    src={assetUrl(notice.imageUrl)}
                                                     alt={notice.title}
                                                     className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
                                                 />

@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
-import Duran from '../assets/a-duran.webp';
+import Ferreyros from '../assets/j-ferreyros.webp';
 import { fadeIn } from '../variants';
 
 const Investigacion = () => {
@@ -36,8 +36,8 @@ const Investigacion = () => {
           <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="relative bg-slate-100">
               <img
-                src={Duran}
-                alt="Dra. Amanda Duran Carhuamaca"
+                src={Ferreyros}
+                alt="Dr. Jair Emerson Ferreyros Yucra"
                 className="h-[300px] w-full object-cover object-top sm:h-[360px] lg:h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent" />
@@ -45,29 +45,19 @@ const Investigacion = () => {
 
             <div className="flex flex-col justify-center px-5 py-7 sm:px-8 lg:px-9 lg:py-8">
               <div className="mb-5 inline-flex w-fit items-center rounded-full bg-sky-50 px-4 py-2 text-[0.7rem] font-semibold uppercase tracking-[0.24em] text-primary">
-                Directora (e) de la Unidad de Investigación
+                Director (e) de la Unidad de Investigación
               </div>
 
               <h2 className="text-[1.9rem] font-extrabold tracking-tight text-slate-900 sm:text-[2.25rem]">
-                Dra. Amanda Duran Carhuamaca
+                Dr. Jair Emerson Ferreyros Yucra
               </h2>
 
               <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Profesional orientada al logro de objetivos con base en el uso estratégico de la tecnología. Magíster en
-                Informática por la Pontificia Universidad Católica del Perú, Ingeniera de Sistemas, candidata a Doctora en
-                Ingeniería de Sistemas y con formación doctoral en Docencia Universitaria.
+                Doctor en Ingeniería de sistemas, Magister Scientiae en Informática, Ingeniero de sistemas, Licenciado en matemáticas, estudios concluidos en segunda Especialidad Profesional que se centra en la investigación, didáctica y Docencia en educación superior, así como estudios concluidos en un Doctorado en Administración. Mis habilidades abarcan el análisis de sistemas y la gestión de proyectos en el ámbito de la tecnología de la información (TI).
               </p>
 
               <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Cuenta con experiencia en gestión y dirección de proyectos en distintas organizaciones, además de una sólida
-                trayectoria como analista funcional de proyectos de software y docente universitaria con más de 13 años de
-                experiencia.
-              </p>
-
-              <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Ha ejercido la dirección de la EAP de Ingeniería de Sistemas, desarrollado labor docente-investigadora en
-                múltiples universidades y participado como expositora en temas de vanguardia relacionados con investigación
-                y tecnología.
+                Destaco por mi capacidad para resolver problemas técnicos que surgen en el entorno laboral, además de contar con una sólida comunicación con el personal de la organización y los usuarios finales. Esta combinación de conocimientos y habilidades me permite abordar de manera efectiva los desafíos que se presentan en el campo de la tecnología y la educación.
               </p>
             </div>
           </div>
@@ -117,8 +107,6 @@ const Investigacion = () => {
           </div>
         </div>
       </section>
-
-      {/* Sección de decretos de investigación oculta temporalmente */}
 
       <Footer />
     </>

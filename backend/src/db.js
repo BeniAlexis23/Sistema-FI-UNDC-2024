@@ -1,11 +1,9 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
+import { DATABASE_URI } from './config.js';
 
 export const connectDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGODB_LOCAL);
-        /*'mongodb://localhost:27017/merndb' */
-        console.log('DB is connect')
-    } catch (error) {
-        console.log(error)
-    }
+    await mongoose.connect(DATABASE_URI, { serverSelectionTimeoutMS: 10000 });
+    console.log('MongoDB connection established');
 };
+
+export const disconnectDB = () => mongoose.disconnect();

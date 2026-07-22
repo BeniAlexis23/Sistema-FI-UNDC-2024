@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 import { createRcfRequest, getRcfsRequest, deleteRcfRequest, getRcfRequest, updateRcfsRequest } from "../api/rcfs"
+import { getApiErrors } from '../api/errors';
 
 const RcfContext = createContext();
 
@@ -16,55 +17,51 @@ export function RcfProvider({ children }) {
     const [rcfs, setRcfs] = useState([]);
     const [errors, setErrors] = useState([]);
 
-    const getRcfs = async () => {
+    const getRcfs = useCallback(async () => {
         try {
             const res = await getRcfsRequest();
             setRcfs(res.data);
         } catch (error) {
-            console.log(error);
+            setErrors(getApiErrors(error, 'No se pudieron cargar las resoluciones'));
         }
-    }
+    }, []);
 
-    const createRcf = async (rcf) => {
+    const createRcf = useCallback(async (rcf) => {
         try {
             const res = await createRcfRequest(rcf);
             return res
         } catch (error) {
-            console.log(error.response.data)
-            if (Array.isArray(error.response.data)) {
-                return setErrors(error.response.data);
-            }
-            setErrors([error.response.data.message]);
+            setErrors(getApiErrors(error, 'No se pudo crear la resolución'));
         }
-    }
+    }, []);
 
-    const deleteRcf = async (id) => {
+    const deleteRcf = useCallback(async (id) => {
         try {
             const res = await deleteRcfRequest(id);
-            if (res.status === 204) setRcfs(rcfs.filter((rcf) => rcf._id !== id));
+            if (res.status === 204) setRcfs((current) => current.filter((rcf) => rcf._id !== id));
             return res;
         } catch (error) {
-            console.log(error);
+            setErrors(getApiErrors(error, 'No se pudo eliminar la resolución'));
         }
-    }
+    }, []);
 
-    const getRcf = async (id) => {
+    const getRcf = useCallback(async (id) => {
         try {
             const res = await getRcfRequest(id);
             return res.data
         } catch (error) {
-            console.error(error)
+            setErrors(getApiErrors(error, 'No se pudo cargar la resolución'));
         }
-    }
+    }, []);
 
-    const updateRcf = async (id, rcf) => {
+    const updateRcf = useCallback(async (id, rcf) => {
         try {
             const res = await updateRcfsRequest(id, rcf);
             return res;
         } catch (error) {
-            console.error(error);
+            setErrors(getApiErrors(error, 'No se pudo actualizar la resolución'));
         }
-    }
+    }, []);
 
     return (
         <RcfContext.Provider value={{ rcfs, errors, setErrors, createRcf, getRcfs, deleteRcf, getRcf, updateRcf }}>

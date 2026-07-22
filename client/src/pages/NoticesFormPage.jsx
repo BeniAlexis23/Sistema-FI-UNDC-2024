@@ -1,149 +1,51 @@
-import { useForm } from 'react-hook-form';
-import { useNotices } from '../context/NoticesContext';
-import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import NavbarAdmin from "../components/NavbarAdmin";
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
-
 import Swal from 'sweetalert2';
+import AdminLayout from '../components/AdminLayout';
+import { useNotices } from '../context/NoticesContext';
+
+dayjs.extend(utc);
+const inputClass = 'mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-slate-900 outline-none transition focus:border-sky-300 focus:bg-white focus:ring-4 focus:ring-sky-100';
 
 const NoticesFormPage = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const { createNotice, getNotice, updateNotice, errors: noticesErrors, setErrors } = useNotices();
+  const { createNotice, getNotice, updateNotice, errors: apiErrors } = useNotices();
   const navigate = useNavigate();
-  const params = useParams();
+  const { id } = useParams();
 
   useEffect(() => {
-    async function loadNotice() {
-      if (params.id) {
-        const notice = await getNotice(params.id);
-        setValue('title', notice.title);
-        setValue('description', notice.description);
-        setValue("date", dayjs.utc(notice.date).format("YYYY-MM-DD"));
-      }
-    }
-    loadNotice();
-  }, [params.id, getNotice, setValue]);
+    if (!id) return;
+    getNotice(id).then((notice) => {
+      setValue('title', notice.title); setValue('description', notice.description); setValue('date', dayjs.utc(notice.date).format('YYYY-MM-DD'));
+    });
+  }, [getNotice, id, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
+    const confirmation = await Swal.fire({ title: id ? '¿Actualizar noticia?' : '¿Publicar noticia?', icon: 'question', showCancelButton: true, confirmButtonText: id ? 'Actualizar' : 'Publicar', confirmButtonColor: '#1081ea', cancelButtonText: 'Cancelar', cancelButtonColor: '#475569', reverseButtons: true, focusCancel: true });
+    if (!confirmation.isConfirmed) return;
     const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('description', data.description);
-    formData.append('date', data.date ? dayjs.utc(data.date).format() : dayjs.utc().format());
-
-    if (data.imageUrl && data.imageUrl.length > 0) {
-      formData.append('imageUrl', data.imageUrl[0]);
-    }
-
-    // Verificación si se está editando o creando una nueva noticia
-    if (params.id) {
-      // Mostrar SweetAlert para confirmar la edición
-      Swal.fire({
-        title: "¿Actualizar noticia?",
-        showCancelButton: true,
-        confirmButtonText: "Actualizar",
-        confirmButtonColor: "#f1c40f",
-        cancelButtonText: "Cancelar",
-        cancelButtonColor: "#e74c3c"
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          // Solo se actualiza la noticia si el usuario confirma
-          const response = await updateNotice(params.id, formData);
-          if (response && response.status === 200) {
-            Swal.fire({
-              title: "Actualizada!",
-              icon: "success",
-              confirmButtonText: "OK",
-              confirmButtonColor: "#2ecc71"
-            });
-            navigate('/notices');
-          } else {
-            Swal.fire("Error al actualizar", "Hubo un problema al actualizar la noticia", "error");
-          }
-        }
-      });
-    } else {
-      // Mostrar SweetAlert para confirmar la creación
-      Swal.fire({
-        title: "¿Guardar nueva noticia?",
-        showCancelButton: true,
-        confirmButtonText: "Guardar",
-        confirmButtonColor: "#2ecc71",
-        cancelButtonText: "Cancelar",
-        cancelButtonColor: "#e74c3c"
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          // Solo se crea la noticia si el usuario confirma
-          const response = await createNotice(formData);
-          if (response && response.status === 200) {
-            Swal.fire({
-              title: "Guardado!",
-              icon: "success",
-              confirmButtonText: "OK",
-              confirmButtonColor: "#2ecc71"
-            });
-            navigate('/notices');
-          } else {
-            Swal.fire("Error al guardar", "Hubo un problema al guardar la noticia", "error");
-          }
-        }
-      });
-    }
+    formData.append('title', data.title); formData.append('description', data.description); formData.append('date', data.date ? dayjs.utc(data.date).format() : dayjs.utc().format());
+    if (data.imageUrl?.length) formData.append('imageUrl', data.imageUrl[0]);
+    const response = id ? await updateNotice(id, formData) : await createNotice(formData);
+    if (response?.status === 200) { await Swal.fire({ title: id ? 'Noticia actualizada' : 'Noticia publicada', icon: 'success', confirmButtonColor: '#1081ea' }); navigate('/notices'); }
   });
 
   return (
-    <>
-      <NavbarAdmin />
-      <div className='flex h-[calc(100vh-100px)] items-center justify-center'>
-        <div className='bg-zinc-800 text-white max-w-md w-full p-10 rounded-md'>
-          {noticesErrors.map((error, i) => (
-            <div className='bg-red-500 p-2 text-white text-center my-2' key={i}>
-              {error}
-            </div>
-          ))}
-          <form onSubmit={onSubmit}>
-            <label htmlFor="title">Título</label>
-            <input
-              type="text"
-              placeholder="Título"
-              {...register('title', { required: true })}
-              className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-              autoFocus
-            />
-            {errors.title && <p className='text-red-500'>Título requerido</p>}
-
-            <label htmlFor="description">Descripción</label>
-            <textarea
-              rows="3"
-              placeholder="Descripción"
-              {...register('description', { required: true })}
-              className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-            ></textarea>
-            {errors.description && <p className='text-red-500'>Descripción requerida</p>}
-
-            <label htmlFor="imageUrl">Imagen</label>
-            <input
-              type="file"
-              {...register('imageUrl')}
-              className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-            />
-
-            <label htmlFor="date">Fecha</label>
-            <input
-              type="date"
-              className='w-full bg-zinc-700 text-white px-4 py-2 rounded-md my-2'
-              {...register('date')}
-            />
-
-            <button className="bg-indigo-500 px-4 py-1 rounded-sm">Guardar</button>
-            <Link to={'/notices'} className="bg-red-500 px-4 py-1 ml-2 rounded-sm">Cancelar</Link>
-          </form>
-        </div>
+    <AdminLayout title={id ? 'Editar noticia' : 'Nueva noticia'} description="Completa la información que se mostrará en el portal institucional.">
+      <div className="mx-auto max-w-3xl rounded-[1.5rem] border border-slate-200 bg-white p-5 shadow-[0_16px_40px_rgba(15,23,42,0.05)] sm:p-8">
+        {apiErrors.map((error) => <div key={error} className="mb-4 rounded-xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>)}
+        <form onSubmit={onSubmit} className="space-y-5">
+          <label className="block text-sm font-semibold text-slate-700">Título<input type="text" placeholder="Título de la publicación" {...register('title', { required: true })} className={inputClass} autoFocus />{errors.title && <span className="mt-1 block text-sm text-red-600">El título es obligatorio</span>}</label>
+          <label className="block text-sm font-semibold text-slate-700">Descripción<textarea rows="5" placeholder="Resumen de la noticia" {...register('description', { required: true })} className={`${inputClass} resize-y`} />{errors.description && <span className="mt-1 block text-sm text-red-600">La descripción es obligatoria</span>}</label>
+          <label className="block text-sm font-semibold text-slate-700">Imagen destacada<input type="file" accept="image/jpeg,image/png,image/webp" {...register('imageUrl')} className="mt-2 w-full rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm text-slate-600 file:mr-4 file:rounded-lg file:border-0 file:bg-sky-100 file:px-3 file:py-2 file:font-semibold file:text-primary" /><span className="mt-2 block text-xs font-normal text-slate-500">JPG, PNG o WebP. Si estás editando, déjalo vacío para conservar la imagen actual.</span></label>
+          <label className="block text-sm font-semibold text-slate-700">Fecha de publicación<input type="date" {...register('date')} className={inputClass} /></label>
+          <div className="flex flex-col-reverse gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:justify-end"><Link to="/notices" className="inline-flex items-center justify-center rounded-xl border border-slate-200 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">Cancelar</Link><button className="rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(16,129,234,0.2)] transition hover:bg-secondary">{id ? 'Guardar cambios' : 'Publicar noticia'}</button></div>
+        </form>
       </div>
-    </>
+    </AdminLayout>
   );
 };
 

@@ -1,2 +1,9 @@
 node_modules
+npm-debug.log
+.env
+.env.*
+!.env.example
+backups
+src/uploads
+docker-compose.yml
 .git

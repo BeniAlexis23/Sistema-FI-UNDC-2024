@@ -1,32 +1,29 @@
 import './App.css';
+import { lazy, Suspense } from 'react';
 
-import { BrowserRouter, Routes, Route, HashRouter } from 'react-router-dom';
+import { Routes, Route, HashRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { NoticeProvider } from './context/NoticesContext';
 import { RcfProvider } from './context/RcfsContext';
-import { DecretoProvider } from './context/UI-DecretosContext';
 
-/*import RegisterPage from './pages/RegisterPage';*/
-import LoginPage from './pages/LoginPage';
-import Dashboard from './pages/Dashboard';
-import NoticesPage from './pages/NoticesPage';
-import NoticesFormPage from './pages/NoticesFormPage';
-import RcfsPage from './pages/RcfsPages';
-import RcfsFormPage from './pages/RcfsFormPage';
-import HomePage from './pages/HomePage';
-import Facultad from './pages/facultad/Facultad';
-import Resoluciones from './pages/facultad/Resoluciones';
-import Noticias from './pages/Noticias';
-import Noticia_Id from './pages/Noticia_Id';
-import Departamento from './pages/Departamento';
-import Escuela from './pages/Escuela';
-import Investigacion from './pages/Investigacion';
-import Posgrado from './pages/Posgrado';
-import Contacto from './pages/Contacto';
-
-/*Decretos */
-import DecretosPage from './pages/DecretosPages';
-import DecretosFormPage from './pages/DecretosFormPage';
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const NoticesPage = lazy(() => import('./pages/NoticesPage'));
+const NoticesFormPage = lazy(() => import('./pages/NoticesFormPage'));
+const RcfsPage = lazy(() => import('./pages/RcfsPages'));
+const RcfsFormPage = lazy(() => import('./pages/RcfsFormPage'));
+const HomePage = lazy(() => import('./pages/HomePage'));
+const Facultad = lazy(() => import('./pages/facultad/Facultad'));
+const Resoluciones = lazy(() => import('./pages/facultad/Resoluciones'));
+const Noticias = lazy(() => import('./pages/Noticias'));
+const Noticia_Id = lazy(() => import('./pages/Noticia_Id'));
+const Departamento = lazy(() => import('./pages/Departamento'));
+const Escuela = lazy(() => import('./pages/Escuela'));
+const Investigacion = lazy(() => import('./pages/Investigacion'));
+const Posgrado = lazy(() => import('./pages/Posgrado'));
+const Contacto = lazy(() => import('./pages/Contacto'));
+const ChangePasswordPage = lazy(() => import('./pages/ChangePasswordPage'));
+const UsersPage = lazy(() => import('./pages/UsersPage'));
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -37,9 +34,9 @@ const App = () => {
     <AuthProvider>
       <NoticeProvider>
         <RcfProvider>
-          <DecretoProvider>
-            <HashRouter>
+          <HashRouter>
               <ScrollToTop />
+              <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Cargando…</div>}>
               <Routes>
                 {/* Rutas Públicas */}
                 <Route path="/" element={<HomePage />} />
@@ -57,7 +54,9 @@ const App = () => {
 
                 {/* Rutas Admin y Protegidas */}
                 <Route path="/login" element={<LoginPage />} />
-                {/*<Route path="/register" element={<RegisterPage />} />*/}
+                <Route element={<ProtectedRoute allowPasswordChange />}>
+                  <Route path="/change-password" element={<ChangePasswordPage />} />
+                </Route>
                 <Route element={<ProtectedRoute />}>
                   <Route path="/dashboard" element={<Dashboard />} />
                   <Route path="/notices" element={<NoticesPage />} />
@@ -65,23 +64,20 @@ const App = () => {
                   <Route path="/notices/:id" element={<NoticesFormPage />} />
                 </Route>
 
+                <Route element={<ProtectedRoute requiredRole="admin" />}>
+                  <Route path="/users" element={<UsersPage />} />
+                </Route>
+
                 {/* Rutas protegidas para Usuario especifico */}
-                <Route element={<ProtectedRoute requiredEmail="bluyo@undc.edu.pe" /*'coordinacioningenieria@undc.edu.pe'*/ />}>
+                <Route element={<ProtectedRoute />}>
                   <Route path="/rcfs" element={<RcfsPage />} />
                   <Route path="/add-rcf" element={<RcfsFormPage />} />
                   <Route path="/rcfs/:id" element={<RcfsFormPage />} />
                 </Route>
 
-                {/* Rutas de Decretos */}
-                <Route element={<ProtectedRoute requiredEmail="bluyo@undc.edu.pe" /*'coordinacioningenieria@undc.edu.pe'*/ />}>
-                  <Route path="/decretos" element={<DecretosPage />} />
-                  <Route path="/add-decreto" element={<DecretosFormPage />} />
-                  <Route path="/decretos/:id" element={<DecretosFormPage />} />
-                </Route>
-
               </Routes>
-            </HashRouter>
-          </DecretoProvider>
+              </Suspense>
+          </HashRouter>
         </RcfProvider>
       </NoticeProvider>
     </AuthProvider>

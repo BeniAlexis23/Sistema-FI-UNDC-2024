@@ -1,96 +1,96 @@
-import { createContext, useState, useContext, useEffect } from 'react';
-import { registerRequest, loginRequest, verityTokenRequet } from '../api/auth';
-import Cookies from 'js-cookie';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { changePasswordRequest, loginRequest, logoutRequest, verityTokenRequet } from '../api/auth';
+import { getApiErrors } from '../api/errors';
 
 export const AuthContext = createContext();
 
 export const useAuth = () => {
     const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error('useAuth must be used within the AuthProvider');
-    }
+    if (!context) throw new Error('useAuth must be used within the AuthProvider');
     return context;
 };
 
 export const AuthProvider = ({ children }) => {
-
     const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [errors, setErros] = useState([]);
+    const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    const signup = async (user) => {
+    const signin = async (credentials) => {
+        setErrors([]);
         try {
-            const res = await registerRequest(user);
-            console.log(res.data);
-            setUser(res.data);
+            const response = await loginRequest(credentials);
             setIsAuthenticated(true);
+            setUser(response.data);
+            return true;
         } catch (error) {
-            //console.log(error.response)
-            setErros(error.response.data);
+            setErrors(getApiErrors(error, 'No se pudo iniciar sesión'));
+            return false;
         }
     };
 
-    const signin = async (user) => {
+    const logout = async () => {
         try {
-            const res = await loginRequest(user);
-            console.log(res);
-            setIsAuthenticated(true);
-            setUser(res.data);
-        } catch (error) {
-            if (Array.isArray(error.response.data)) {
-                return setErros(error.response.data);
-            }
-            setErros([error.response.data.message]);
+            await logoutRequest();
+        } catch {
+            // La sesión local también debe finalizar si la cookie ya expiró.
         }
-    };
-
-    const logout = () => {
-        Cookies.remove("token");
         setIsAuthenticated(false);
         setUser(null);
-    }
+    };
+
+    const changePassword = async (passwords) => {
+        setErrors([]);
+        try {
+            const response = await changePasswordRequest(passwords);
+            setUser(response.data);
+            return true;
+        } catch (error) {
+            setErrors(getApiErrors(error, 'No se pudo cambiar la contraseña'));
+            return false;
+        }
+    };
 
     useEffect(() => {
-        if (errors.length > 0) {
-            const timer = setTimeout(() => {
-                setErros([]);
-            }, 5000);
-            return () => clearTimeout(timer);
-        }
+        if (!errors.length) return undefined;
+        const timer = setTimeout(() => setErrors([]), 5000);
+        return () => clearTimeout(timer);
     }, [errors]);
 
     useEffect(() => {
-        async function checkLogin() {
-            const cookies = Cookies.get();
+        const handleUnauthorized = () => {
+            setIsAuthenticated(false);
+            setUser(null);
+        };
+        const handlePasswordRequired = () => {
+            setUser((current) => current ? { ...current, passwordChangeRequired: true } : current);
+        };
+        window.addEventListener('auth:unauthorized', handleUnauthorized);
+        window.addEventListener('auth:password-change-required', handlePasswordRequired);
+        return () => {
+            window.removeEventListener('auth:unauthorized', handleUnauthorized);
+            window.removeEventListener('auth:password-change-required', handlePasswordRequired);
+        };
+    }, []);
 
-            if (!cookies.token) {
-                setIsAuthenticated(false);
-                setLoading(false);
-                return setUser(null);
-            }
-
+    useEffect(() => {
+        const checkLogin = async () => {
             try {
-                const res = await verityTokenRequet(cookies.token);
-                if (!res.data) {
-                    setIsAuthenticated(false);
-                    setLoading(false);
-                    return;
-                }
+                const response = await verityTokenRequet();
                 setIsAuthenticated(true);
-                setUser(res.data);
-                setLoading(false);
-            } catch (error) {
+                setUser(response.data);
+            } catch {
                 setIsAuthenticated(false);
                 setUser(null);
+            } finally {
                 setLoading(false);
             }
-        }
+        };
         checkLogin();
     }, []);
 
     return (
-        <AuthContext.Provider value={{ signup, signin, logout, loading, user, isAuthenticated, errors }}>
+        <AuthContext.Provider value={{ signin, logout, changePassword, loading, user, isAuthenticated, errors, clearErrors: () => setErrors([]) }}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,159 +1,23 @@
-import { useState, useEffect, useMemo } from "react";
-import { useRcfs } from "../context/RcfsContext";
-import NavbarAdmin from "../components/NavbarAdmin";
-import { Link } from "react-router-dom";
-import { FaFileDownload } from "react-icons/fa";
+import { useEffect, useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 import Swal from 'sweetalert2';
+import { useRcfs } from '../context/RcfsContext';
+import AdminLayout from '../components/AdminLayout';
+import AdminDocumentList from '../components/AdminDocumentList';
 
-function RcfsPage() {
+const RcfsPage = () => {
   const { getRcfs, deleteRcf, rcfs } = useRcfs();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedYear, setSelectedYear] = useState("2026");
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleYearChange = (event) => {
-    setSelectedYear(event.target.value);
-  };
-
-  const filteredResoluciones = useMemo(() => {
-    return rcfs.filter((rcf) => {
-      const rcfYear = new Date(rcf.date).getFullYear().toString();
-      return (
-        (rcf.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          rcf.description.toLowerCase().includes(searchTerm.toLowerCase())) &&
-        (selectedYear === "" || rcfYear === selectedYear)
-      );
-    });
-  }, [rcfs, searchTerm, selectedYear]);
-
-  useEffect(() => {
-    getRcfs();
-  }, []);
-
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedYear, setSelectedYear] = useState('');
+  useEffect(() => { getRcfs(); }, [getRcfs]);
+  const years = useMemo(() => [...new Set(rcfs.map((item) => new Date(item.date).getFullYear().toString()))].sort().reverse(), [rcfs]);
+  const filteredItems = useMemo(() => rcfs.filter((item) => `${item.title} ${item.description}`.toLowerCase().includes(searchTerm.toLowerCase()) && (!selectedYear || new Date(item.date).getFullYear().toString() === selectedYear)), [rcfs, searchTerm, selectedYear]);
   const handleDelete = async (id) => {
-    const result = await Swal.fire({
-      title: '¿Estás seguro?',
-      text: "No podrás revertir esto",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Eliminar',
-      confirmButtonColor: '#e74c3c',
-      cancelButtonText: 'Cancelar',
-      cancelButtonColor: '#3498db'
-    });
-
-    if (result.isConfirmed) {
-      try {
-        await deleteRcf(id);
-        Swal.fire({
-          title: 'Eliminado!',
-          text: 'La RCF ha sido eliminada',
-          icon: 'success',
-          confirmButtonText: 'OK',
-          confirmButtonColor: '#2ecc71'
-        });
-      } catch (error) {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Hubo un problema al eliminar la RCF',
-          icon: 'error',
-          confirmButtonText: 'OK',
-          confirmButtonColor: '#e74c3c'
-        });
-      }
-    }
+    const result = await Swal.fire({ title: '¿Eliminar resolución?', text: 'Esta acción no se puede revertir.', icon: 'warning', showCancelButton: true, confirmButtonText: 'Eliminar', confirmButtonColor: '#dc2626', cancelButtonText: 'Cancelar', cancelButtonColor: '#475569', reverseButtons: true, focusCancel: true });
+    if (result.isConfirmed) { await deleteRcf(id); Swal.fire({ title: 'Resolución eliminada', icon: 'success', confirmButtonColor: '#1081ea' }); }
   };
-
-  return (
-    <>
-      <NavbarAdmin />
-      {rcfs.length === 0 && <h1>No hay RCF</h1>}
-      <section className="flex max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-6">
-        <div className="bg-white p-8 rounded-md w-full">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-6">
-            <h1 className="font-semibold text-2xl">Resoluciones de Coordinación de Facultad</h1>
-            <div className="mt-4 sm:mt-0 flex items-center justify-between sm:justify-start">
-              <div className="flex bg-gray-50 items-center p-2 rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                </svg>
-                <input className="bg-gray-50 outline-none ml-1 block" type="text" placeholder="buscar..." value={searchTerm} onChange={handleSearchChange} />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-              <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row">
-                  <h2>Selecciona el año:</h2>
-                  <div className="inline-flex mt-2 xs:mt-0">
-                    <select className="text-sm text-gray-900" onChange={handleYearChange} value={selectedYear}>
-                      <option value="2026">2026</option>
-                      <option value="2025">2025</option>
-                      <option value="2024">2024</option>
-                      <option value="2023">2023</option>
-                    </select>
-                  </div>
-                </div>
-                <ResolucionesTable resoluciones={filteredResoluciones} onDelete={handleDelete} />
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </>
-  );
-}
-
-const ResolucionesTable = ({ resoluciones, onDelete }) => (
-  <table className="min-w-full leading-normal">
-    <thead>
-      <tr>
-        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-          N°
-        </th>
-        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-          Resolución
-        </th>
-        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-          Contenido
-        </th>
-        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-          Descarga
-        </th>
-        <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-          Acciones
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      {resoluciones.map((rcf, index) => (
-        <tr key={rcf._id}>
-          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-            <p className="text-gray-900 whitespace-no-wrap">{index + 1}</p>
-          </td>
-          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-            <p className="text-gray-900 whitespace-no-wrap">{rcf.title}</p>
-          </td>
-          <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-            <p className="text-gray-900 whitespace-no-wrap">{rcf.description}</p>
-          </td>
-          <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-            <Link to={rcf.url} target="_blank" className="flex justify-center items-center text-3xl"><FaFileDownload /></Link>
-          </td>
-          <td className="px-5 py-5 border-b border-gray-200 bg-white text-center">
-            <div className="flex gap-x-2 items-center">
-              <Link to={`/rcfs/${rcf._id}`} className="bg-yellow-500 px-4 py-1 rounded-sm">Editar</Link>
-              <button className="bg-red-500 text-white px-4 py-1 rounded-sm" onClick={() => onDelete(rcf._id)}>Eliminar</button>
-            </div>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-);
+  return <AdminLayout title="Resoluciones" description="Administra las resoluciones del Consejo de Facultad y sus enlaces de descarga." action={<Link to="/add-rcf" className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white shadow-[0_10px_25px_rgba(16,129,234,0.22)] transition hover:bg-secondary"><Plus size={18} /> Nueva resolución</Link>}><AdminDocumentList items={filteredItems} resourcePath="rcfs" searchTerm={searchTerm} onSearch={(event) => setSearchTerm(event.target.value)} selectedYear={selectedYear} onYearChange={(event) => setSelectedYear(event.target.value)} years={years} onDelete={handleDelete} emptyLabel="No se encontraron resoluciones" /></AdminLayout>;
+};
 
 export default RcfsPage;

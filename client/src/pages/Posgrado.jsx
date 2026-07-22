@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
-import Almidon from '../assets/c-almidon.webp';
+import Daga from '../assets/m-daga.webp';
 import { fadeIn } from '../variants';
 
 const Posgrado = () => {
@@ -36,8 +36,8 @@ const Posgrado = () => {
           <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
             <div className="relative bg-slate-100">
               <img
-                src={Almidon}
-                alt="Dr. Carlos Alcides Almidón Ortiz"
+                src={Daga}
+                alt="Dra. Marisol Daga Chaca"
                 className="h-[300px] w-full object-cover object-top sm:h-[360px] lg:h-full"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/20 via-transparent to-transparent" />
@@ -49,26 +49,19 @@ const Posgrado = () => {
               </div>
 
               <h2 className="text-[1.9rem] font-extrabold tracking-tight text-slate-900 sm:text-[2.25rem]">
-                Dr. Carlos Alcides Almidón Ortiz
+                Dra. Marisol Daga Chaca
               </h2>
 
               <p className="mt-5 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Doctor en Sistemas de Ingeniería, egresado del Doctorado en Ingeniería de Sistemas, Magíster en
-                Ingeniería de Sistemas e Ingeniero de Sistemas colegiado. Cuenta con experiencia como docente de
-                posgrado y docente universitario, así como formación especializada en infraestructura tecnológica,
-                telecomunicaciones y gestión académica.
+                Doctora en Ciencias de la Educación, Magíster en Gestión Empresarial, Ingeniera de Sistemas y Computación y Licenciada en Educación con especialidad en Computación e Informática. Cuenta con amplia experiencia como docente universitaria e investigadora, desempeñándose en la formación de profesionales en ingeniería de sistemas, investigación científica y gestión académica.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Su trayectoria incluye certificaciones y estudios en redes, ciberseguridad, domótica, diseño de
-                datacenter, cableado estructurado, gestión por procesos, configuración de servidores, gerencia,
-                didáctica universitaria, inversión pública, modelamiento de software e investigación formativa.
+                Su trayectoria reciente incluye estudios de Doctorado en Ingeniería de Sistemas, así como diplomados y programas de especialización en Gestión Educativa, Didáctica de la Educación Superior, Estadística Aplicada a la Investigación Científica, desarrollo de software con PHP Laravel, transformación digital, innovación, aprendizaje-servicio, modelamiento de datos y metodología de la investigación. Asimismo, ha participado activamente en congresos nacionales e internacionales relacionados con ingeniería de sistemas, tecnologías de la información e investigación científica.
               </p>
 
               <p className="mt-4 text-sm leading-7 text-slate-600 sm:text-[0.98rem] sm:leading-7">
-                Se desempeña además como consultor y capacitador en tecnologías de información, infraestructuras de
-                comunicaciones, seguridad informática y gestión de procesos, con amplia experiencia en instituciones
-                públicas y privadas.
+                Se desempeña además como investigadora y capacitadora, con publicaciones científicas en revistas y libros académicos, así como experiencia en la organización de eventos científicos y proyectos de investigación. Su labor integra la docencia universitaria, la investigación y la innovación tecnológica, contribuyendo al fortalecimiento de la calidad educativa, la producción científica y el desarrollo de competencias profesionales en el ámbito de la Ingeniería de Sistemas.
               </p>
             </div>
           </div>

@@ -1,7 +1,14 @@
-import { z } from "zod";
+import { z } from 'zod';
+import { dateSchema, descriptionSchema, requireAtLeastOneField, titleSchema } from './common.schema.js';
 
 export const createNoticeSchema = z.object({
-    title: z.string({ required_error: "Title is required" }),
-    description: z.string({ required_error: "Description is required" }),
-    date: z.string().optional()
-});
+    title: titleSchema,
+    description: descriptionSchema,
+    date: dateSchema.optional()
+}).strict();
+
+export const updateNoticeSchema = requireAtLeastOneField(z.object({
+    title: titleSchema.optional(),
+    description: descriptionSchema.optional(),
+    date: dateSchema.optional()
+}).strict());

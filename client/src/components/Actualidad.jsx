@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getNoticiasRequest } from "../api/notices";
+import { assetUrl } from "../utils/assetUrl";
 import CardLanding from "./CardLanding";
 
 import { Link } from 'react-router-dom';
@@ -60,7 +61,7 @@ const Actualidad = () => {
                                 key={index}
                                 news={{
                                     title: notice.title,
-                                    image: `http://localhost:3000${notice.imageUrl}`/*Produccion: 'https://fi.undc.edu.pe' */,
+                                    image: assetUrl(notice.imageUrl),
                                     author: notice.author || "Administrador",
                                     publishDate: new Date(notice.date).toLocaleDateString("es-PE") || "Fecha desconocida",
                                     readTime: notice.readTime || "2 min",

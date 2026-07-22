@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
 import { getNoticiaRequest, getNoticiasRequest } from '../api/notices';
+import { assetUrl } from '../utils/assetUrl';
 import { fadeIn } from '../variants';
 
 dayjs.extend(utc);
@@ -102,7 +103,7 @@ const Noticia_Id = () => {
           >
             {noticia?.imageUrl && (
               <img
-                src={`http://localhost:3000${noticia.imageUrl}`}
+                src={assetUrl(noticia.imageUrl)}
                 alt={noticia?.title || 'Noticia'}
                 className="h-auto w-full object-cover object-center"
               />
@@ -139,7 +140,7 @@ const Noticia_Id = () => {
                 >
                   <div className="overflow-hidden bg-slate-100">
                     <img
-                      src={`http://localhost:3000${item.imageUrl}`}
+                      src={assetUrl(item.imageUrl)}
                       alt={item.title}
                       className="h-[230px] w-full object-cover object-center transition duration-500 group-hover:scale-[1.03]"
                     />

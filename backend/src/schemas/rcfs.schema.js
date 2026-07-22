@@ -1,8 +1,16 @@
-import { z } from "zod";
+import { z } from 'zod';
+import { dateSchema, descriptionSchema, httpUrlSchema, requireAtLeastOneField, titleSchema } from './common.schema.js';
 
 export const createRcfSchema = z.object({
-    title: z.string({ required_error: "Title is required" }),
-    description: z.string({required_error: "Description must be a String"}),
-    url: z.string().url({ message: "Invalid URL format" }),
-    date: z.string().datetime().optional()
-})
+    title: titleSchema,
+    description: descriptionSchema,
+    url: httpUrlSchema,
+    date: dateSchema.optional()
+}).strict();
+
+export const updateRcfSchema = requireAtLeastOneField(z.object({
+    title: titleSchema.optional(),
+    description: descriptionSchema.optional(),
+    url: httpUrlSchema.optional(),
+    date: dateSchema.optional()
+}).strict());
