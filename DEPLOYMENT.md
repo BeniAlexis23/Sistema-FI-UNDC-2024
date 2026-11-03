@@ -84,6 +84,13 @@ noticia antigua en el editor, su texto pasa a bloques de texto.
   arman con él las URL absolutas de WhatsApp y Facebook.
 - nginx reenvía `/compartir/` al backend y `index.html` se sirve con
   `Cache-Control: no-cache`.
+- Cada despliegue reemplaza los archivos de `/assets` (llevan hash en el nombre).
+  Una pestaña abierta antes del despliegue pide entonces un archivo que ya no
+  existe y nginx responde con `index.html`, lo que el navegador reporta como
+  «Expected a JavaScript-or-Wasm module script… text/html». Desde
+  `client/src/utils/staleChunk.js` esa pestaña se recarga sola una vez; las
+  versiones publicadas antes de ese cambio no lo incluyen y necesitan una
+  recarga manual (`Ctrl+F5`).
 - Las imágenes subidas se convierten a WebP (máximo 2000 px, sin metadatos EXIF)
   y generan una miniatura `<uuid>-480.webp`. `MAX_UPLOAD_SIZE_MB` (5 por defecto)
   debe seguir por debajo de `client_max_body_size` de nginx (6 MB); si se sube
