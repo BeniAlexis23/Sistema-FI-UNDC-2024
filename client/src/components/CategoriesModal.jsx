@@ -9,7 +9,8 @@ import { getApiErrors } from '../api/errors';
 
 const smallButton = 'inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-primary disabled:cursor-not-allowed disabled:opacity-40';
 
-/* Gestión de categorías (solo administradores): crear, renombrar, ordenar y eliminar las que no se usan */
+/* Gestión de categorías (solo administradores): crear, renombrar, ordenar y eliminar las que no se usan.
+   Quien edita una noticia también puede crear una desde el propio formulario (CategoryField). */
 const CategoriesModal = ({ onClose, onChanged }) => {
   const [categories, setCategories] = useState([]);
   const [newName, setNewName] = useState('');

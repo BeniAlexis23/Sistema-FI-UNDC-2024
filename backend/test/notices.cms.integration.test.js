@@ -369,9 +369,15 @@ describe('categories', () => {
         expect((await request(app).get('/api/categories')).status).toBe(401);
     });
 
-    it('lets only admins create, rename and delete categories', async () => {
+    it('lets editors create categories but only admins rename and delete them', async () => {
+        expect((await request(app).post('/api/categories').send({ name: 'Eventos' })).status).toBe(401);
+
         const editorAgent = await loginAgent(app, editor.email);
-        expect((await editorAgent.post('/api/categories').send({ name: 'Eventos' })).status).toBe(403);
+        const fromEditor = await editorAgent.post('/api/categories').send({ name: 'Eventos' });
+        expect(fromEditor.status).toBe(201);
+        expect(fromEditor.body).toMatchObject({ name: 'Eventos', slug: 'eventos', order: 0, count: 0 });
+        expect((await editorAgent.post('/api/categories').send({ name: 'EVENTOS' })).status).toBe(409);
+        expect((await editorAgent.post('/api/categories').send({ name: 'A' })).status).toBe(400);
 
         const adminAgent = await loginAgent(app, admin.email);
         const created = await adminAgent.post('/api/categories').send({ name: 'Avisos' });

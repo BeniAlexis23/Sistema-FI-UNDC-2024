@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { Eye, Loader2, Pencil, Star } from 'lucide-react';
 import Swal from 'sweetalert2';
 import AdminLayout from '../components/AdminLayout';
+import CategoryField from '../cms/editor/CategoryField';
 import CoverField from '../cms/editor/CoverField';
 import NoticePreview from '../cms/editor/NoticePreview';
 import { Field, fieldClass } from '../cms/editor/editors/fields';
@@ -193,12 +194,7 @@ const NoticesFormPage = () => {
             <span className={`mt-1 block text-right text-xs ${summaryLength > SUMMARY_MAX ? 'font-semibold text-red-600' : 'text-slate-400'}`}>{summaryLength} / {SUMMARY_MAX}</span>
           </Field>
           <div className="grid gap-5 sm:grid-cols-2">
-            <Field label="Categoría">
-              <select value={form.categoryId} onChange={(event) => set({ categoryId: event.target.value })} className={fieldClass}>
-                <option value="">Sin categoría</option>
-                {categories.map((category) => <option key={category._id} value={category._id}>{category.name}</option>)}
-              </select>
-            </Field>
+            <CategoryField categories={categories} value={form.categoryId} onSelect={(categoryId) => set({ categoryId })} onCategoriesChange={setCategories} />
             <Field label="Autor o fuente (opcional)" hint="Se muestra en la noticia, por ejemplo: Escuela de Ingeniería de Sistemas.">
               <input type="text" value={form.byline} maxLength={80} onChange={(event) => set({ byline: event.target.value })} className={fieldClass} />
             </Field>

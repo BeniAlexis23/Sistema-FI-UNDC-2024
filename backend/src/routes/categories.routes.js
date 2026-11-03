@@ -9,11 +9,13 @@ import { asyncHandler } from '../libs/asyncHandler.js';
 const router = Router();
 const authenticated = [authRequired, requirePasswordChanged];
 const adminOnly = [...authenticated, requireRole('admin')];
+// el editor crea la categoría desde la propia noticia; renombrar, ordenar y eliminar siguen siendo del admin
+const canCreate = [...authenticated, requireRole('admin', 'editor')];
 
 router.get('/categorias', asyncHandler(getCategorias));
 
 router.get('/categories', ...authenticated, asyncHandler(getCategories));
-router.post('/categories', ...adminOnly, validateSchema(createCategorySchema), asyncHandler(createCategory));
+router.post('/categories', ...canCreate, validateSchema(createCategorySchema), asyncHandler(createCategory));
 router.patch('/categories/:id', ...adminOnly, validateParams(objectIdParamsSchema), validateSchema(updateCategorySchema), asyncHandler(updateCategory));
 router.delete('/categories/:id', ...adminOnly, validateParams(objectIdParamsSchema), asyncHandler(deleteCategory));
 
