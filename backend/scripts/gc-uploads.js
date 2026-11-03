@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import { collectMediaUrls } from '../src/libs/mediaUrls.js';
 
-/* Barre las subidas que ninguna noticia usa (por ejemplo, fotos subidas al editor y nunca guardadas).
+/* Barre las subidas que ninguna noticia ni diapositiva de la portada usa (por ejemplo, fotos subidas al editor y nunca guardadas).
    Por defecto solo informa; con --apply las borra. Solo toca archivos con más de GC_MIN_AGE_HOURS (48)
    para no borrar lo que alguien está subiendo ahora. */
 
@@ -27,10 +27,16 @@ const run = async () => {
     const notices = await mongoose.connection.collection('notices')
         .find({}).project({ imageUrl: 1, mediaRefs: 1, content: 1 }).toArray();
 
+    const slides = await mongoose.connection.collection('heroslides')
+        .find({}).project({ image: 1, imageMobile: 1 }).toArray();
+
     const referenced = new Set();
     for (const notice of notices) {
         const urls = [...collectMediaUrls(notice.imageUrl, notice.content), ...(notice.mediaRefs ?? [])];
         urls.forEach((url) => referenced.add(path.basename(url)));
+    }
+    for (const slide of slides) {
+        [slide.image, slide.imageMobile].filter(Boolean).forEach((url) => referenced.add(path.basename(url)));
     }
 
     const files = (await readdir(uploadsDirectory).catch(() => [])).filter((name) => !name.startsWith('.'));
@@ -54,7 +60,7 @@ const run = async () => {
 
     const totalBytes = candidates.reduce((sum, file) => sum + file.size, 0);
     console.log(`Carpeta: ${uploadsDirectory}`);
-    console.log(`Archivos: ${files.length} | referenciados por ${notices.length} noticia(s) | recientes sin referencia (se respetan): ${recent}`);
+    console.log(`Archivos: ${files.length} | referenciados por ${notices.length} noticia(s) y ${slides.length} diapositiva(s) de la portada | recientes sin referencia (se respetan): ${recent}`);
     console.log(`Sin referencia y con más de ${minAgeHours} h: ${candidates.length} (${formatMegabytes(totalBytes)})`);
     candidates.forEach((file) => console.log(`  ${apply ? 'borrando' : 'se borraría'}: ${file.name}`));
 

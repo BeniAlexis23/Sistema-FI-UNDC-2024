@@ -202,7 +202,7 @@ export const deleteNotice = async (req, res) => {
             : { _id: req.params.id, user: req.user.id };
         const notice = await Notice.findOneAndDelete(filter);
         if (!notice) return res.status(404).json({ message: 'Notice not found' });
-        await removeUnreferencedUploads(collectMediaUrls(notice.imageUrl, notice.content), notice._id);
+        await removeUnreferencedUploads(collectMediaUrls(notice.imageUrl, notice.content), { excludeNoticeId: notice._id });
         return res.sendStatus(204);
     } catch (error) {
         return res.status(404).json({ message: 'Notice not found' });
@@ -260,7 +260,7 @@ export const updateNotice = async (req, res) => {
         notice.mediaRefs = nextRefs;
 
         const updatedNotice = await notice.save();
-        await removeUnreferencedUploads(previousRefs.filter((url) => !nextRefs.includes(url)), notice._id);
+        await removeUnreferencedUploads(previousRefs.filter((url) => !nextRefs.includes(url)), { excludeNoticeId: notice._id });
         res.json(updatedNotice);
     } catch (error) {
         await removeUploadedFile(req.file).catch(() => {});

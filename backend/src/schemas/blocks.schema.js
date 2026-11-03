@@ -13,7 +13,7 @@ export const managedImageUrlSchema = z.string().regex(
 
 const blockId = z.string().regex(/^[A-Za-z0-9_-]{6,40}$/, 'Invalid block id');
 const optionalText = (max) => z.string().trim().max(max, 'Text is too long').optional();
-const linkUrl = z.string().trim().max(2048, 'URL is too long').refine((value) => {
+export const safeLinkUrlSchema = z.string().trim().max(2048, 'URL is too long').refine((value) => {
     try {
         return ['http:', 'https:', 'mailto:'].includes(new URL(value).protocol);
     } catch {
@@ -45,7 +45,7 @@ const blockSchema = z.discriminatedUnion('type', [
     }).strict(),
     z.object({
         id: blockId, type: z.literal('button'), label: z.string().trim().min(1, 'Button label is required').max(60, 'Button label is too long'),
-        url: linkUrl, style: z.enum(['primary', 'outline']).default('primary')
+        url: safeLinkUrlSchema, style: z.enum(['primary', 'outline']).default('primary')
     }).strict(),
     z.object({ id: blockId, type: z.literal('divider') }).strict()
 ]);
