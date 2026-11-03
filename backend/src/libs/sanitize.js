@@ -23,3 +23,14 @@ const options = {
 };
 
 export const sanitizeRichText = (value) => sanitizeHtml(value, options).trim();
+
+const basicEntities = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'", '&#x27;': "'" };
+
+export const decodeBasicEntities = (value = '') => (
+    value.replace(/&(?:amp|lt|gt|quot|#39|#x27);/g, (entity) => basicEntities[entity])
+);
+
+/* Texto plano: sin etiquetas y sin entidades, para resúmenes y metadatos */
+export const toPlainText = (value = '') => (
+    decodeBasicEntities(sanitizeHtml(value, { allowedTags: [], allowedAttributes: {} })).trim()
+);
