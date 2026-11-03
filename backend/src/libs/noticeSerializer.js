@@ -1,7 +1,7 @@
 import { decodeBasicEntities } from './sanitize.js';
 import { readingMinutesFor } from './readingTime.js';
 import { getNoticeStatus } from './noticeVisibility.js';
-import { truncate } from './text.js';
+import { truncateAtWord } from './text.js';
 
 const SUMMARY_MAX_CHARS = 300;
 const NEW_NOTICE_DAYS = 7;
@@ -48,7 +48,7 @@ const serializeAdminFields = (notice, now) => ({
 /* En listas `description` es solo un resumen: los datos legados guardaban ahí todo el cuerpo */
 export const serializePublicNotice = (notice, now = new Date()) => {
     const fields = serializeFields(notice, now);
-    return { ...fields, description: truncate(fields.description, SUMMARY_MAX_CHARS) };
+    return { ...fields, description: truncateAtWord(fields.description, SUMMARY_MAX_CHARS) };
 };
 
 export const serializePublicNoticeDetail = (notice, now = new Date()) => ({

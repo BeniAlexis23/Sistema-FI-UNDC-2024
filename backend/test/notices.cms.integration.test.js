@@ -147,7 +147,8 @@ describe('public notices', () => {
         const notice = await createNotice({ description: body });
 
         const list = await request(app).get('/api/noticias');
-        expect(Array.from(list.body[0].description)).toHaveLength(300);
+        expect(Array.from(list.body[0].description).length).toBeLessThanOrEqual(300);
+        expect(list.body[0].description).toMatch(/palabra…$/);
 
         const detail = await request(app).get(`/api/noticias/${notice._id}`);
         expect(detail.body.description).toBe(body);

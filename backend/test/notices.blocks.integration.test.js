@@ -262,8 +262,10 @@ describe('summary rules', () => {
     it('derives the summary from the first text block and falls back to the title', async () => {
         const withText = await createWithContent([dividerBlock(), textBlock(`<p>${'palabra '.repeat(80)}</p>`)]);
         const summary = (await Notice.findById(withText.body._id).lean()).description;
-        expect(Array.from(summary)).toHaveLength(300);
+        expect(Array.from(summary).length).toBeLessThanOrEqual(300);
         expect(summary.startsWith('palabra palabra')).toBe(true);
+        // se corta entre palabras y se avisa con puntos suspensivos
+        expect(summary).toMatch(/palabra…$/);
 
         const withoutText = await createWithContent([dividerBlock()], { title: 'Solo imagen' });
         expect((await Notice.findById(withoutText.body._id).lean()).description).toBe('Solo imagen');

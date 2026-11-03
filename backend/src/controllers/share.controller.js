@@ -6,7 +6,7 @@ import { APP_ORIGIN } from '../config.js';
 import { uploadsDirectory } from '../multer.js';
 import { toPlainText } from '../libs/sanitize.js';
 import { publicNoticeFilter } from '../libs/noticeVisibility.js';
-import { truncate } from '../libs/text.js';
+import { truncateAtWord } from '../libs/text.js';
 
 const OBJECT_ID = /^[a-f\d]{24}$/i;
 const SITE_NAME = 'FI - UNDC';
@@ -55,7 +55,7 @@ export const shareNotice = async (req, res) => {
 
     const id = req.params.id;
     const title = notice.title;
-    const description = truncate(toPlainText(notice.description).replace(/\s+/g, ' '), DESCRIPTION_MAX_CHARS);
+    const description = truncateAtWord(toPlainText(notice.description).replace(/\s+/g, ' '), DESCRIPTION_MAX_CHARS);
     const shareUrl = `${APP_ORIGIN}/compartir/noticias/${id}`;
     const portalUrl = `${APP_ORIGIN}/#/noticias/${id}`;
     const image = notice.imageUrl ? `${shareUrl}/portada.jpg` : DEFAULT_IMAGE;
