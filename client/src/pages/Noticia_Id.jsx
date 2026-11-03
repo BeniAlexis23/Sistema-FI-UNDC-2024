@@ -1,52 +1,74 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import 'dayjs/locale/es';
+import { Clock } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
+import CoverPlaceholder from '../components/CoverPlaceholder';
+import NoticeContent from '../cms/NoticeContent';
+import ShareButton from '../cms/ShareButton';
 import { getNoticiaRequest, getNoticiasRequest } from '../api/notices';
 import { assetUrl } from '../utils/assetUrl';
+import { formatLongDate, formatNoticeDate } from '../utils/noticeDate';
 import { fadeIn } from '../variants';
 
-dayjs.extend(utc);
-dayjs.locale('es');
+const RELATED_COUNT = 3;
 
 const truncateText = (text = '', maxLength = 90) => {
   if (text.length <= maxLength) return text;
   return `${text.slice(0, maxLength)}...`;
 };
 
+/* Primero de la misma categoría y, si faltan, las más recientes */
+const loadRelated = async (noticia) => {
+  const sameCategory = noticia.category
+    ? (await getNoticiasRequest({ limit: RELATED_COUNT + 1, category: noticia.category.slug })).data
+    : [];
+  const related = sameCategory.filter((item) => item._id !== noticia._id);
+  if (related.length >= RELATED_COUNT) return related.slice(0, RELATED_COUNT);
+
+  const latest = (await getNoticiasRequest({ limit: RELATED_COUNT + 1 })).data;
+  const extra = latest.filter((item) => item._id !== noticia._id && !related.some((other) => other._id === item._id));
+  return [...related, ...extra].slice(0, RELATED_COUNT);
+};
+
+const shareButtonClass = 'inline-flex items-center rounded-full border border-slate-200 px-4 py-2 font-semibold text-slate-600 transition hover:border-primary hover:text-primary';
+
 const Noticia_Id = () => {
-  const [noticia, setNoticia] = useState(null);
-  const [relatedNoticias, setRelatedNoticias] = useState([]);
+  const [state, setState] = useState({ status: 'loading', noticia: null, related: [] });
   const params = useParams();
+  const { status, noticia, related } = state;
 
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const [noticiaRes, noticiasRes] = await Promise.all([
-          getNoticiaRequest(params.id),
-          getNoticiasRequest(),
-        ]);
+    let cancelled = false;
 
-        setNoticia(noticiaRes.data);
-        setRelatedNoticias(
-          noticiasRes.data
-            .filter((item) => item._id !== params.id)
-            .slice()
-            .reverse()
-            .slice(0, 3)
-        );
+    const loadData = async () => {
+      setState({ status: 'loading', noticia: null, related: [] });
+      try {
+        const { data } = await getNoticiaRequest(params.id);
+        if (cancelled) return;
+        setState({ status: 'ready', noticia: data, related: [] });
+
+        const relatedNoticias = await loadRelated(data).catch(() => []);
+        if (!cancelled) setState((current) => ({ ...current, related: relatedNoticias }));
       } catch (error) {
-        console.error(error);
+        if (!cancelled) {
+          setState({ status: error.response?.status === 404 ? 'notFound' : 'error', noticia: null, related: [] });
+        }
       }
     };
 
     loadData();
+    return () => { cancelled = true; };
   }, [params.id]);
+
+  useEffect(() => {
+    if (!noticia) return undefined;
+    const previousTitle = document.title;
+    document.title = `${noticia.title} | FI - UNDC`;
+    return () => { document.title = previousTitle; };
+  }, [noticia]);
 
   return (
     <>
@@ -78,49 +100,90 @@ const Noticia_Id = () => {
         </div>
 
         <div className="mx-auto max-w-5xl px-2 sm:px-6">
-          <motion.div
-            variants={fadeIn('right', 0.2)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            className="space-y-5"
-          >
-            <p className="text-sm font-semibold capitalize text-slate-500 sm:text-base">
-              {noticia?.date ? dayjs(noticia.date).utc().format('dddd DD MMM, YYYY') : ''}
-            </p>
-
-            <h1 className="lg:text-4xl font-extrabold tracking-tight text-slate-900 text-2xl xl:text-[2.1rem]">
-              {noticia?.title}
-            </h1>
-          </motion.div>
-
-          <motion.div
-            variants={fadeIn('up', 0.2)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            className="mt-8 overflow-hidden rounded-[1.5rem] bg-slate-100 shadow-[0_20px_50px_rgba(15,23,42,0.08)]"
-          >
-            {noticia?.imageUrl && (
-              <img
-                src={assetUrl(noticia.imageUrl)}
-                alt={noticia?.title || 'Noticia'}
-                className="h-auto w-full object-cover object-center"
-              />
-            )}
-          </motion.div>
-
-          <motion.article
-            variants={fadeIn('up', 0.2)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.15 }}
-            className="mt-10 max-w-4xl"
-          >
-            <div className="space-y-6 text-base leading-8 text-slate-700 sm:text-[1.05rem] sm:leading-9">
-              {noticia?.description}
+          {status === 'loading' && (
+            <div className="space-y-6 py-4" aria-busy="true" aria-label="Cargando noticia">
+              <div className="h-5 w-48 animate-pulse rounded bg-slate-100" />
+              <div className="h-10 w-3/4 animate-pulse rounded bg-slate-100" />
+              <div className="h-72 w-full animate-pulse rounded-[1.5rem] bg-slate-100" />
+              <div className="space-y-3">
+                {Array.from({ length: 5 }, (_, index) => <div key={index} className="h-4 w-full animate-pulse rounded bg-slate-100" />)}
+              </div>
             </div>
-          </motion.article>
+          )}
+
+          {(status === 'notFound' || status === 'error') && (
+            <div className="mx-auto max-w-xl py-16 text-center">
+              <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+                {status === 'notFound' ? 'Esta noticia no está disponible' : 'No pudimos cargar la noticia'}
+              </h1>
+              <p className="mt-4 text-slate-600">
+                {status === 'notFound'
+                  ? 'Es posible que haya sido retirada o que el enlace no sea correcto.'
+                  : 'Inténtalo nuevamente en unos minutos.'}
+              </p>
+              <Link
+                to="/noticias"
+                className="mt-8 inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:scale-[1.02] hover:bg-secondary"
+              >
+                Ver todas las noticias
+              </Link>
+            </div>
+          )}
+
+          {status === 'ready' && noticia && (
+            <>
+              <motion.div
+                variants={fadeIn('right', 0.2)}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.2 }}
+                className="space-y-5"
+              >
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm font-semibold text-slate-500 sm:text-base">
+                  <span className="capitalize">{formatLongDate(noticia.date)}</span>
+                  {noticia.category && (
+                    <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-primary">
+                      {noticia.category.name}
+                    </span>
+                  )}
+                  <span className="inline-flex items-center gap-1">
+                    <Clock size={15} aria-hidden="true" /> {noticia.readingMinutes} min de lectura
+                  </span>
+                  {noticia.byline && <span>{noticia.byline}</span>}
+                </div>
+
+                <h1 className="lg:text-4xl font-extrabold tracking-tight text-slate-900 text-2xl xl:text-[2.1rem]">
+                  {noticia.title}
+                </h1>
+
+                <ShareButton notice={noticia} className={shareButtonClass} />
+              </motion.div>
+
+              {noticia.imageUrl && (
+                <motion.div
+                  variants={fadeIn('up', 0.2)}
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.15 }}
+                  className="mt-8 overflow-hidden rounded-[1.5rem] bg-slate-100 shadow-[0_20px_50px_rgba(15,23,42,0.08)]"
+                >
+                  <img
+                    src={assetUrl(noticia.imageUrl)}
+                    alt={noticia.imageAlt || noticia.title || 'Noticia'}
+                    className="h-auto w-full object-cover object-center"
+                  />
+                </motion.div>
+              )}
+
+              <article className="mt-10">
+                <NoticeContent notice={noticia} />
+              </article>
+
+              <div className="mt-12 flex justify-center border-t border-slate-100 pt-8">
+                <ShareButton notice={noticia} label="Compartir esta noticia" className={shareButtonClass} />
+              </div>
+            </>
+          )}
 
           <section className="mt-16 border-t border-slate-200 pt-10">
             <div className="space-y-2">
@@ -133,22 +196,27 @@ const Noticia_Id = () => {
             </div>
 
             <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-              {relatedNoticias.map((item) => (
+              {related.map((item) => (
                 <article
                   key={item._id}
                   className="group overflow-hidden rounded-[1.5rem] border border-slate-200 bg-white shadow-[0_18px_40px_rgba(15,23,42,0.06)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_24px_50px_rgba(15,23,42,0.10)]"
                 >
                   <div className="overflow-hidden bg-slate-100">
-                    <img
-                      src={assetUrl(item.imageUrl)}
-                      alt={item.title}
-                      className="h-[230px] w-full object-cover object-center transition duration-500 group-hover:scale-[1.03]"
-                    />
+                    {item.imageUrl ? (
+                      <img
+                        src={assetUrl(item.imageUrl)}
+                        alt={item.imageAlt || item.title}
+                        loading="lazy"
+                        className="h-[230px] w-full object-cover object-center transition duration-500 group-hover:scale-[1.03]"
+                      />
+                    ) : (
+                      <CoverPlaceholder className="h-[230px] w-full" />
+                    )}
                   </div>
 
                   <div className="space-y-4 p-5">
                     <p className="text-sm font-semibold uppercase tracking-[0.14em] text-slate-500">
-                      {dayjs(item.date).utc().format('DD MMM, YYYY')}
+                      {formatNoticeDate(item.date)}
                     </p>
 
                     <h3 className="text-2xl font-extrabold leading-tight text-slate-900">

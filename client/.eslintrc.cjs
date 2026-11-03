@@ -14,5 +14,7 @@ module.exports = {
   rules: {
     'react/prop-types': 'off',
     'react-refresh/only-export-components': 'off',
+    // el único punto que inserta HTML es cms/SafeHtml.jsx, que lo sanea con DOMPurify
+    'react/no-danger': 'error',
   },
 }

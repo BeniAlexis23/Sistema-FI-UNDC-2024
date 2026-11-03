@@ -1,17 +1,12 @@
 import Navbar from '../components/Navbar';
 import Footer from '../shared/Footer';
+import CoverPlaceholder from '../components/CoverPlaceholder';
 import { Link } from "react-router-dom";
 
-
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import 'dayjs/locale/es';
-dayjs.extend(utc)
-dayjs.locale('es');
-
-import { useEffect, useState } from "react";
-import { getNoticiasRequest } from "../api/notices";
+import { useEffect, useMemo, useState } from "react";
+import { getCategoriasRequest, getNoticiasRequest } from "../api/notices";
 import { assetUrl } from '../utils/assetUrl';
+import { formatNoticeDate } from '../utils/noticeDate';
 
 // motion
 import { motion } from 'framer-motion';
@@ -28,15 +23,24 @@ const ITEMS_PER_PAGE = 12;
 const Noticias = () => {
 
     const [noticias, setNoticias] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState('all');
     const [currentPage, setCurrentPage] = useState(1);
+    const [status, setStatus] = useState('loading');
 
     const getNoticias = async () => {
         try {
-            const res = await getNoticiasRequest();
-            setNoticias(res.data);
+            const [noticiasRes, categoriesRes] = await Promise.all([
+                getNoticiasRequest(),
+                getCategoriasRequest().catch(() => ({ data: [] })),
+            ]);
+            setNoticias(noticiasRes.data);
+            setCategories(categoriesRes.data);
             setCurrentPage(1);
+            setStatus('ready');
         } catch (error) {
             console.log(error);
+            setStatus('error');
         }
     }
 
@@ -44,9 +48,18 @@ const Noticias = () => {
         getNoticias();
     }, []);
 
-    const orderedNoticias = noticias
-        .slice()
-        .sort((a, b) => new Date(b.date) - new Date(a.date));
+    // solo se ofrecen las categorías que tienen noticias publicadas
+    const availableCategories = useMemo(
+        () => categories.filter((category) => noticias.some((notice) => notice.category?.slug === category.slug)),
+        [categories, noticias],
+    );
+
+    // las destacadas primero y luego las más recientes
+    const orderedNoticias = useMemo(() => noticias
+        .filter((notice) => selectedCategory === 'all' || notice.category?.slug === selectedCategory)
+        .sort((a, b) => Number(b.featured) - Number(a.featured)
+            || new Date(b.date) - new Date(a.date)
+            || new Date(b.createdAt) - new Date(a.createdAt)), [noticias, selectedCategory]);
     const totalPages = Math.ceil(orderedNoticias.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const pageNoticias = orderedNoticias.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -58,9 +71,10 @@ const Noticias = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    const formatNoticeDate = (date) => (
-        dayjs(date).utc().locale('es').format("DD MMM, YYYY")
-    );
+    const handleCategoryChange = (slug) => {
+        setSelectedCategory(slug);
+        setCurrentPage(1);
+    };
 
     return (
         <>
@@ -123,6 +137,47 @@ const Noticias = () => {
                             <h2 className="text-2xl font-extrabold uppercase tracking-tight text-slate-950 sm:text-3xl">
                                 Ultimas noticias
                             </h2>
+
+                            {availableCategories.length > 0 && (
+                                <div className="mt-6 flex flex-wrap gap-2" role="group" aria-label="Filtrar por categoría">
+                                    {[{ slug: 'all', name: 'Todas' }, ...availableCategories].map((category) => (
+                                        <button
+                                            key={category.slug}
+                                            type="button"
+                                            onClick={() => handleCategoryChange(category.slug)}
+                                            aria-pressed={selectedCategory === category.slug}
+                                            className={`rounded-full px-4 py-2 text-sm font-semibold transition ${selectedCategory === category.slug
+                                                ? 'bg-primary text-white'
+                                                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                                                }`}
+                                        >
+                                            {category.name}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+
+                            {status === 'loading' && (
+                                <div className="mt-7 grid grid-cols-1 gap-5 sm:grid-cols-2" aria-hidden="true">
+                                    {Array.from({ length: 4 }, (_, index) => (
+                                        <div key={index} className="h-[260px] animate-pulse bg-slate-100" />
+                                    ))}
+                                </div>
+                            )}
+
+                            {status === 'error' && (
+                                <p className="mt-7 border border-slate-200 bg-slate-50 p-8 text-center text-slate-600">
+                                    No pudimos cargar las noticias en este momento. Inténtalo nuevamente más tarde.
+                                </p>
+                            )}
+
+                            {status === 'ready' && orderedNoticias.length === 0 && (
+                                <p className="mt-7 border border-dashed border-slate-300 p-8 text-center text-slate-500">
+                                    {selectedCategory === 'all' ? 'Aún no hay noticias publicadas.' : 'No hay noticias en esta categoría.'}
+                                </p>
+                            )}
+
+                            {status === 'ready' && orderedNoticias.length > 0 && (
                             <div className="mt-7 grid grid-cols-1 gap-5 lg:grid-cols-[1.05fr_1fr] lg:gap-7">
                                 <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-1">
                                     {featuredNoticias.map((notice) => (
@@ -131,15 +186,21 @@ const Noticias = () => {
                                             to={`/noticias/${notice._id}`}
                                             className="group relative block min-h-[260px] overflow-hidden bg-slate-900 shadow-[0_18px_45px_rgba(15,23,42,0.08)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.14)] sm:min-h-[300px] lg:min-h-[255px]"
                                         >
-                                            <img
-                                                src={assetUrl(notice.imageUrl)}
-                                                alt={notice.title}
-                                                className="absolute inset-0 h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
-                                            />
+                                            {notice.imageUrl ? (
+                                                <img
+                                                    src={assetUrl(notice.imageUrl)}
+                                                    alt={notice.imageAlt || notice.title}
+                                                    loading="lazy"
+                                                    className="absolute inset-0 h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
+                                                />
+                                            ) : (
+                                                <CoverPlaceholder className="absolute inset-0" />
+                                            )}
                                             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent" />
                                             <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
                                                 <p className="text-xs font-extrabold text-white sm:text-sm">
                                                     {formatNoticeDate(notice.date)} <span className="mx-2">|</span> Leer
+                                                    {notice.isNew && <span className="ml-3 rounded-full bg-emerald-500 px-2 py-0.5 text-[0.7rem] font-semibold">Nuevo</span>}
                                                 </p>
                                                 <h3 className="mt-2 max-w-xl text-xl font-extrabold leading-tight text-white sm:text-2xl lg:text-[1.65rem]">
                                                     {truncateText(notice.title, 96)}
@@ -157,15 +218,21 @@ const Noticias = () => {
                                             className="group grid min-h-[132px] grid-cols-[42%_1fr] overflow-hidden border border-slate-200 bg-white transition duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-[0_16px_35px_rgba(15,23,42,0.08)] sm:min-h-[145px] lg:min-h-[122px]"
                                         >
                                             <div className="overflow-hidden bg-slate-100">
-                                                <img
-                                                    src={assetUrl(notice.imageUrl)}
-                                                    alt={notice.title}
-                                                    className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
-                                                />
+                                                {notice.imageUrl ? (
+                                                    <img
+                                                        src={assetUrl(notice.imageUrl)}
+                                                        alt={notice.imageAlt || notice.title}
+                                                        loading="lazy"
+                                                        className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
+                                                    />
+                                                ) : (
+                                                    <CoverPlaceholder className="h-full w-full" />
+                                                )}
                                             </div>
                                             <div className="flex flex-col justify-center p-4">
                                                 <p className="text-xs font-extrabold text-slate-500 sm:text-sm">
                                                     {formatNoticeDate(notice.date)}
+                                                    {notice.isNew && <span className="ml-2 rounded-full bg-emerald-500 px-2 py-0.5 text-[0.7rem] font-semibold text-white">Nuevo</span>}
                                                 </p>
                                                 <h3 className="mt-2 text-[0.95rem] font-extrabold leading-snug text-slate-950 sm:text-base lg:text-[1.02rem]">
                                                     {truncateText(notice.title, 82)}
@@ -175,6 +242,7 @@ const Noticias = () => {
                                     ))}
                                 </div>
                             </div>
+                            )}
 
                             {totalPages > 1 && (
                                 <nav className="mt-9 flex flex-wrap items-center justify-center gap-2" aria-label="Paginacion de noticias">
