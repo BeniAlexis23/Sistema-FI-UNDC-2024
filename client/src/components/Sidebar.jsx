@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { FileText, LayoutDashboard, Newspaper, Users } from 'lucide-react';
+import { FileText, Images, LayoutDashboard, Newspaper, Users } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const links = [
@@ -11,7 +11,7 @@ const links = [
 const Sidebar = () => {
   const { user } = useAuth();
   const visibleLinks = user?.role === 'admin'
-    ? [...links, { to: '/users', label: 'Usuarios', icon: Users }]
+    ? [...links, { to: '/hero', label: 'Portada', icon: Images }, { to: '/users', label: 'Usuarios', icon: Users }]
     : links;
 
   return (

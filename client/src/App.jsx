@@ -24,6 +24,7 @@ const Posgrado = lazy(() => import('./pages/Posgrado'));
 const Contacto = lazy(() => import('./pages/Contacto'));
 const ChangePasswordPage = lazy(() => import('./pages/ChangePasswordPage'));
 const UsersPage = lazy(() => import('./pages/UsersPage'));
+const HeroPage = lazy(() => import('./pages/HeroPage'));
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -66,6 +67,7 @@ const App = () => {
 
                 <Route element={<ProtectedRoute requiredRole="admin" />}>
                   <Route path="/users" element={<UsersPage />} />
+                  <Route path="/hero" element={<HeroPage />} />
                 </Route>
 
                 {/* Rutas protegidas para Usuario especifico */}
