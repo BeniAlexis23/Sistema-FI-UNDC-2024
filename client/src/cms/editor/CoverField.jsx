@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { RefreshCw, Trash2 } from 'lucide-react';
 import ImageDropzone from './ImageDropzone';
-import { IMAGE_ACCEPT, uploadErrorMessage, uploadImage, validateImageFile } from './uploads';
+import { IMAGE_ACCEPT, MAX_IMAGE_MB, uploadErrorMessage, uploadImage, validateImageFile } from './uploads';
 import { assetUrl } from '../../utils/assetUrl';
 import { ErrorText, ProgressBar, TextInput } from './editors/fields';
 
@@ -56,7 +56,7 @@ const CoverField = ({ url, alt, onUrlChange, onAltChange, onBusyChange }) => {
           <TextInput label="Descripción de la portada" hint="La leen los lectores de pantalla y aparece si la imagen no carga." value={alt} maxLength={200} onChange={onAltChange} />
         </div>
       ) : (
-        <ImageDropzone onFiles={handleFiles} disabled={upload.active} hint="Mejor si es horizontal y mide al menos 1200 px de ancho. JPG, PNG o WebP, hasta 5 MB." />
+        <ImageDropzone onFiles={handleFiles} disabled={upload.active} hint={`Mejor si es horizontal y mide al menos 1200 px de ancho. JPG, PNG o WebP, hasta ${MAX_IMAGE_MB} MB. La foto se optimiza sola al subirla.`} />
       )}
 
       {upload.active && (

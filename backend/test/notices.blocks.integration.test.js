@@ -38,16 +38,16 @@ afterAll(() => ctx.stop());
 describe('media uploads', () => {
     it('stores a resized WebP with a thumbnail and strips the metadata', async () => {
         const upload = await uploadImage(adminAgent, {
-            format: 'jpeg', width: 3000, height: 2000, exif: { IFD0: { Copyright: 'dato privado' } }
+            format: 'jpeg', width: 4000, height: 3000, exif: { IFD0: { Copyright: 'dato privado' } }
         });
 
         expect(upload.url).toMatch(/^\/uploads\/[0-9a-f-]{36}\.webp$/);
         expect(upload.thumbUrl).toBe(thumbOf(upload.url));
-        expect(upload).toMatchObject({ width: 2000, height: 1333 });
+        expect(upload).toMatchObject({ width: 2560, height: 1920 });
 
         const read = (url) => readFile(path.join(ctx.uploadDirectory, path.basename(url)));
         const main = await sharp(await read(upload.url)).metadata();
-        expect(main).toMatchObject({ format: 'webp', width: 2000 });
+        expect(main).toMatchObject({ format: 'webp', width: 2560 });
         expect(main.exif).toBeUndefined();
         const thumb = await sharp(await read(upload.thumbUrl)).metadata();
         expect(thumb.width).toBe(480);

@@ -23,7 +23,7 @@ const ImageDropzone = ({ onFiles, multiple = false, disabled = false, title, hin
     >
       <ImagePlus size={compact ? 22 : 28} className="text-primary" aria-hidden="true" />
       <span className="text-sm font-semibold text-slate-700">{title ?? (multiple ? 'Arrastra tus fotos aquí o haz clic para elegirlas' : 'Arrastra una imagen aquí o haz clic para elegirla')}</span>
-      <span className="text-xs text-slate-500">{hint ?? `JPG, PNG o WebP, hasta ${MAX_IMAGE_MB} MB${multiple ? ' cada una' : ''}`}</span>
+      <span className="text-xs text-slate-500">{hint ?? `JPG, PNG o WebP, hasta ${MAX_IMAGE_MB} MB${multiple ? ' cada una' : ''}. Las fotos se optimizan solas al subirlas.`}</span>
       <input
         id={inputId}
         ref={inputRef}

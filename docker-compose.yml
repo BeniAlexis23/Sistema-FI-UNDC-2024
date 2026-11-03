@@ -25,7 +25,7 @@ services:
       COOKIE_SECURE: ${COOKIE_SECURE:-false}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@undc.edu.pe}
       UPLOAD_DIR: /app/uploads
-      MAX_UPLOAD_SIZE_MB: ${MAX_UPLOAD_SIZE_MB:-5}
+      MAX_UPLOAD_SIZE_MB: ${MAX_UPLOAD_SIZE_MB:-25}
     volumes:
       - uploads-data:/app/uploads
     depends_on:

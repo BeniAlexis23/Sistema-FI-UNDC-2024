@@ -91,10 +91,19 @@ noticia antigua en el editor, su texto pasa a bloques de texto.
   `client/src/utils/staleChunk.js` esa pestaña se recarga sola una vez; las
   versiones publicadas antes de ese cambio no lo incluyen y necesitan una
   recarga manual (`Ctrl+F5`).
-- Las imágenes subidas se convierten a WebP (máximo 2000 px, sin metadatos EXIF)
-  y generan una miniatura `<uuid>-480.webp`. `MAX_UPLOAD_SIZE_MB` (5 por defecto)
-  debe seguir por debajo de `client_max_body_size` de nginx (6 MB); si se sube
-  uno, hay que subir el otro.
+- Las imágenes subidas se convierten a WebP (máximo 2560 px, calidad 82, sin
+  metadatos EXIF) y generan una miniatura `<uuid>-480.webp`. Se aceptan originales
+  de hasta `MAX_UPLOAD_SIZE_MB` (25 por defecto, máximo 50) y de hasta 120
+  megapíxeles: el servidor los reduce, así que lo guardado pesa unos cientos de KB.
+  `MAX_UPLOAD_SIZE_MB` debe seguir por debajo de `client_max_body_size` de nginx
+  (30 MB); si se sube uno, hay que subir el otro. El navegador valida el mismo
+  tope con `MAX_IMAGE_MB` en `client/src/cms/editor/uploads.js`.
+- El servidor de producción (paquete de `scripts/prepare-release.ps1`, sin Docker)
+  no usa `client/nginx.conf`: su nginx tiene su propio `client_max_body_size` y su
+  `.env` conserva el `MAX_UPLOAD_SIZE_MB` anterior (con `5` sigue rechazando fotos
+  de más de 5 MB). Al desplegar este cambio hay que poner `MAX_UPLOAD_SIZE_MB=25`
+  y `client_max_body_size 30m;`, ejecutar `nginx -t && systemctl reload nginx` y
+  reiniciar el servicio de Node.
 - Las fotos que se suben al editor y nunca se guardan quedan en el volumen. Para
   revisarlas y limpiarlas (solo archivos sin uso y con más de 48 horas):
 

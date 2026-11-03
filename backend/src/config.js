@@ -7,7 +7,7 @@ const databaseUri = isProduction
     ? process.env.MONGODB_URI
     : process.env.MONGODB_LOCAL || process.env.MONGODB_URI;
 const port = Number(process.env.PORT || 3000);
-const maxUploadSizeMb = Number(process.env.MAX_UPLOAD_SIZE_MB || 5);
+const maxUploadSizeMb = Number(process.env.MAX_UPLOAD_SIZE_MB || 25);
 
 if (!jwtSecret || jwtSecret.trim().length < 32) {
     throw new Error('JWT_SECRET is required and must contain at least 32 characters');
@@ -25,8 +25,8 @@ if (!Number.isInteger(port) || port < 1 || port > 65535) {
     throw new Error('PORT must be an integer between 1 and 65535');
 }
 
-if (!Number.isFinite(maxUploadSizeMb) || maxUploadSizeMb <= 0 || maxUploadSizeMb > 20) {
-    throw new Error('MAX_UPLOAD_SIZE_MB must be greater than 0 and at most 20');
+if (!Number.isFinite(maxUploadSizeMb) || maxUploadSizeMb <= 0 || maxUploadSizeMb > 50) {
+    throw new Error('MAX_UPLOAD_SIZE_MB must be greater than 0 and at most 50');
 }
 
 let normalizedOrigin;

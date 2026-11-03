@@ -121,7 +121,7 @@ APP_ORIGIN=https://fi.undc.edu.pe
 COOKIE_SECURE=true
 ADMIN_EMAIL=bluyo@undc.edu.pe
 UPLOAD_DIR=/root/app/src/uploads
-MAX_UPLOAD_SIZE_MB=5
+MAX_UPLOAD_SIZE_MB=25
 '@
 Set-Content -LiteralPath (Join-Path $releaseDirectory '.env.production.example') -Value $environmentExample -Encoding utf8
 

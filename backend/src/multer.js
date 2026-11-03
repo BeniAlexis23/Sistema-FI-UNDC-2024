@@ -15,9 +15,10 @@ const allowedTypes = new Map([
     ['image/webp', 'webp']
 ]);
 
-const MAX_IMAGE_SIDE = 2000;
+const MAX_IMAGE_SIDE = 2560;
 const THUMB_WIDTH = 480;
-const MAX_INPUT_PIXELS = 40_000_000;
+/* Cubre fotos de celular de hasta 108 MP (sharp las reduce al decodificar); si una imagen declara más, se rechaza sin decodificarla */
+export const MAX_INPUT_PIXELS = 120_000_000;
 const MANAGED_NAME = /^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.webp$/;
 
 const upload = multer({
@@ -37,11 +38,11 @@ const upload = multer({
 export const thumbUrlFor = (url) => url.replace(/\.webp$/, `-${THUMB_WIDTH}.webp`);
 
 /* Orienta según EXIF, elimina metadatos (incluida la ubicación GPS), limita el tamaño y genera la miniatura */
-const processImage = async (buffer) => {
+export const processImage = async (buffer) => {
     const source = () => sharp(buffer, { limitInputPixels: MAX_INPUT_PIXELS }).rotate();
     const { data, info } = await source()
         .resize({ width: MAX_IMAGE_SIDE, height: MAX_IMAGE_SIDE, fit: 'inside', withoutEnlargement: true })
-        .webp({ quality: 82 })
+        .webp({ quality: 82, effort: 5, smartSubsample: true })
         .toBuffer({ resolveWithObject: true });
     const thumb = await source()
         .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
