@@ -124,8 +124,7 @@ describe('public hero', () => {
 });
 
 describe('hero administration', () => {
-    it('is closed to anonymous users and editors', async () => {
-        const editorAgent = await loginAgent(app, editor.email);
+    it('is closed to anonymous users', async () => {
         const { slide } = await addSlide();
         const calls = [
             (agent) => agent.get('/api/hero-slides'),
@@ -136,13 +135,35 @@ describe('hero administration', () => {
             (agent) => agent.put('/api/hero-settings').send({ includeFeatured: true })
         ];
 
-        for (const call of calls) {
-            expect((await call(request(app))).status).toBe(401);
-            expect((await call(editorAgent)).status).toBe(403);
-        }
+        for (const call of calls) expect((await call(request(app))).status).toBe(401);
         expect(await HeroSlide.countDocuments()).toBe(1);
         expect((await HeroSlide.findById(slide._id).lean()).active).toBe(true);
         expect((await SiteSetting.countDocuments())).toBe(0);
+    });
+
+    it('lets editors manage the hero as well, since there is a single hero for the whole site', async () => {
+        const editorAgent = await loginAgent(app, editor.email);
+        const { slide: adminSlide } = await addSlide({ title: 'Del administrador' });
+        const image = await uploadImage(editorAgent);
+
+        const created = await editorAgent.post('/api/hero-slides').send({ image: image.url, title: 'Del editor' });
+        expect(created.status, JSON.stringify(created.body)).toBe(201);
+        expect(String((await HeroSlide.findById(created.body._id).lean()).createdBy)).toBe(String(editor._id));
+
+        const listed = await editorAgent.get('/api/hero-slides');
+        expect(listed.status).toBe(200);
+        expect(titles(listed.body.slides)).toEqual(['Del administrador', 'Del editor']);
+
+        expect((await editorAgent.put(`/api/hero-slides/${adminSlide._id}`).send({ title: 'Cambiada por el editor' })).status).toBe(200);
+        expect((await editorAgent.put('/api/hero-slides/reorder').send({ ids: [created.body._id, adminSlide._id] })).status).toBe(200);
+        expect((await editorAgent.put('/api/hero-settings').send({ intervalSeconds: 8 })).status).toBe(200);
+
+        const { body } = await publicHero();
+        expect(titles(body.slides)).toEqual(['Del editor', 'Cambiada por el editor']);
+        expect(body.intervalSeconds).toBe(8);
+
+        expect((await editorAgent.delete(`/api/hero-slides/${adminSlide._id}`)).status).toBe(204);
+        expect(titles((await adminList()).slides)).toEqual(['Del editor']);
     });
 
     it('creates slides in order with defaults and records who made them', async () => {

@@ -63,11 +63,11 @@ const App = () => {
                   <Route path="/notices" element={<NoticesPage />} />
                   <Route path="/add-notice" element={<NoticesFormPage />} />
                   <Route path="/notices/:id" element={<NoticesFormPage />} />
+                  <Route path="/hero" element={<HeroPage />} />
                 </Route>
 
                 <Route element={<ProtectedRoute requiredRole="admin" />}>
                   <Route path="/users" element={<UsersPage />} />
-                  <Route path="/hero" element={<HeroPage />} />
                 </Route>
 
                 {/* Rutas protegidas para Usuario especifico */}

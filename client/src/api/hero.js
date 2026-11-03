@@ -3,7 +3,7 @@ import axios from './axios';
 /* API sin autenticación: lo que muestra el carrusel de la portada */
 export const getHeroRequest = () => axios.get('/portada/hero', { timeout: 8000 });
 
-/* APIs del panel (solo administradores) */
+/* APIs del panel (administradores y editores) */
 export const getHeroSlidesRequest = () => axios.get('/hero-slides');
 export const createHeroSlideRequest = (slide) => axios.post('/hero-slides', slide);
 export const updateHeroSlideRequest = (id, changes) => axios.put(`/hero-slides/${id}`, changes);

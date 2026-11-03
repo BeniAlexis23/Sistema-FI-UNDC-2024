@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { AlertTriangle, ImageOff, Monitor, Smartphone, Trash2, X } from 'lucide-react';
 import Swal from 'sweetalert2';
 import { createHeroSlideRequest, updateHeroSlideRequest } from '../../../api/hero';
-import { getNoticesPageRequest } from '../../../api/notices';
+import { getNoticiasRequest } from '../../../api/notices';
 import { getApiErrors } from '../../../api/errors';
 import { assetUrl } from '../../../utils/assetUrl';
 import ImageDropzone from '../../editor/ImageDropzone';
@@ -97,9 +97,10 @@ const SlideEditorModal = ({ slide, onClose, onSaved }) => {
     return () => document.removeEventListener('keydown', onKeyDown);
   }, []);
 
+  // el listado público trae las noticias de todos (el del panel solo le muestra al editor las suyas) y son justo las que el sitio puede enlazar
   useEffect(() => {
-    getNoticesPageRequest({ status: 'published', limit: NOTICE_LIMIT, sort: 'date_desc' })
-      .then(({ data }) => setNotices(data.items ?? []))
+    getNoticiasRequest({ limit: NOTICE_LIMIT, sort: 'date_desc' })
+      .then(({ data }) => setNotices(Array.isArray(data) ? data : []))
       .catch(() => setNoticesFailed(true));
   }, []);
 

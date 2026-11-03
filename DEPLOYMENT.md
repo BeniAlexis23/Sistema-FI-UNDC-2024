@@ -114,8 +114,9 @@ docker compose exec backend npm run gc:uploads -- --apply
 
 ## Portada editable
 
-El carrusel de la portada se administra desde el panel (menú «Portada», solo
-administradores): imagen de escritorio y de móvil, zona que se conserva al
+El carrusel de la portada se administra desde el panel (menú «Portada», para
+administradores y editores; hay una sola portada para todo el sitio, no una por
+usuario): imagen de escritorio y de móvil, zona que se conserva al
 recortar, título, subtítulo, botón a una noticia o a un enlace, orden, apagar y
 programar en hora de Lima. Opcionalmente suma hasta 3 noticias destacadas con
 portada.

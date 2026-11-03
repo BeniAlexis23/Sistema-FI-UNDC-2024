@@ -76,7 +76,7 @@ const SlideRow = ({ slide, index, total, busy, locked, onEdit, onToggle, onDelet
   );
 };
 
-/* Administración del carrusel de la portada (solo administradores) */
+/* Administración del carrusel de la portada (administradores y editores) */
 const HeroPage = () => {
   const [slides, setSlides] = useState([]);
   const [settings, setSettings] = useState({ includeFeatured: false, intervalSeconds: 6 });

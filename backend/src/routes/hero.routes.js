@@ -10,16 +10,17 @@ import { createSlideSchema, heroSettingsSchema, reorderSlidesSchema, updateSlide
 import { asyncHandler } from '../libs/asyncHandler.js';
 
 const router = Router();
-const adminOnly = [authRequired, requirePasswordChanged, requireRole('admin'), noStore];
+/* Hay una sola portada para todo el sitio: la administran administradores y editores. La lectura pública no pide sesión */
+const panelAccess = [authRequired, requirePasswordChanged, requireRole('admin', 'editor'), noStore];
 
 router.get('/portada/hero', revalidate, asyncHandler(getHero));
 
-router.get('/hero-slides', ...adminOnly, asyncHandler(getSlides));
-router.post('/hero-slides', ...adminOnly, validateSchema(createSlideSchema), asyncHandler(createSlide));
+router.get('/hero-slides', ...panelAccess, asyncHandler(getSlides));
+router.post('/hero-slides', ...panelAccess, validateSchema(createSlideSchema), asyncHandler(createSlide));
 // antes de /:id para que «reorder» no se tome como identificador
-router.put('/hero-slides/reorder', ...adminOnly, validateSchema(reorderSlidesSchema), asyncHandler(reorderSlides));
-router.put('/hero-slides/:id', ...adminOnly, validateParams(objectIdParamsSchema), validateSchema(updateSlideSchema), asyncHandler(updateSlide));
-router.delete('/hero-slides/:id', ...adminOnly, validateParams(objectIdParamsSchema), asyncHandler(deleteSlide));
-router.put('/hero-settings', ...adminOnly, validateSchema(heroSettingsSchema), asyncHandler(updateSettings));
+router.put('/hero-slides/reorder', ...panelAccess, validateSchema(reorderSlidesSchema), asyncHandler(reorderSlides));
+router.put('/hero-slides/:id', ...panelAccess, validateParams(objectIdParamsSchema), validateSchema(updateSlideSchema), asyncHandler(updateSlide));
+router.delete('/hero-slides/:id', ...panelAccess, validateParams(objectIdParamsSchema), asyncHandler(deleteSlide));
+router.put('/hero-settings', ...panelAccess, validateSchema(heroSettingsSchema), asyncHandler(updateSettings));
 
 export default router;

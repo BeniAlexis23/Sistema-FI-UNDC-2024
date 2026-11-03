@@ -6,13 +6,13 @@ const links = [
   { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/notices', label: 'Noticias', icon: Newspaper },
   { to: '/rcfs', label: 'Resoluciones', icon: FileText },
+  { to: '/hero', label: 'Portada', icon: Images },
 ];
+const adminLinks = [{ to: '/users', label: 'Usuarios', icon: Users }];
 
 const Sidebar = () => {
   const { user } = useAuth();
-  const visibleLinks = user?.role === 'admin'
-    ? [...links, { to: '/hero', label: 'Portada', icon: Images }, { to: '/users', label: 'Usuarios', icon: Users }]
-    : links;
+  const visibleLinks = user?.role === 'admin' ? [...links, ...adminLinks] : links;
 
   return (
     <aside className="border-b border-slate-200 bg-white px-4 py-3 lg:min-h-[calc(100vh-65px)] lg:w-64 lg:shrink-0 lg:border-b-0 lg:border-r lg:py-7">
