@@ -112,6 +112,27 @@ docker compose exec backend npm run gc:uploads
 docker compose exec backend npm run gc:uploads -- --apply
 ```
 
+## Portada editable
+
+El carrusel de la portada se administra desde el panel (menú «Portada», solo
+administradores): imagen de escritorio y de móvil, zona que se conserva al
+recortar, título, subtítulo, botón a una noticia o a un enlace, orden, apagar y
+programar en hora de Lima. Opcionalmente suma hasta 3 noticias destacadas con
+portada.
+
+- **No hay migración.** Las colecciones `heroslides` y `sitesettings` se crean al
+  usarlas. Mientras no haya diapositivas activas el sitio muestra los 5 banners que
+  vienen en el código (`client/src/assets/banner1..5.webp`), así que desplegar no
+  cambia nada visible hasta que alguien configure la portada.
+- Para partir de lo que se ve hoy: en «Portada», botón «Importar los banners
+  actuales». Sube las 5 imágenes y crea las diapositivas solo si todas salen bien.
+- Si se apagan o eliminan todas las diapositivas, el sitio vuelve a los banners
+  incluidos.
+- `gc:uploads` cuenta también las imágenes de la portada como en uso, y una foto
+  compartida entre una noticia y una diapositiva no se borra mientras alguna la use.
+- Rollback: el código anterior ignora esas colecciones y vuelve a mostrar los
+  banners fijos. Las imágenes subidas quedan en el volumen.
+
 ## Rollback
 
 Conservar la etiqueta de las imágenes anteriores y los respaldos tomados antes
