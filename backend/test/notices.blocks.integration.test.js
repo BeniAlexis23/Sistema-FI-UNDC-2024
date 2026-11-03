@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { readFile } from 'fs/promises';
 import sharp from 'sharp';
 import path from 'path';
 import request from 'supertest';
@@ -44,10 +45,11 @@ describe('media uploads', () => {
         expect(upload.thumbUrl).toBe(thumbOf(upload.url));
         expect(upload).toMatchObject({ width: 2000, height: 1333 });
 
-        const main = await sharp(path.join(ctx.uploadDirectory, path.basename(upload.url))).metadata();
+        const read = (url) => readFile(path.join(ctx.uploadDirectory, path.basename(url)));
+        const main = await sharp(await read(upload.url)).metadata();
         expect(main).toMatchObject({ format: 'webp', width: 2000 });
         expect(main.exif).toBeUndefined();
-        const thumb = await sharp(path.join(ctx.uploadDirectory, path.basename(upload.thumbUrl))).metadata();
+        const thumb = await sharp(await read(upload.thumbUrl)).metadata();
         expect(thumb.width).toBe(480);
     });
 
