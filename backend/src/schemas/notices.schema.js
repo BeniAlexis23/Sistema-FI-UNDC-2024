@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { dateSchema, descriptionSchema, requireAtLeastOneField, titleSchema } from './common.schema.js';
+import { contentField, managedImageUrlSchema } from './blocks.schema.js';
 
 const objectIdSchema = z.string().regex(/^[a-f\d]{24}$/i, 'Invalid resource identifier');
 
@@ -9,22 +10,30 @@ const booleanField = z.preprocess((value) => {
     return value;
 }, z.boolean({ invalid_type_error: 'Invalid boolean value' }));
 
-/* En multipart todo llega como texto; una cadena vacía limpia el valor guardado */
+/* En multipart todo llega como texto; una cadena vacía limpia el valor guardado.
+   `content` es la lista de bloques (JSON) o su texto JSON; `imageUrl` solo aplica a JSON, con la URL
+   que devolvió POST /api/media (en multipart la portada va como archivo). */
 const noticeOptionalFields = {
     hidden: booleanField.optional(),
     featured: booleanField.optional(),
     publishAt: z.union([dateSchema, z.literal('')]).optional(),
     category: z.union([objectIdSchema, z.literal('')]).optional(),
     byline: z.string().trim().max(80, 'Byline is too long').optional(),
-    imageAlt: z.string().trim().max(200, 'Image description is too long').optional()
+    imageAlt: z.string().trim().max(200, 'Image description is too long').optional(),
+    content: contentField.optional(),
+    imageUrl: z.union([managedImageUrlSchema, z.literal('')]).optional()
 };
 
+/* Con bloques, el resumen es opcional: se toma del primer bloque de texto */
 export const createNoticeSchema = z.object({
     title: titleSchema,
-    description: descriptionSchema,
+    description: descriptionSchema.optional(),
     date: dateSchema.optional(),
     ...noticeOptionalFields
-}).strict();
+}).strict().refine((data) => data.description !== undefined || data.content !== undefined, {
+    message: 'Description is required',
+    path: ['description']
+});
 
 /* baseUpdatedAt: el `updatedAt` que vio el editor; si cambió, otro usuario guardó antes */
 export const updateNoticeSchema = requireAtLeastOneField(z.object({

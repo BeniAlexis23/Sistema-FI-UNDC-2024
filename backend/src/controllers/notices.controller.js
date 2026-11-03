@@ -4,10 +4,12 @@ import { toPlainText } from '../libs/sanitize.js';
 import { limaDayStart } from '../libs/time.js';
 import { publicNoticeFilter } from '../libs/noticeVisibility.js';
 import { adminNoticeSort, buildAdminNoticeFilter, newestFirst } from '../libs/noticeQuery.js';
+import { deriveContentFields, exceedsSummaryLimit } from '../libs/noticeContent.js';
+import { collectMediaUrls, findMissingUploads, removeUnreferencedUploads } from '../libs/mediaRefs.js';
 import {
     serializeAdminListItem, serializeAdminNotice, serializePublicNotice, serializePublicNoticeDetail
 } from '../libs/noticeSerializer.js';
-import { removeUploadByUrl, removeUploadedFile } from '../multer.js';
+import { removeUploadedFile } from '../multer.js';
 
 const MAX_FEATURED = 3;
 const publicListFields = 'title description imageUrl imageAlt date publishAt featured byline readingMinutes category createdAt';
@@ -129,27 +131,47 @@ const applyOptionalFields = (notice, body) => {
 
 const categoryExists = async (categoryId) => !categoryId || Boolean(await Category.exists({ _id: categoryId }));
 
+const SUMMARY_TOO_LONG = ['Summary is too long (max 300 characters)'];
+
 export const createNotice = async (req, res) => {
+    // la subida ya está en disco: cualquier rechazo debe borrarla
+    const reject = async (status, body) => {
+        await removeUploadedFile(req.file).catch(() => {});
+        return res.status(status).json(body);
+    };
+
     try {
-        const { title, date, publishAt } = req.body;
-        const description = toPlainText(req.body.description);
-        if (!description) {
-            await removeUploadedFile(req.file).catch(() => {});
-            return res.status(400).json(['Description cannot be empty after sanitization']);
+        const { title, date, publishAt, content } = req.body;
+
+        let description;
+        let derived;
+        if (content !== undefined) {
+            derived = deriveContentFields(content);
+            description = toPlainText(req.body.description) || derived.summary || title;
+            if (exceedsSummaryLimit(description)) return reject(400, SUMMARY_TOO_LONG);
+        } else {
+            description = toPlainText(req.body.description);
+            if (!description) return reject(400, ['Description cannot be empty after sanitization']);
         }
-        if (!await categoryExists(req.body.category)) {
-            await removeUploadedFile(req.file).catch(() => {});
-            return res.status(400).json(['Category not found']);
-        }
-        const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
+        if (!await categoryExists(req.body.category)) return reject(400, ['Category not found']);
+
+        const imageUrl = req.file ? `/uploads/${req.file.filename}` : (req.body.imageUrl || null);
+        const mediaRefs = collectMediaUrls(imageUrl, content);
+        const referencedUploads = req.file ? mediaRefs.filter((url) => url !== imageUrl) : mediaRefs;
+        if ((await findMissingUploads(referencedUploads)).length) return reject(400, ['Image not found']);
 
         const newNotice = new Notice({
             title,
             description,
             imageUrl,
             date: date ?? (publishAt ? limaDayStart(publishAt) : undefined),
+            mediaRefs,
             user: req.user.id
         });
+        if (content !== undefined) {
+            newNotice.content = content;
+            newNotice.readingMinutes = derived.readingMinutes;
+        }
         applyOptionalFields(newNotice, req.body);
 
         const savedNotice = await newNotice.save();
@@ -180,9 +202,7 @@ export const deleteNotice = async (req, res) => {
             : { _id: req.params.id, user: req.user.id };
         const notice = await Notice.findOneAndDelete(filter);
         if (!notice) return res.status(404).json({ message: 'Notice not found' });
-        await removeUploadByUrl(notice.imageUrl).catch((cleanupError) => {
-            console.error('Unable to remove notice image', { name: cleanupError.name });
-        });
+        await removeUnreferencedUploads(collectMediaUrls(notice.imageUrl, notice.content), notice._id);
         return res.sendStatus(204);
     } catch (error) {
         return res.status(404).json({ message: 'Notice not found' });
@@ -190,45 +210,57 @@ export const deleteNotice = async (req, res) => {
 }
 
 export const updateNotice = async (req, res) => {
+    const reject = async (status, body) => {
+        await removeUploadedFile(req.file).catch(() => {});
+        return res.status(status).json(body);
+    };
+
     try {
         const filter = req.user.role === 'admin'
             ? { _id: req.params.id }
             : { _id: req.params.id, user: req.user.id };
         const notice = await Notice.findOne(filter);
-        if (!notice) {
-            await removeUploadedFile(req.file).catch(() => {});
-            return res.status(404).json({ message: 'Notice not found' });
-        }
+        if (!notice) return reject(404, { message: 'Notice not found' });
         if (req.body.baseUpdatedAt && new Date(req.body.baseUpdatedAt).getTime() !== notice.updatedAt.getTime()) {
-            await removeUploadedFile(req.file).catch(() => {});
-            return res.status(409).json({ message: 'Notice was modified by someone else', code: 'NOTICE_CONFLICT' });
+            return reject(409, { message: 'Notice was modified by someone else', code: 'NOTICE_CONFLICT' });
         }
-        if (!await categoryExists(req.body.category)) {
-            await removeUploadedFile(req.file).catch(() => {});
-            return res.status(400).json(['Category not found']);
-        }
+        if (!await categoryExists(req.body.category)) return reject(400, ['Category not found']);
 
-        const oldImageUrl = notice.imageUrl;
+        const previousRefs = collectMediaUrls(notice.imageUrl, notice.content);
+        const { content } = req.body;
+
         if (req.body.title !== undefined) notice.title = req.body.title;
-        if (req.body.description !== undefined) {
-            const description = toPlainText(req.body.description);
-            if (!description) {
-                await removeUploadedFile(req.file).catch(() => {});
-                return res.status(400).json(['Description cannot be empty after sanitization']);
+        if (content !== undefined) {
+            const derived = deriveContentFields(content);
+            const provided = req.body.description !== undefined ? toPlainText(req.body.description) : undefined;
+            // sin resumen enviado se conserva el actual si es corto; el cuerpo legado (largo) se reemplaza por uno derivado
+            let description = provided !== undefined ? provided : notice.description;
+            if (!description || (provided === undefined && exceedsSummaryLimit(description))) {
+                description = derived.summary || notice.title;
             }
+            if (exceedsSummaryLimit(description)) return reject(400, SUMMARY_TOO_LONG);
+            notice.description = description;
+            notice.content = content;
+            notice.readingMinutes = derived.readingMinutes;
+        } else if (req.body.description !== undefined) {
+            const description = toPlainText(req.body.description);
+            if (!description) return reject(400, ['Description cannot be empty after sanitization']);
             notice.description = description;
         }
         if (req.body.date !== undefined) notice.date = req.body.date;
         else if (req.body.publishAt) notice.date = limaDayStart(req.body.publishAt);
         applyOptionalFields(notice, req.body);
+
         if (req.file) notice.imageUrl = `/uploads/${req.file.filename}`;
+        else if (req.body.imageUrl !== undefined) notice.imageUrl = req.body.imageUrl || null;
+
+        const nextRefs = collectMediaUrls(notice.imageUrl, notice.content);
+        const added = nextRefs.filter((url) => !previousRefs.includes(url) && !(req.file && url === notice.imageUrl));
+        if ((await findMissingUploads(added)).length) return reject(400, ['Image not found']);
+        notice.mediaRefs = nextRefs;
 
         const updatedNotice = await notice.save();
-        if (req.file && oldImageUrl !== updatedNotice.imageUrl) {
-            await removeUploadByUrl(oldImageUrl).catch((cleanupError) => {
-                console.error('Unable to remove replaced notice image', { name: cleanupError.name });
-            });
-        }
+        await removeUnreferencedUploads(previousRefs.filter((url) => !nextRefs.includes(url)), notice._id);
         res.json(updatedNotice);
     } catch (error) {
         await removeUploadedFile(req.file).catch(() => {});

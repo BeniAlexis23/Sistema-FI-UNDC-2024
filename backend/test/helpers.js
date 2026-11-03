@@ -1,8 +1,9 @@
-import { mkdtemp, rm } from 'fs/promises';
+import { mkdtemp, rm, stat } from 'fs/promises';
 import { tmpdir } from 'os';
 import path from 'path';
 import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+import sharp from 'sharp';
 import request from 'supertest';
 import { expect } from 'vitest';
 import { MongoMemoryServer } from 'mongodb-memory-server';
@@ -49,3 +50,26 @@ export const loginAgent = async (app, email) => {
     expect(response.status).toBe(200);
     return agent;
 };
+
+/* Imagen sólida válida (sharp la codifica de verdad, a diferencia de bytes inventados) */
+export const makeImage = ({ width = 40, height = 30, format = 'png', exif } = {}) => {
+    let pipeline = sharp({ create: { width, height, channels: 3, background: '#336699' } });
+    if (format === 'jpeg') pipeline = pipeline.jpeg();
+    else if (format === 'webp') pipeline = pipeline.webp();
+    else pipeline = pipeline.png();
+    if (exif) pipeline = pipeline.withExif(exif);
+    return pipeline.toBuffer();
+};
+
+const mimeTypes = { png: 'image/png', jpeg: 'image/jpeg', webp: 'image/webp' };
+
+export const uploadImage = async (agent, { format = 'png', ...imageOptions } = {}) => {
+    const buffer = await makeImage({ format, ...imageOptions });
+    const response = await agent.post('/api/media')
+        .attach('file', buffer, { filename: `photo.${format}`, contentType: mimeTypes[format] });
+    expect(response.status).toBe(201);
+    return response.body;
+};
+
+export const fileExists = (uploadDirectory, url) => stat(path.join(uploadDirectory, path.basename(url)))
+    .then((file) => file.isFile(), () => false);

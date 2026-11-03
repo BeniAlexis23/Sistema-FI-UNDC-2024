@@ -34,3 +34,29 @@ export const decodeBasicEntities = (value = '') => (
 export const toPlainText = (value = '') => (
     decodeBasicEntities(sanitizeHtml(value, { allowedTags: [], allowedAttributes: {} })).trim()
 );
+
+/* Igual que toPlainText pero separa párrafos y elementos de lista con espacios (conteo de palabras, resúmenes) */
+export const htmlToPlainText = (html = '') => toPlainText(
+    html.replace(/<\/(?:p|h[1-6]|li|blockquote|ul|ol)>|<br\s*\/?>/gi, ' ')
+).replace(/\s+/g, ' ').trim();
+
+/* HTML de los bloques de texto: lista única y cerrada, la misma que mantiene el editor del panel.
+   Sin estilos ni clases; los enlaces salen siempre con target y rel fijos. */
+const blockHtmlOptions = {
+    allowedTags: ['p', 'br', 'strong', 'em', 'u', 's', 'h2', 'h3', 'ul', 'ol', 'li', 'blockquote', 'a'],
+    allowedAttributes: { a: ['href', 'target', 'rel'] },
+    allowedSchemes: ['http', 'https', 'mailto'],
+    allowProtocolRelative: false,
+    transformTags: {
+        h1: 'h2',
+        h4: 'h3',
+        h5: 'h3',
+        h6: 'h3',
+        a: (tagName, attribs) => ({
+            tagName: 'a',
+            attribs: { ...(attribs.href && { href: attribs.href }), target: '_blank', rel: 'noopener noreferrer' }
+        })
+    }
+};
+
+export const sanitizeBlockHtml = (value = '') => sanitizeHtml(value, blockHtmlOptions).trim();

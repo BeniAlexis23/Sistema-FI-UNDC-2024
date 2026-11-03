@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "preview": "node dist/index",
     "migrate:roles": "node scripts/migrate-user-roles.js",
-    "migrate:roles:rollback": "node scripts/rollback-user-roles.js"
+    "migrate:roles:rollback": "node scripts/rollback-user-roles.js",
+    "gc:uploads": "node scripts/gc-uploads.js"
   },
   "keywords": [],
   "author": "",
@@ -30,6 +31,7 @@
     "morgan": "^1.11.0",
     "multer": "^2.5.0",
     "sanitize-html": "^2.17.6",
+    "sharp": "^0.35.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {

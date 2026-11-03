@@ -16,7 +16,8 @@ let admin;
 let editor;
 let otherEditor;
 const password = 'ValidPassword123!';
-const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9ZK1sAAAAASUVORK5CYII=', 'base64');
+// PNG válido de 1x1: las subidas se decodifican con sharp, que rechaza imágenes corruptas
+const png = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAADElEQVQImWP4//8/AAX+Av5Y8msOAAAAAElFTkSuQmCC', 'base64');
 
 const loginAgent = async (email, loginPassword = password) => {
     const agent = request.agent(app);

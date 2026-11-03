@@ -1,4 +1,4 @@
-import rateLimit from 'express-rate-limit';
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit';
 import { APP_ORIGIN, IS_PRODUCTION } from '../config.js';
 
 const mutableMethods = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
@@ -40,5 +40,16 @@ export const passwordRateLimit = rateLimit({
     skipSuccessfulRequests: true,
     standardHeaders: 'draft-7',
     legacyHeaders: false,
+    message: rateLimitResponse
+});
+
+/* Por usuario y no por IP (detrás de un balanceador todas las IP coinciden). Debe ir después de authRequired
+   y antes de multer. 150 subidas cada 15 minutos alcanzan para varias galerías de hasta 30 fotos. */
+export const mediaRateLimit = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 150,
+    standardHeaders: 'draft-7',
+    legacyHeaders: false,
+    keyGenerator: (req) => (req.user ? String(req.user.id) : ipKeyGenerator(req.ip)),
     message: rateLimitResponse
 });
