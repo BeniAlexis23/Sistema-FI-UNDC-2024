@@ -104,6 +104,15 @@ noticia antigua en el editor, su texto pasa a bloques de texto.
   de más de 5 MB). Al desplegar este cambio hay que poner `MAX_UPLOAD_SIZE_MB=25`
   y `client_max_body_size 30m;`, ejecutar `nginx -t && systemctl reload nginx` y
   reiniciar el servicio de Node.
+- Delante de la aplicación hay un **Apache** (2.4.58, Ubuntu) que no está en este
+  repositorio y corta las subidas antes de que lleguen al servidor. Probado el
+  2026-11-03 con JPEG válidos y sin sesión: hasta ~8 MB llegan a la aplicación; con
+  ~10 MB Apache responde 403 (página HTML) y desde ~14 MB responde 413. Por eso el
+  editor reduce cada foto en el navegador antes de subirla
+  (`client/src/cms/editor/imagePrep.js`: lado mayor de 2560 px y unos 3 MB), y un
+  403 en HTML se muestra como un filtro del servidor, no como un error de sesión.
+  Si se quisieran subir originales tal cual, quien administre el servidor debe subir
+  `LimitRequestBody` (y `SecRequestBodyLimit` si usa ModSecurity) del sitio a 30 MB.
 - Las fotos que se suben al editor y nunca se guardan quedan en el volumen. Para
   revisarlas y limpiarlas (solo archivos sin uso y con más de 48 horas):
 

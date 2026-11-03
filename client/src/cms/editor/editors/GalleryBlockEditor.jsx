@@ -61,6 +61,7 @@ const GalleryBlockEditor = ({ block, onChange }) => {
   const images = block.images ?? [];
   const selected = images.find((image) => image.url === selectedUrl);
   const inFlight = pending.filter((item) => !item.error).length;
+  const failedCount = pending.length - inFlight;
   const remaining = Math.max(0, MAX_IMAGES - images.length - inFlight);
   const set = (changes) => onChange((current) => ({ ...current, ...changes }));
 
@@ -99,6 +100,12 @@ const GalleryBlockEditor = ({ block, onChange }) => {
   const retry = (item) => {
     setPending((current) => current.map((entry) => (entry.key === item.key ? { ...entry, error: '', progress: 0 } : entry)));
     upload([item]);
+  };
+
+  const retryAll = () => {
+    const failedItems = pending.filter((item) => item.error);
+    setPending((current) => current.map((entry) => (entry.error ? { ...entry, error: '', progress: 0 } : entry)));
+    upload(failedItems);
   };
 
   const discard = (item) => {
@@ -156,6 +163,15 @@ const GalleryBlockEditor = ({ block, onChange }) => {
         <div className="grid gap-3 rounded-xl bg-slate-50 p-4 sm:grid-cols-2">
           <TextInput label={`Descripción de la imagen ${images.indexOf(selected) + 1}`} value={selected.alt} maxLength={200} onChange={(alt) => updateSelected({ alt })} />
           <TextInput label="Pie de foto (opcional)" value={selected.caption} maxLength={300} onChange={(caption) => updateSelected({ caption })} />
+        </div>
+      )}
+
+      {failedCount > 1 && (
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2">
+          <p className="text-sm font-medium text-red-700">No se pudieron subir {failedCount} fotos.</p>
+          <button type="button" onClick={retryAll} className="inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-xs font-semibold text-red-700 ring-1 ring-red-200 transition hover:bg-red-100">
+            <RotateCcw size={13} /> Reintentar todas
+          </button>
         </div>
       )}
 
