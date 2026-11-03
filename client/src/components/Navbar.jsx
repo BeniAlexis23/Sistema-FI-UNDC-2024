@@ -13,7 +13,7 @@ const facultyItems = [
 const schoolItems = [
   { label: 'Ingeniería de Sistemas', to: '/escuela' },
   { label: 'Tutoría', to: 'https://tutoria.undc.edu.pe/Login/index.php', external: true },
-  { label: 'RSU', to: 'https://portal.undc.edu.pe/proyeccionsocial/', external: true },
+  { label: 'RSU', to: 'https://drsu.undc.edu.pe/', external: true },
 ];
 
 const eventItems = [
