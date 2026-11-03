@@ -98,12 +98,16 @@ noticia antigua en el editor, su texto pasa a bloques de texto.
   `MAX_UPLOAD_SIZE_MB` debe seguir por debajo de `client_max_body_size` de nginx
   (30 MB); si se sube uno, hay que subir el otro. El navegador valida el mismo
   tope con `MAX_IMAGE_MB` en `client/src/cms/editor/uploads.js`.
-- El servidor de producción (paquete de `scripts/prepare-release.ps1`, sin Docker)
-  no usa `client/nginx.conf`: su nginx tiene su propio `client_max_body_size` y su
-  `.env` conserva el `MAX_UPLOAD_SIZE_MB` anterior (con `5` sigue rechazando fotos
-  de más de 5 MB). Al desplegar este cambio hay que poner `MAX_UPLOAD_SIZE_MB=25`
-  y `client_max_body_size 30m;`, ejecutar `nginx -t && systemctl reload nginx` y
-  reiniciar el servicio de Node.
+- En producción corre el stack de Docker Compose y la petición pasa por tres capas:
+  el Apache que se describe a continuación (en el servidor, fuera de este
+  repositorio), el nginx de la imagen del frontend (usa `client/nginx.conf`, con
+  `client_max_body_size 30m`) y el backend. Se comprobó el 2026-11-03: `/api/health`
+  responde con `Server: nginx/1.29.4`, la imagen de `client/Dockerfile`.
+  `MAX_UPLOAD_SIZE_MB` sale del `.env` de Compose; si ese archivo se copió del
+  `.env.example` anterior puede seguir en `5`, y eso no afecta a las fotos porque el
+  navegador reduce las de más de 4 MB antes de subirlas (ver abajo).
+  `scripts/prepare-release.ps1` empaqueta una versión sin Docker, que no es la que
+  respondió en esa comprobación.
 - Delante de la aplicación hay un **Apache** (2.4.58, Ubuntu) que no está en este
   repositorio y corta las subidas antes de que lleguen al servidor. Probado el
   2026-11-03 con JPEG válidos y sin sesión: hasta ~8 MB llegan a la aplicación; con
