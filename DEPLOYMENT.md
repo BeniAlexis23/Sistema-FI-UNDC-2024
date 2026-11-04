@@ -117,6 +117,19 @@ noticia antigua en el editor, su texto pasa a bloques de texto.
   403 en HTML se muestra como un filtro del servidor, no como un error de sesión.
   Si se quisieran subir originales tal cual, quien administre el servidor debe subir
   `LimitRequestBody` (y `SecRequestBodyLimit` si usa ModSecurity) del sitio a 30 MB.
+- Ese mismo Apache también rechaza con 403 HTML (no JSON) un guardado por su **texto**: toma
+  las comillas `«` y `‹` por un `<` y bloquea cuando siguen palabras que parecen una
+  etiqueta HTML. Comprobado el 2026-11-04 mandando `PUT` sin sesión (el filtro decide
+  antes de que la aplicación mire el token: 401 JSON = pasó, 403 HTML = bloqueó): la
+  noticia del VIII CIISIC no se guardaba por `«Image Captioning…`, y lo mismo pasa con
+  `«Video`, `«Set de…`, `«Link `, `«Formación`, `«Styles` (basta una aparición, en el
+  título, en un texto o en un pie de foto). Un espacio después de `«` no ayuda; las
+  comillas `“ ”` o `" "` sí pasan, y también `«Imagen` o `«Imágenes`. Se parece a la
+  regla 941160 del OWASP CRS, pero sin acceso al servidor no se pudo confirmar. El editor
+  lo avisa antes de guardar (`findFilterTrap` en `client/src/cms/editor/noticeForm.js`; la
+  lista sale de esas pruebas, no de la configuración) y, si el 403 llega igual, dice que
+  fue un filtro del servidor. Quien administre el servidor puede quitar la regla para
+  `/api/`. Un enlace externo (`M.Sc`, un botón) no era la causa.
 - Las fotos que se suben al editor y nunca se guardan quedan en el volumen. Para
   revisarlas y limpiarlas (solo archivos sin uso y con más de 48 horas):
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cleanBlocks, emptyForm, formFromNotice, isEmptyBlock, toApiPayload, toPreviewBlocks, validateForm } from './noticeForm.js';
+import { cleanBlocks, emptyForm, findFilterTrap, formFromNotice, isEmptyBlock, toApiPayload, toPreviewBlocks, validateForm } from './noticeForm.js';
 
 const text = (html, id = 'text0001') => ({ id, type: 'text', html });
 const withForm = (changes) => ({ ...emptyForm(), title: 'Título', ...changes });
@@ -117,6 +117,54 @@ describe('validateForm', () => {
       'Bloque 3 (botón): escribe el texto del botón.',
       'Bloque 3 (botón): el enlace debe empezar con https://, http:// o mailto:.',
     ]);
+  });
+});
+
+describe('findFilterTrap', () => {
+  it('finds a « followed by a word the server filter takes for an HTML tag', () => {
+    expect(findFilterTrap('Ponencia «Image Captioning con Vision Transformers»')).toBe('«Image');
+    expect(findFilterTrap('<em>«VIDEO en vivo»</em>')).toBe('«VIDEO');
+    expect(findFilterTrap('«Set de datos»')).toBe('«Set');
+    expect(findFilterTrap('« Link »')).toBe('« Link');
+    expect(findFilterTrap('‹Script›')).toBe('‹Script');
+  });
+
+  it('finds the words that fail even when they go on, such as Formación', () => {
+    expect(findFilterTrap('«Formación continua»')).toBe('«Formación');
+    expect(findFilterTrap('Los «Formadores»')).toBe('«Formadores');
+    expect(findFilterTrap('«Styles»')).toBe('«Styles');
+  });
+
+  it('lets through what the filter accepts', () => {
+    for (const text of [
+      '«Imagen digital»', '«Imágenes»', '«Images»', '«Videos»', '«Body»', '«Ciberseguridad 2030»', '«Selección de datos»',
+      '«Linkedin»', '«Baseball»', '«Setting»', '«Metadatos»', '“Image Captioning”', '"Formación continua"', 'Formación', '', undefined,
+    ]) {
+      expect(findFilterTrap(text)).toBeNull();
+    }
+  });
+});
+
+describe('validateForm and the server filter', () => {
+  it('tells where a « followed by a risky word is, in titles, texts and captions', () => {
+    const errors = validateForm(withForm({
+      title: 'Charla «Video en vivo»',
+      blocks: [
+        text('<p>Ponencia <em>«Image Captioning con Vision Transformers e IA multimodal»</em>.</p>'),
+        text('<p>«Imagen digital», «Body», “Image Captioning” y « Image» pasan.</p>', 'text0002'),
+        { id: 'gallery1', type: 'gallery', layout: 'grid', images: [{ url: '/uploads/a.webp', alt: '', caption: 'Foto «Form' }] },
+      ],
+    }));
+    const hint = '(su filtro confunde la comilla « con una etiqueta HTML). Cambia « » por “ ” en ese texto.';
+    expect(errors).toEqual([
+      `El título: el servidor rechaza «Video… ${hint}`,
+      `Bloque 1 (texto): el servidor rechaza «Image… ${hint}`,
+      `Bloque 3 (galería): el servidor rechaza «Form… ${hint}`,
+    ]);
+  });
+
+  it('does not warn about the unfilled blocks nor about a clean notice', () => {
+    expect(validateForm(withForm({ blocks: [text('<p></p>', 'empty001'), text('<p>«Ciberseguridad»</p>')] }))).toEqual([]);
   });
 });
 

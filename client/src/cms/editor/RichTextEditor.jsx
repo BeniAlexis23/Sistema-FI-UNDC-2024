@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import Swal from 'sweetalert2';
 import EmojiPicker from './EmojiPicker';
+import { shouldAutoLink } from './autolink';
 
 const SAFE_LINK = /^(?:https?:\/\/|mailto:)\S+$/i;
 
@@ -23,6 +24,7 @@ const buildExtensions = (placeholder, compact) => [
     link: {
       openOnClick: false,
       autolink: true,
+      shouldAutoLink,
       defaultProtocol: 'https',
       HTMLAttributes: { rel: 'noopener noreferrer', target: '_blank' },
     },

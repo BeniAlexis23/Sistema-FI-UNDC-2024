@@ -1,5 +1,5 @@
 import { uploadMediaRequest } from '../../api/media';
-import { getApiErrors } from '../../api/errors';
+import { getApiErrors, isServerFilterBlock } from '../../api/errors';
 import { prepareImageForUpload } from './imagePrep';
 
 /* Debe coincidir con MAX_UPLOAD_SIZE_MB del backend: el servidor reduce a WebP cualquier foto que acepte.
@@ -31,16 +31,13 @@ const UPLOAD_ERRORS = {
   504: UNAVAILABLE_MESSAGE,
 };
 
-// Las respuestas de la propia aplicación traen un mensaje en JSON; las de un proxy o un cortafuegos son HTML o vienen vacías
-const hasApiMessage = (data) => Array.isArray(data) || typeof data?.message === 'string';
-
 export const uploadErrorMessage = (error) => {
   const status = error.response?.status;
   const data = error.response?.data;
 
   if (UPLOAD_ERRORS[status]) return UPLOAD_ERRORS[status];
   if (status === 401 || (status === 403 && data?.message === 'Invalid token')) return SESSION_MESSAGE;
-  if (status === 403 && !hasApiMessage(data)) return BLOCKED_MESSAGE;
+  if (isServerFilterBlock(error)) return BLOCKED_MESSAGE;
   if (!error.response && NETWORK_CODES.includes(error.code)) return OFFLINE_MESSAGE;
   return getApiErrors(error, 'No se pudo subir la imagen')[0];
 };

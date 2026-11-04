@@ -7,10 +7,10 @@ import CategoryField from '../cms/editor/CategoryField';
 import CoverField from '../cms/editor/CoverField';
 import NoticePreview from '../cms/editor/NoticePreview';
 import { Field, fieldClass } from '../cms/editor/editors/fields';
-import { SUMMARY_MAX, emptyForm, formFromNotice, toApiPayload, validateForm } from '../cms/editor/noticeForm';
+import { SAVE_BLOCKED_MESSAGE, SUMMARY_MAX, emptyForm, formFromNotice, toApiPayload, validateForm } from '../cms/editor/noticeForm';
 import { createNoticeJsonRequest, updateNoticeJsonRequest } from '../api/notices';
 import { getCategoriesRequest } from '../api/categories';
-import { getApiErrors } from '../api/errors';
+import { getApiErrors, isServerFilterBlock } from '../api/errors';
 import { useNotices } from '../context/NoticesContext';
 import { fromLimaInput, toLimaInput } from '../utils/noticeDate';
 
@@ -147,7 +147,7 @@ const NoticesFormPage = () => {
       if (error.response?.data?.code === 'NOTICE_CONFLICT') {
         await handleConflict();
       } else {
-        setErrors(getApiErrors(error, 'No se pudo guardar la noticia'));
+        setErrors(isServerFilterBlock(error) ? [SAVE_BLOCKED_MESSAGE] : getApiErrors(error, 'No se pudo guardar la noticia'));
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     } finally {
