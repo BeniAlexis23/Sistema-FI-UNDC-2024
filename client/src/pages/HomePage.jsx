@@ -1,6 +1,7 @@
 import '../App.css'
 import Actualidad from '../components/Actualidad'
 import Aacademica from '../components/Aacademica'
+import EventosFacultad from '../components/EventosFacultad'
 import Home from '../components/Home'
 import Navbar from '../components/Navbar'
 import Newsletter from '../components/Newsletter'
@@ -13,6 +14,7 @@ const HomePage = () => {
       <Navbar />
       <Home />
       <Actualidad />
+      <EventosFacultad />
       <Newsletter />
       <Aacademica />
       <SInformacion />

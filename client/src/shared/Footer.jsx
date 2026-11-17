@@ -3,6 +3,7 @@ import { FaFacebookSquare, FaInstagramSquare, FaLinkedin } from 'react-icons/fa'
 
 import logoUndc from '../assets/es-undc.png';
 import logoFi from '../assets/logo-fi.png';
+import { useEventSeries } from '../cms/events/useEventSeries';
 
 const quickLinks = [
   { label: 'Facultad', to: '/facultad' },
@@ -33,11 +34,12 @@ const certifications = [
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { menuItems: eventItems } = useEventSeries();
 
   return (
     <footer className="mt-16 w-full bg-slate-950 text-white">
       <div className="mx-auto w-full max-w-screen-2xl">
-        <div className="grid gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.3fr_0.8fr_0.8fr_1fr] lg:gap-10 lg:px-10">
+        <div className="grid gap-8 px-5 py-8 sm:px-8 lg:grid-cols-[1.3fr_0.8fr_0.8fr_0.8fr_1fr] lg:gap-10 lg:px-10">
           <div className="max-w-md">
             <Link to="/" className="inline-flex items-center gap-3">
               <img src={logoUndc} alt="Logo UNDC" className="h-10 w-10 object-contain" />
@@ -101,6 +103,29 @@ const Footer = () => {
                   {item.label}
                 </a>
               ))}
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold uppercase tracking-[0.24em] text-sky-300">
+              Eventos
+            </h3>
+            <div className="mt-4 grid gap-3 text-sm text-slate-300">
+              {eventItems.map((item) => (item.external ? (
+                <a
+                  key={item.label}
+                  href={item.to}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="transition hover:text-white"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <Link key={item.label} to={item.to} className="transition hover:text-white">
+                  {item.label}
+                </Link>
+              )))}
             </div>
           </div>
 

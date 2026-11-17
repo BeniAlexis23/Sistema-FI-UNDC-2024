@@ -25,6 +25,8 @@ const Contacto = lazy(() => import('./pages/Contacto'));
 const ChangePasswordPage = lazy(() => import('./pages/ChangePasswordPage'));
 const UsersPage = lazy(() => import('./pages/UsersPage'));
 const HeroPage = lazy(() => import('./pages/HeroPage'));
+const Eventos = lazy(() => import('./pages/Eventos'));
+const EventoSerie = lazy(() => import('./pages/EventoSerie'));
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -52,6 +54,8 @@ const App = () => {
                 <Route path="/investigacion" element={<Investigacion />} />
                 <Route path="/posgrado" element={<Posgrado />} />
                 <Route path="/contacto" element={<Contacto />} />
+                <Route path="/eventos" element={<Eventos />} />
+                <Route path="/eventos/:slug" element={<EventoSerie />} />
 
                 {/* Rutas Admin y Protegidas */}
                 <Route path="/login" element={<LoginPage />} />

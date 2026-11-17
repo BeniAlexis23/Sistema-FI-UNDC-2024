@@ -4,6 +4,7 @@ import { FaAngleDown, FaBars, FaXmark } from 'react-icons/fa6';
 
 import logoUndc from '../assets/es-undc.png';
 import logoFi from '../assets/logo-fi.png';
+import { useEventSeries } from '../cms/events/useEventSeries';
 
 const facultyItems = [
   { label: 'Nosotros', to: '/facultad' },
@@ -16,19 +17,14 @@ const schoolItems = [
   { label: 'RSU', to: 'https://drsu.undc.edu.pe/', external: true },
 ];
 
-const eventItems = [
-  { label: 'VII CIISIC', to: 'https://ciisic-vii.episundc.pe/', external: true },
-  { label: 'V JEPA', to: 'https://jepa.episundc.pe/', external: true },
-  { label: 'IV FEINFO', to: 'https://uifi.episundc.pe/', external: true },
-];
-
 const mainLinks = [
   { label: 'Departamento', to: '/departamento' },
   { label: 'Investigación', to: '/investigacion' },
   { label: 'Posgrado', to: '/posgrado' },
 ];
 
-const mobileGroups = [
+/* El menú «Eventos» sale del catálogo (panel → Eventos): cada serie enlaza a su dirección permanente */
+const buildMobileGroups = (eventItems) => [
   { key: 'facultad', label: 'Facultad', items: facultyItems },
   { key: 'escuela', label: 'Escuelas', items: schoolItems },
   { key: 'eventos', label: 'Eventos', items: eventItems },
@@ -135,6 +131,8 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDesktopDropdown, setOpenDesktopDropdown] = useState(null);
   const [openMobileDropdown, setOpenMobileDropdown] = useState(null);
+  const { menuItems: eventItems } = useEventSeries();
+  const mobileGroups = buildMobileGroups(eventItems);
 
   const toggleDesktopDropdown = (key) => {
     setOpenDesktopDropdown((current) => (current === key ? null : key));
