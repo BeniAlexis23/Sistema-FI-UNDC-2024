@@ -1,5 +1,7 @@
 import { stat } from 'fs/promises';
 import path from 'path';
+import EventEdition from '../models/eventEdition.model.js';
+import EventSeries from '../models/eventSeries.model.js';
 import HeroSlide from '../models/heroSlide.model.js';
 import Notice from '../models/notice.model.js';
 import { removeUploadByUrl, uploadsDirectory } from '../multer.js';
@@ -15,11 +17,12 @@ export const findMissingUploads = async (urls) => {
     return checks.filter(Boolean);
 };
 
-/* Una subida puede estar en uso por una noticia (portada o bloques) o por una diapositiva de la portada.
+/* Una subida puede estar en uso por una noticia (portada o bloques), por una diapositiva de la portada,
+   por el logo de una serie de eventos o por la portada de una edición.
    Los documentos legados no tienen mediaRefs: se compara también con su portada.
    `exclude` deja fuera al propio documento que se está cambiando. */
-export const isUploadReferenced = async (url, { excludeNoticeId, excludeSlideId } = {}) => {
-    const [inNotice, inSlide] = await Promise.all([
+export const isUploadReferenced = async (url, { excludeNoticeId, excludeSlideId, excludeSeriesId, excludeEditionId } = {}) => {
+    const [inNotice, inSlide, inSeries, inEdition] = await Promise.all([
         Notice.exists({
             ...(excludeNoticeId && { _id: { $ne: excludeNoticeId } }),
             $or: [{ mediaRefs: url }, { imageUrl: url }]
@@ -27,9 +30,17 @@ export const isUploadReferenced = async (url, { excludeNoticeId, excludeSlideId 
         HeroSlide.exists({
             ...(excludeSlideId && { _id: { $ne: excludeSlideId } }),
             $or: [{ image: url }, { imageMobile: url }]
+        }),
+        EventSeries.exists({
+            ...(excludeSeriesId && { _id: { $ne: excludeSeriesId } }),
+            logo: url
+        }),
+        EventEdition.exists({
+            ...(excludeEditionId && { _id: { $ne: excludeEditionId } }),
+            portada: url
         })
     ]);
-    return Boolean(inNotice || inSlide);
+    return Boolean(inNotice || inSlide || inSeries || inEdition);
 };
 
 /* Solo se borran las URLs que el documento dejó de usar y que nadie más referencia.

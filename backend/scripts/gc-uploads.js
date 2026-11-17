@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import mongoose from 'mongoose';
 import { collectMediaUrls } from '../src/libs/mediaUrls.js';
 
-/* Barre las subidas que ninguna noticia ni diapositiva de la portada usa (por ejemplo, fotos subidas al editor y nunca guardadas).
+/* Barre las subidas que ninguna noticia, diapositiva de la portada ni evento (logo de serie o portada de edición) usa (por ejemplo, fotos subidas al editor y nunca guardadas).
    Por defecto solo informa; con --apply las borra. Solo toca archivos con más de GC_MIN_AGE_HOURS (48)
    para no borrar lo que alguien está subiendo ahora. */
 
@@ -30,6 +30,12 @@ const run = async () => {
     const slides = await mongoose.connection.collection('heroslides')
         .find({}).project({ image: 1, imageMobile: 1 }).toArray();
 
+    // nombres de colección fijados en models/eventSeries.model.js y models/eventEdition.model.js
+    const eventSeries = await mongoose.connection.collection('eventseries')
+        .find({}).project({ logo: 1 }).toArray();
+    const eventEditions = await mongoose.connection.collection('eventeditions')
+        .find({}).project({ portada: 1 }).toArray();
+
     const referenced = new Set();
     for (const notice of notices) {
         const urls = [...collectMediaUrls(notice.imageUrl, notice.content), ...(notice.mediaRefs ?? [])];
@@ -38,6 +44,8 @@ const run = async () => {
     for (const slide of slides) {
         [slide.image, slide.imageMobile].filter(Boolean).forEach((url) => referenced.add(path.basename(url)));
     }
+    for (const series of eventSeries) if (series.logo) referenced.add(path.basename(series.logo));
+    for (const edition of eventEditions) if (edition.portada) referenced.add(path.basename(edition.portada));
 
     const files = (await readdir(uploadsDirectory).catch(() => [])).filter((name) => !name.startsWith('.'));
     const minAgeMs = minAgeHours * 60 * 60 * 1000;
@@ -60,7 +68,7 @@ const run = async () => {
 
     const totalBytes = candidates.reduce((sum, file) => sum + file.size, 0);
     console.log(`Carpeta: ${uploadsDirectory}`);
-    console.log(`Archivos: ${files.length} | referenciados por ${notices.length} noticia(s) y ${slides.length} diapositiva(s) de la portada | recientes sin referencia (se respetan): ${recent}`);
+    console.log(`Archivos: ${files.length} | referenciados por ${notices.length} noticia(s), ${slides.length} diapositiva(s) de la portada y ${eventSeries.length + eventEditions.length} serie(s)/edición(es) de eventos | recientes sin referencia (se respetan): ${recent}`);
     console.log(`Sin referencia y con más de ${minAgeHours} h: ${candidates.length} (${formatMegabytes(totalBytes)})`);
     candidates.forEach((file) => console.log(`  ${apply ? 'borrando' : 'se borraría'}: ${file.name}`));
 

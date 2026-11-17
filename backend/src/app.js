@@ -14,6 +14,7 @@ import usersRoutes from './routes/users.routes.js';
 import categoriesRoutes from './routes/categories.routes.js';
 import mediaRoutes from './routes/media.routes.js';
 import heroRoutes from './routes/hero.routes.js';
+import eventsRoutes from './routes/events.routes.js';
 import shareRoutes from './routes/share.routes.js';
 import mongoose from 'mongoose';
 
@@ -57,6 +58,7 @@ app.use('/api', usersRoutes);
 app.use('/api', categoriesRoutes);
 app.use('/api', mediaRoutes);
 app.use('/api', heroRoutes);
+app.use('/api', eventsRoutes);
 app.use('/compartir', shareRoutes);
 
 app.use(express.static('dist'));
