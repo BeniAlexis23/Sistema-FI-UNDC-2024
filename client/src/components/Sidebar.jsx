@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { FileText, Images, LayoutDashboard, Newspaper, Users } from 'lucide-react';
+import { CalendarDays, FileText, Images, LayoutDashboard, Newspaper, Users } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const links = [
@@ -7,6 +7,7 @@ const links = [
   { to: '/notices', label: 'Noticias', icon: Newspaper },
   { to: '/rcfs', label: 'Resoluciones', icon: FileText },
   { to: '/hero', label: 'Portada', icon: Images },
+  { to: '/events', label: 'Eventos', icon: CalendarDays },
 ];
 const adminLinks = [{ to: '/users', label: 'Usuarios', icon: Users }];
 

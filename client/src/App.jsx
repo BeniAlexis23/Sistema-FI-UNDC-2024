@@ -27,6 +27,8 @@ const UsersPage = lazy(() => import('./pages/UsersPage'));
 const HeroPage = lazy(() => import('./pages/HeroPage'));
 const Eventos = lazy(() => import('./pages/Eventos'));
 const EventoSerie = lazy(() => import('./pages/EventoSerie'));
+const EventosAdminPage = lazy(() => import('./pages/EventosAdminPage'));
+const EventEditionFormPage = lazy(() => import('./pages/EventEditionFormPage'));
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -68,6 +70,9 @@ const App = () => {
                   <Route path="/add-notice" element={<NoticesFormPage />} />
                   <Route path="/notices/:id" element={<NoticesFormPage />} />
                   <Route path="/hero" element={<HeroPage />} />
+                  <Route path="/events" element={<EventosAdminPage />} />
+                  <Route path="/add-event-edition" element={<EventEditionFormPage />} />
+                  <Route path="/event-editions/:id" element={<EventEditionFormPage />} />
                 </Route>
 
                 <Route element={<ProtectedRoute requiredRole="admin" />}>
