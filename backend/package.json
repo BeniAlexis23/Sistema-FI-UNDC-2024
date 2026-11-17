@@ -12,7 +12,8 @@
     "preview": "node dist/index",
     "migrate:roles": "node scripts/migrate-user-roles.js",
     "migrate:roles:rollback": "node scripts/rollback-user-roles.js",
-    "gc:uploads": "node scripts/gc-uploads.js"
+    "gc:uploads": "node scripts/gc-uploads.js",
+    "seed:events": "node scripts/seed-events.js"
   },
   "keywords": [],
   "author": "",
